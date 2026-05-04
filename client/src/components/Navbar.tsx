@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { FaHeart, FaShoppingCart, FaUser } from 'react-icons/fa'
+import { MdMessage } from 'react-icons/md'
 
 const categories = [
   'All category', 'Hot offers', 'Gift boxes', 'Projects', 'Menu item',
@@ -57,13 +59,12 @@ export default function Navbar() {
           </button>
         </form>
 
-        {/* Right icons */}
         <div className="flex items-center gap-5 ml-auto shrink-0">
           {[
-            { icon: <span className='material-icons'>person</span>, label: 'Profile', to: '/profile' },
-            { icon: <span className='material-icons'>message</span>, label: 'Message', to: '/messages' },
-            { icon: <span className='material-icons'>shopping_cart</span>, label: 'Orders', to: '/orders' },
-            { icon: <span className='material-icons'>local_grocery_store</span>, label: 'My cart', to: '/cart' },
+            { icon: <FaUser />, label: 'Profile', to: '/profile' },
+            { icon: <MdMessage />, label: 'Message', to: '/messages' },
+            { icon: <FaHeart />, label: 'Orders', to: '/orders' },
+            { icon: <FaShoppingCart  />, label: 'My cart', to: '/cart' },
           ].map(({ icon, label, to }) => (
             <Link key={label} to={to} className="flex flex-col items-center gap-0.5 text-[#1C1C1C] hover:text-[#0D6EFD] transition-colors">
               <span className="text-[#8B96A5]">{icon}</span>
@@ -120,5 +121,3 @@ export default function Navbar() {
     </header>
   )
 }
-
-// SVG icon helpers — kept inline to avoid extra files
