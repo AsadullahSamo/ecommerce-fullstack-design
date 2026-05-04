@@ -23,13 +23,20 @@ git clone https://github.com/AsadullahSamo/ecommerce-fullstack-design.git
 cd ecommerce-fullstack-design
 
 # Environment variables setup
-cp .env      
-# Configure PORT, JWT_SECRET, MONGODB_URI, NODE_ENV, VITE_API_URL
+cp client/.env      
+# Configure PORT, JWT_SECRET, MONGODB_URI, NODE_ENV, CLIENT_URL
+cp server/.env
+# Configure VITE_API_URL
 
 # Install the dependencies
 npm install               
 
-# Run both client and server in dev mode
+# Run client and server in dev mode
+cd client
+npm run dev
+
+# Run server
+cd server
 npm run dev
 ```
 
