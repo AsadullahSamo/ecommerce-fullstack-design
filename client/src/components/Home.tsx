@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import ProductCard from '../components/ProductCard'
+import { AE, AU, CN, DK, FR, GB, IT, RU, US } from 'country-flag-icons/react/3x2'
 
 const sidebarCategories = [
   'Automobiles', 'Clothes and wear', 'Home interiors',
@@ -9,33 +10,33 @@ const sidebarCategories = [
 ]
 
 const dealsProducts = [
-  { id: '1', name: 'Smart watches', image: '/assets/1.png', price: 99, discount: 25 },
-  { id: '2', name: 'Laptops', image: '/assets/2.png', price: 899, discount: 15 },
-  { id: '3', name: 'GoPro cameras', image: '/assets/3.png', price: 399, discount: 40 },
-  { id: '4', name: 'Headphones', image: '/assets/4.png', price: 149, discount: 25 },
-  { id: '5', name: 'Canon cameras', image: '/assets/5.png', price: 599, discount: 25 },
+  { id: '1', name: 'Smart watches',  image: '/assets/1.png', price: 99,  discount: 25 },
+  { id: '2', name: 'Laptops',        image: '/assets/2.png', price: 899, discount: 15 },
+  { id: '3', name: 'GoPro cameras',  image: '/assets/3.png', price: 399, discount: 40 },
+  { id: '4', name: 'Headphones',     image: '/assets/4.png', price: 149, discount: 25 },
+  { id: '5', name: 'Canon cameras',  image: '/assets/5.png', price: 599, discount: 25 },
 ]
 
 const homeOutdoorProducts = [
-  { id: '6',  name: 'Soft chairs',     image: '/assets/soft-chairs.png',     price: 19  },
-  { id: '7',  name: 'Sofa & chair',    image: '/assets/sofa-and-chairs.png', price: 19  },
-  { id: '8',  name: 'Kitchen dishes',  image: '/assets/kitchen-dishes.png',  price: 19  },
-  { id: '9',  name: 'Smart watches',   image: '/assets/smart-watches.png',   price: 19  },
-  { id: '10', name: 'Kitchen mixer',   image: '/assets/kitchen-mixer.png',   price: 100 },
-  { id: '11', name: 'Blenders',        image: '/assets/blenders.png',        price: 39  },
-  { id: '12', name: 'Home appliance',  image: '/assets/home-appliance.jpg',  price: 19  },
-  { id: '13', name: 'Coffee maker',    image: '/assets/coffee-maker.png',    price: 10  },
+  { id: '6',  name: 'Soft chairs',    image: '/assets/soft-chairs.png',    price: 19  },
+  { id: '7',  name: 'Sofa & chair',   image: '/assets/sofa-and-chairs.png',price: 19  },
+  { id: '8',  name: 'Kitchen dishes', image: '/assets/kitchen-dishes.png', price: 19  },
+  { id: '9',  name: 'Smart watches',  image: '/assets/smart-watches.png',  price: 19  },
+  { id: '10', name: 'Kitchen mixer',  image: '/assets/kitchen-mixer.png',  price: 100 },
+  { id: '11', name: 'Blenders',       image: '/assets/blenders.png',       price: 39  },
+  { id: '12', name: 'Home appliance', image: '/assets/home-appliance.jpg', price: 19  },
+  { id: '13', name: 'Coffee maker',   image: '/assets/coffee-maker.png',   price: 10  },
 ]
 
 const electronicsProducts = [
-  { id: '14', name: 'Smart watches',   image: '/assets/smart-watches-2.png', price: 19  },
-  { id: '15', name: 'Cameras',         image: '/assets/cameras.png',         price: 89  },
-  { id: '16', name: 'Headphones',      image: '/assets/headphones.png',      price: 10  },
-  { id: '17', name: 'Smart watches',   image: '/assets/smart-watches.png',   price: 90  },
-  { id: '18', name: 'Gaming set',      image: '/assets/gaming-set.png',      price: 35  },
-  { id: '19', name: 'Laptops & PC',    image: '/assets/laptops-and-pc.png',  price: 340 },
-  { id: '20', name: 'Smartphones',     image: '/assets/smartphones.png',     price: 19  },
-  { id: '21', name: 'Electric kettle', image: '/assets/electric-kettle.png', price: 240 },
+  { id: '14', name: 'Smart watches',   image: '/assets/smart-watches-2.png',               price: 19  },
+  { id: '15', name: 'Cameras',         image: '/assets/cameras.png',                       price: 89  },
+  { id: '16', name: 'Headphones',      image: '/assets/headphones.png',                    price: 10  },
+  { id: '17', name: 'Smart watches',   image: '/assets/smart-watches.png',                 price: 90  },
+  { id: '18', name: 'Gaming set',      image: '/assets/gaming-set.png',                    price: 35  },
+  { id: '19', name: 'Laptops & PC',    image: '/assets/laptops-and-pc.png',                price: 340 },
+  { id: '20', name: 'Smartphones',     image: '/assets/smartphones.png',                   price: 19  },
+  { id: '21', name: 'Electric kettle', image: '/assets/electric-kettle.png',               price: 240 },
 ]
 
 const recommendedItems = [
@@ -52,23 +53,23 @@ const recommendedItems = [
 ]
 
 const extraServices = [
-  { id: 1, label: 'Source from\nIndustry Hubs',            image: '/assets/extra-1.png', icon: 'search'        },
-  { id: 2, label: 'Customize Your\nProducts',              image: '/assets/extra-2.png', icon: 'inventory_2'   },
-  { id: 3, label: 'Fast, reliable shipping\nby ocean or air', image: '/assets/extra-3.png', icon: 'send'       },
-  { id: 4, label: 'Product monitoring\nand inspection',    image: '/assets/extra-4.png', icon: 'security'      },
+  { id: 1, label: 'Source from\nIndustry Hubs',               image: '/assets/extra-1.png', icon: 'search'      },
+  { id: 2, label: 'Customize Your\nProducts',                  image: '/assets/extra-2.png', icon: 'inventory_2' },
+  { id: 3, label: 'Fast, reliable shipping\nby ocean or air',  image: '/assets/extra-3.png', icon: 'send'        },
+  { id: 4, label: 'Product monitoring\nand inspection',        image: '/assets/extra-4.png', icon: 'security'    },
 ]
 
 const supplierRegions = [
-  { country: 'Arabic Emirates', domain: 'shopname.ae',     flag: '🇦🇪' },
-  { country: 'Australia',       domain: 'shopname.ae',     flag: '🇦🇺' },
-  { country: 'United States',   domain: 'shopname.ae',     flag: '🇺🇸' },
-  { country: 'Russia',          domain: 'shopname.ru',     flag: '🇷🇺' },
-  { country: 'Italy',           domain: 'shopname.it',     flag: '🇮🇹' },
-  { country: 'Denmark',         domain: 'denmark.com.dk',  flag: '🇩🇰' },
-  { country: 'France',          domain: 'shopname.com.fr', flag: '🇫🇷' },
-  { country: 'Arabic Emirates', domain: 'shopname.ae',     flag: '🇦🇪' },
-  { country: 'China',           domain: 'shopname.ae',     flag: '🇨🇳' },
-  { country: 'Great Britain',   domain: 'shopname.co.uk',  flag: '🇬🇧' },
+  { country: 'Arabic Emirates', domain: 'shopname.ae',     Flag: AE },
+  { country: 'Australia',       domain: 'shopname.ae',     Flag: AU },
+  { country: 'United States',   domain: 'shopname.ae',     Flag: US },
+  { country: 'Russia',          domain: 'shopname.ru',     Flag: RU },
+  { country: 'Italy',           domain: 'shopname.it',     Flag: IT },
+  { country: 'Denmark',         domain: 'denmark.com.dk',  Flag: DK },
+  { country: 'France',          domain: 'shopname.com.fr', Flag: FR },
+  { country: 'Arabic Emirates', domain: 'shopname.ae',     Flag: AE },
+  { country: 'China',           domain: 'shopname.ae',     Flag: CN },
+  { country: 'Great Britain',   domain: 'shopname.co.uk',  Flag: GB },
 ]
 
 function useCountdown(initialSeconds: number) {
@@ -97,17 +98,15 @@ function CountdownUnit({ value, label }: { value: number; label: string }) {
 }
 
 function SectionHeading({ children }: { children: React.ReactNode }) {
-  return (
-    <h2 className="font-semibold text-base text-[#1C1C1C] mb-4">{children}</h2>
-  )
+  return <h2 className="font-semibold text-base text-[#1C1C1C] mb-4">{children}</h2>
 }
 
 export default function Home() {
   const { days, hours, mins, secs } = useCountdown(4 * 86400 + 13 * 3600 + 34 * 60 + 56)
-  const [email, setEmail] = useState('')
-  const [inquiryItem, setInquiryItem] = useState('')
+  const [email, setEmail]               = useState('')
+  const [inquiryItem, setInquiryItem]   = useState('')
   const [inquiryDetails, setInquiryDetails] = useState('')
-  const [inquiryQty, setInquiryQty] = useState('')
+  const [inquiryQty, setInquiryQty]     = useState('')
 
   return (
     <div className="bg-[#F7F7F7]">
@@ -116,7 +115,7 @@ export default function Home() {
         {/* ── Hero ── */}
         <div className="flex gap-3">
 
-          {/* Sidebar categories */}
+          {/* Sidebar */}
           <aside className="hidden lg:block w-[200px] shrink-0 bg-white rounded-md border border-[#DEE2E7] py-2">
             <ul>
               {sidebarCategories.map((cat, i) => (
@@ -135,9 +134,9 @@ export default function Home() {
           </aside>
 
           {/* Banner */}
-          <div className="flex-1 rounded-md overflow-hidden bg-gradient-to-br from-[#1a7a63] via-[#2d9e82] to-[#5dc4a8] relative min-h-[240px] flex items-center px-10">
-            <div className="text-white z-10 relative">
-              <p className="text-sm mb-1 opacity-90">Latest trending</p>
+          <div className="flex-1 rounded-md overflow-hidden bg-[#5BC4C0] relative min-h-[240px] flex items-center px-10">
+            <div className="text-[#1C1C1C] z-10 relative">
+              <p className="text-sm mb-1">Latest trending</p>
               <h1 className="text-[32px] font-bold leading-tight mb-5">
                 Electronic<br />items
               </h1>
@@ -151,40 +150,44 @@ export default function Home() {
             <img
               src="/assets/banner-hero.png"
               alt="Trending electronics"
-              className="absolute right-0 bottom-0 object-contain h-[100%]"
+              className="absolute right-0 top-0 h-full object-cover w-[65%]"
             />
           </div>
 
           {/* Auth + promo cards */}
           <div className="hidden xl:flex w-[180px] shrink-0 flex-col gap-2">
-            <div className="bg-white rounded-md border border-[#DEE2E7] p-4">
-              <div className="flex items-center gap-2 mb-4">
-                <div className="w-9 h-9 rounded-full bg-[#DEE2E7] flex items-center justify-center">
-                  <span className="material-icons text-[#8B96A5] text-[20px]">person</span>
+            <div className="bg-[#EEF3FD] rounded-md p-4 flex flex-col gap-3">
+              <div className="flex items-center gap-2">
+                <div className="w-10 h-10 rounded-full bg-[#BECDE9] flex items-center justify-center shrink-0">
+                  <span className="material-icons text-[#6A8EBF] text-[24px]">person</span>
                 </div>
                 <div>
-                  <p className="text-[11px] text-[#8B96A5]">Hi, user</p>
-                  <p className="text-[11px] font-semibold text-[#1C1C1C]">let's get started</p>
+                  <p className="text-xs text-[#1C1C1C]">Hi, user</p>
+                  <p className="text-xs text-[#1C1C1C]">let's get stated</p>
                 </div>
               </div>
               <Link
                 to="/register"
-                className="block w-full text-center bg-[#0D6EFD] hover:bg-blue-700 text-white text-sm font-medium py-2 rounded mb-2 transition-colors"
+                className="block w-full text-center bg-[#0D6EFD] hover:bg-blue-700 text-white text-sm font-medium py-2 rounded transition-colors"
               >
                 Join now
               </Link>
               <Link
                 to="/login"
-                className="block w-full text-center border border-[#0D6EFD] text-[#0D6EFD] text-sm font-medium py-2 rounded hover:bg-blue-50 transition-colors"
+                className="block w-full text-center text-[#0D6EFD] text-sm font-medium py-1 hover:underline"
               >
                 Log in
               </Link>
             </div>
-            <div className="bg-[#FF9017] rounded-md p-3">
-              <p className="text-white text-xs font-medium leading-snug">Get US $10 off with a new supplier</p>
+            <div className="bg-[#FF9017] rounded-md p-4">
+              <p className="text-white text-xs font-medium leading-snug">
+                Get US $10 off<br />with a new<br />supplier
+              </p>
             </div>
-            <div className="bg-[#55BBC8] rounded-md p-3">
-              <p className="text-white text-xs font-medium leading-snug">Send quotes with supplier preferences</p>
+            <div className="bg-[#55BBC8] rounded-md p-4">
+              <p className="text-white text-xs font-medium leading-snug">
+                Send quotes with<br />supplier<br />preferences
+              </p>
             </div>
           </div>
         </div>
@@ -418,9 +421,9 @@ export default function Home() {
           <SectionHeading>Suppliers by region</SectionHeading>
           <div className="bg-white rounded-md border border-[#DEE2E7] px-6 py-5">
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
-              {supplierRegions.map(({ country, domain, flag }, i) => (
+              {supplierRegions.map(({ country, domain, Flag }, i) => (
                 <div key={i} className="flex items-center gap-2">
-                  <span className="text-2xl leading-none">{flag}</span>
+                  <Flag className="w-6 h-4 rounded-sm" />
                   <div>
                     <p className="text-sm text-[#8B96A5]">{country}</p>
                     <p className="text-xs text-[#8B96A5]">{domain}</p>
@@ -437,7 +440,7 @@ export default function Home() {
           <p className="text-sm text-[#8B96A5] mb-5">
             Get daily news on upcoming offers from many suppliers all over the world
           </p>
-          <div className="flex items-center justify-center gap-0 max-w-[440px] mx-auto">
+          <div className="flex items-center justify-center max-w-[440px] mx-auto">
             <div className="flex items-center flex-1 bg-white border border-[#DEE2E7] rounded-l-md px-3 gap-2">
               <span className="material-icons text-[#8B96A5] text-[18px]">mail_outline</span>
               <input

@@ -1,5 +1,6 @@
 import { FaFacebook, FaTwitter, FaLinkedin, FaInstagram, FaYoutube } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
+import Flag from 'country-flag-icons/react/3x2/US'
 
 const footerColumns = [
   {
@@ -112,7 +113,7 @@ export default function Footer() {
         <div className="max-w-[1200px] mx-auto px-4 h-12 flex items-center justify-between">
           <p className="text-sm text-[#8B96A5]">© {new Date().getFullYear()} E-commerce.</p>
           <button className="flex items-center gap-1 text-sm text-[#8B96A5] hover:text-white transition-colors">
-            <span>🇺🇸</span>
+            <Flag className="w-4 h-3 rounded-sm object-cover" />
             <span>English</span>
             <span className="material-icons text-[16px]">keyboard_arrow_down</span>
           </button>
