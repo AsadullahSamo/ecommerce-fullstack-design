@@ -353,27 +353,30 @@ export default function ProductListing() {
                         className="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform"
                       />
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-base font-bold text-[#1C1C1C] mb-1">
-                        ${p.price.toFixed(2)}
-                        <span className="text-sm text-[#8B96A5] line-through ml-2">${p.originalPrice.toFixed(2)}</span>
-                      </p>
-                      <div className="flex items-center gap-2 mb-1">
-                        <StarRating value={p.rating} small />
-                        <span className="text-xs text-[#8B96A5]">{p.rating} • {p.orders} orders</span>
-                      </div>
-                      <p className="text-sm font-medium text-[#1C1C1C] mb-1">{p.name}</p>
-                      {p.shipping && (
-                        <p className="text-xs text-[#00B517] font-medium mb-2">{p.shipping}</p>
-                      )}
-                      <p className="text-xs text-[#8B96A5] line-clamp-2">{p.description}</p>
-                      <Link
-                        to={`/products/${p.id}`}
-                        className="inline-block mt-2 text-xs text-[#0D6EFD] hover:underline font-medium"
-                      >
-                        View details
-                      </Link>
-                    </div>
+                   <div className="flex-1 min-w-0">
+  <p className="text-sm font-semibold text-[#1C1C1C] mb-1">{p.name}</p>
+  <div className="flex items-center gap-2 mb-1">
+    <p className="text-base font-bold text-[#1C1C1C]">${p.price.toFixed(2)}</p>
+    {p.originalPrice && (
+      <span className="text-sm text-[#8B96A5] line-through">${p.originalPrice.toFixed(2)}</span>
+    )}
+  </div>
+  <div className="flex items-center gap-2 mb-2">
+    <StarRating value={p.rating} small />
+    <span className="text-xs text-[#8B96A5]">{p.rating}</span>
+    <span className="text-xs text-[#8B96A5]">•</span>
+    <span className="text-xs text-[#8B96A5]">{p.orders} orders</span>
+    <span className="text-xs text-[#8B96A5]">•</span>
+    <span className="text-xs text-[#00B517] font-medium">{p.shipping}</span>
+  </div>
+  <p className="text-xs text-[#8B96A5] line-clamp-2 mb-2">{p.description}</p>
+  <Link
+    to={`/products/${p.id}`}
+    className="text-xs text-[#0D6EFD] hover:underline font-medium"
+  >
+    View details
+  </Link>
+</div>
                     <button className="shrink-0 self-start text-[#8B96A5] hover:text-[#E53935] transition-colors">
                       <span className="material-icons text-[22px]">favorite_border</span>
                     </button>
