@@ -1,11 +1,6 @@
-import express from 'express'
 import Product from '../models/Product.js'
-import { protect, adminOnly } from '../middleware/auth.js'
 
-const router = express.Router()
-
-// GET /api/products — with search, category filter, pagination
-router.get('/', async (req, res) => {
+export const getProducts = async (req, res) => {
   try {
     const { q, category, page = 1, limit = 10, featured } = req.query
     const filter = {}
@@ -24,10 +19,9 @@ router.get('/', async (req, res) => {
   } catch (err) {
     res.status(500).json({ message: err.message })
   }
-})
+}
 
-// GET /api/products/:id
-router.get('/:id', async (req, res) => {
+export const getProductById = async (req, res) => {
   try {
     const product = await Product.findById(req.params.id)
     if (!product) return res.status(404).json({ message: 'Product not found' })
@@ -35,20 +29,18 @@ router.get('/:id', async (req, res) => {
   } catch (err) {
     res.status(500).json({ message: err.message })
   }
-})
+}
 
-// POST /api/products — admin only
-router.post('/', protect, adminOnly, async (req, res) => {
+export const createProduct = async (req, res) => {
   try {
     const product = await Product.create(req.body)
     res.status(201).json(product)
   } catch (err) {
     res.status(400).json({ message: err.message })
   }
-})
+}
 
-// PUT /api/products/:id — admin only
-router.put('/:id', protect, adminOnly, async (req, res) => {
+export const updateProduct = async (req, res) => {
   try {
     const product = await Product.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
@@ -59,10 +51,9 @@ router.put('/:id', protect, adminOnly, async (req, res) => {
   } catch (err) {
     res.status(400).json({ message: err.message })
   }
-})
+}
 
-// DELETE /api/products/:id — admin only
-router.delete('/:id', protect, adminOnly, async (req, res) => {
+export const deleteProduct =  async (req, res) => {
   try {
     const product = await Product.findByIdAndDelete(req.params.id)
     if (!product) return res.status(404).json({ message: 'Product not found' })
@@ -70,6 +61,4 @@ router.delete('/:id', protect, adminOnly, async (req, res) => {
   } catch (err) {
     res.status(500).json({ message: err.message })
   }
-})
-
-export default router
+}
