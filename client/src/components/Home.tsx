@@ -136,17 +136,24 @@ export default function Home() {
 
           {/* Banner */}
           <div className="flex-1 rounded-md overflow-hidden bg-[#5BC4C0] relative min-h-[240px] flex items-center px-10">
-            <div className="text-[#1C1C1C] z-10 relative">
-              <p className="text-sm mb-1">Latest trending</p>
-              <h1 className="text-[32px] font-bold leading-tight mb-5">
-                Electronic<br />items
-              </h1>
-              <Link
-                to="/products"
-                className="inline-block bg-white text-[#1C1C1C] text-sm font-medium px-5 py-2 rounded hover:bg-gray-100 transition-colors"
-              >
-                Learn more
-              </Link>
+            <div className="flex-1 rounded-md overflow-hidden bg-[#5BC4C0] relative min-h-[180px] md:min-h-[240px] flex items-center px-6 md:px-10">
+              <div className="text-[#1C1C1C] z-10 relative">
+                <p className="text-xs md:text-sm mb-1">Latest trending</p>
+                <h1 className="text-[22px] md:text-[32px] font-bold leading-tight mb-4 md:mb-5">
+                  Electronic<br />items
+                </h1>
+                <Link
+                  to="/products"
+                  className="inline-block bg-white text-[#1C1C1C] text-xs md:text-sm font-medium px-4 md:px-5 py-2 rounded hover:bg-gray-100 transition-colors"
+                >
+                  Learn more
+                </Link>
+              </div>
+              <img
+                src="/assets/banner-hero.png"
+                alt="Trending electronics"
+                className="absolute right-0 top-0 h-full object-cover w-[55%] md:w-[65%]"
+              />
             </div>
             <img
               src="/assets/banner-hero.png"
@@ -207,18 +214,14 @@ export default function Home() {
               <CountdownUnit value={secs} label="Sec" />
             </div>
           </div>
-          <div className="grid grid-cols-5 gap-3">
+          <div className="flex gap-3 overflow-x-auto scrollbar-hide pb-1 md:grid md:grid-cols-5 md:overflow-visible">
             {dealsProducts.map(p => (
-              <div key={p.id} className="border-r border-[#DEE2E7] last:border-r-0 pr-3 last:pr-0">
+              <div key={p.id} className="shrink-0 w-[140px] md:w-auto border-r border-[#DEE2E7] last:border-r-0 pr-3 last:pr-0">
                 <Link to={`/products/${p.id}`} className="block text-center group">
-                  <div className="flex items-center justify-center h-[120px] mb-3">
-                    <img
-                      src={p.image}
-                      alt={p.name}
-                      className="max-h-full object-contain group-hover:scale-105 transition-transform"
-                    />
+                  <div className="flex items-center justify-center h-[100px] md:h-[120px] mb-2 md:mb-3">
+                    <img src={p.image} alt={p.name} className="max-h-full object-contain group-hover:scale-105 transition-transform" />
                   </div>
-                  <p className="text-sm text-[#1C1C1C] mb-2">{p.name}</p>
+                  <p className="text-xs md:text-sm text-[#1C1C1C] mb-2">{p.name}</p>
                   <span className="inline-block bg-[#FFE3E3] text-[#E53935] text-xs font-medium px-3 py-1 rounded-full">
                     -{p.discount}%
                   </span>
@@ -230,13 +233,13 @@ export default function Home() {
 
         {/* ── Home and outdoor ── */}
         <div className="bg-white rounded-md border border-[#DEE2E7] overflow-hidden">
-          <div className="flex">
+          <div className="flex flex-col md:flex-row">
             <div
-              className="w-[200px] shrink-0 p-6 flex flex-col justify-between"
+              className="md:w-[200px] shrink-0 p-6 flex md:flex-col justify-between items-start gap-4 md:gap-0"
               style={{ background: 'linear-gradient(160deg, #fdf6e3 0%, #f0e6c8 100%)' }}
             >
               <div>
-                <h2 className="font-bold text-lg text-[#1C1C1C] leading-snug mb-4">Home and outdoor</h2>
+                <h2 className="font-bold text-lg text-[#1C1C1C] leading-snug mb-3">Home and outdoor</h2>
                 <Link
                   to="/products"
                   className="inline-block bg-white text-[#1C1C1C] text-xs font-medium px-4 py-2 rounded-full shadow-sm hover:shadow transition-shadow"
@@ -244,24 +247,24 @@ export default function Home() {
                   Source now
                 </Link>
               </div>
-              <img src="/assets/home-and-outdoor.jpg" alt="Home and outdoor" className="w-full object-contain mt-4" />
+              <img src="/assets/home-and-outdoor.jpg" alt="Home and outdoor" className="h-[80px] md:w-full md:h-auto object-contain mt-0 md:mt-4" />
             </div>
-            <div className="flex-1 grid grid-cols-4 divide-x divide-y divide-[#DEE2E7]">
+            <div className="flex-1 grid grid-cols-2 md:grid-cols-4 divide-x divide-y divide-[#DEE2E7]">
               {homeOutdoorProducts.map(p => (
                 <Link
                   key={p.id}
                   to={`/products/${p.id}`}
-                  className="flex items-center justify-between p-4 hover:bg-[#F7F7F7] transition-colors group"
+                  className="flex items-center justify-between p-3 hover:bg-[#F7F7F7] transition-colors group"
                 >
                   <div>
-                    <p className="text-sm font-medium text-[#1C1C1C] mb-1">{p.name}</p>
+                    <p className="text-xs font-medium text-[#1C1C1C] mb-1">{p.name}</p>
                     <p className="text-xs text-[#8B96A5]">From</p>
                     <p className="text-xs text-[#8B96A5]">USD {p.price}</p>
                   </div>
                   <img
                     src={p.image}
                     alt={p.name}
-                    className="w-[70px] h-[70px] object-contain group-hover:scale-105 transition-transform"
+                    className="w-[50px] h-[50px] md:w-[70px] md:h-[70px] object-contain group-hover:scale-105 transition-transform"
                   />
                 </Link>
               ))}
@@ -271,15 +274,14 @@ export default function Home() {
 
         {/* ── Consumer electronics ── */}
         <div className="bg-white rounded-md border border-[#DEE2E7] overflow-hidden">
-          <div className="flex">
-            <div
-              className="w-[200px] shrink-0 p-6 flex flex-col justify-between"
-              style={{ background: 'linear-gradient(160deg, #e8f0fe 0%, #c5d8f8 100%)' }}
+          <div className="flex flex-col md:flex-row">
+            
+              <div
+              className="md:w-[200px] shrink-0 p-6 flex md:flex-col justify-between items-start gap-4 md:gap-0"
+            style={{ background: 'linear-gradient(160deg, #e8f0fe 0%, #c5d8f8 100%)' }}
             >
               <div>
-                <h2 className="font-bold text-lg text-[#1C1C1C] leading-snug mb-4">
-                  Consumer electronics and gadgets
-                </h2>
+                <h2 className="font-bold text-lg text-[#1C1C1C] leading-snug mb-3">Consumer electronics and gadgets </h2>
                 <Link
                   to="/products"
                   className="inline-block bg-white text-[#1C1C1C] text-xs font-medium px-4 py-2 rounded-full shadow-sm hover:shadow transition-shadow"
@@ -287,9 +289,10 @@ export default function Home() {
                   Source now
                 </Link>
               </div>
-              <img src="/assets/consumer-elctronics-and-gadgets.png" alt="Consumer electronics" className="w-full object-contain mt-4" />
+              <img src="/assets/consumer-elctronics-and-gadgets.png" alt="consumer and electronics" className="h-[80px] md:w-full md:h-auto object-contain mt-0 md:mt-4" />
             </div>
-            <div className="flex-1 grid grid-cols-4 divide-x divide-y divide-[#DEE2E7]">
+
+            <div className="flex-1 grid grid-cols-2 md:grid-cols-4. divide-x divide-y divide-[#DEE2E7]">
               {electronicsProducts.map(p => (
                 <Link
                   key={p.id}
@@ -317,21 +320,17 @@ export default function Home() {
           className="rounded-md overflow-hidden relative"
           style={{ background: 'linear-gradient(135deg, #1565C0 0%, #42A5F5 100%)' }}
         >
-          <img
-            src="/assets/banner-quote.png"
-            alt=""
-            className="absolute inset-0 w-full h-full object-cover opacity-20"
-          />
-          <div className="relative flex items-center justify-between px-10 py-8 gap-8">
-            <div className="text-white max-w-[400px]">
-              <h2 className="text-2xl font-bold leading-snug mb-3">
+          <img src="/assets/banner-quote.png" alt="" className="absolute inset-0 w-full h-full object-cover opacity-20" />
+          <div className="relative flex flex-col md:flex-row items-start md:items-center justify-between px-6 md:px-10 py-8 gap-6">
+            <div className="text-white max-w-full md:max-w-[400px]">
+              <h2 className="text-xl md:text-2xl font-bold leading-snug mb-3">
                 An easy way to send requests to all suppliers
               </h2>
               <p className="text-sm opacity-80 leading-relaxed">
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt.
               </p>
             </div>
-            <div className="bg-white rounded-md p-6 w-[400px] shrink-0">
+            <div className="bg-white rounded-md p-4 md:p-6 w-full md:w-[400px] shrink-0">
               <h3 className="font-semibold text-[#1C1C1C] mb-4">Send quote to suppliers</h3>
               <div className="space-y-3">
                 <input
@@ -354,9 +353,9 @@ export default function Home() {
                     placeholder="Quantity"
                     value={inquiryQty}
                     onChange={e => setInquiryQty(e.target.value)}
-                    className="flex-1 border border-[#DEE2E7] rounded px-3 py-2.5 text-sm outline-none focus:border-[#0D6EFD] transition-colors"
+                    className="flex-1 border min-w-5 border-[#DEE2E7] rounded px-3 py-2.5 text-sm outline-none focus:border-[#0D6EFD] transition-colors"
                   />
-                  <select className="border border-[#DEE2E7] rounded px-3 py-2.5 text-sm outline-none focus:border-[#0D6EFD] bg-white text-[#1C1C1C]">
+                  <select className="border w-[80px] border-[#DEE2E7] rounded px-3 py-2.5 text-sm outline-none focus:border-[#0D6EFD] bg-white text-[#1C1C1C]">
                     <option>Pcs</option>
                     <option>Kg</option>
                     <option>Box</option>

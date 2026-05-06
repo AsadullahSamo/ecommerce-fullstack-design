@@ -235,27 +235,20 @@ export default function ProductListing() {
 
             {/* Top bar */}
             <div className="bg-white rounded-md border border-[#DEE2E7] px-4 py-3 mb-3">
-              <div className="flex items-center justify-between gap-3 flex-wrap">
+              <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 flex-wrap">
                 <p className="text-sm text-[#1C1C1C]">
                   <span className="font-semibold">12,911</span> items in{' '}
-                  <span className="font-semibold">
-                    {searchQuery || 'Mobile accessory'}
-                  </span>
+                  <span className="font-semibold">{searchQuery || 'Mobile accessory'}</span>
                 </p>
-                <div className="flex items-center gap-4 ml-auto">
-                  <label className="flex items-center gap-2 text-sm text-[#1C1C1C] cursor-pointer">
-                    <input
-                      type="checkbox"
-                      checked={verifiedOnly}
-                      onChange={e => setVerifiedOnly(e.target.checked)}
-                      className="accent-[#0D6EFD]"
-                    />
+                <div className="flex items-center gap-3 sm:ml-auto flex-wrap">
+                  <label className="flex items-center gap-1.5 text-sm text-[#1C1C1C] cursor-pointer">
+                    <input type="checkbox" checked={verifiedOnly} onChange={e => setVerifiedOnly(e.target.checked)} className="accent-[#0D6EFD]" />
                     Verified only
                   </label>
                   <select
                     value={sortBy}
                     onChange={e => setSortBy(e.target.value)}
-                    className="border border-[#DEE2E7] rounded px-3 py-1.5 text-sm outline-none focus:border-[#0D6EFD] bg-white"
+                    className="border border-[#DEE2E7] rounded px-2 py-1.5 text-sm outline-none focus:border-[#0D6EFD] bg-white"
                   >
                     {['Featured', 'Price: Low to High', 'Price: High to Low', 'Newest'].map(o => (
                       <option key={o}>{o}</option>
@@ -303,88 +296,67 @@ export default function ProductListing() {
             </div>
 
             {/* Product grid */}
-            {viewMode === 'grid' && (
-              <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 mb-4">
-                {filteredProducts.map(p => (
-                  <Link
-                    key={p.id}
-                    to={`/products/${p.id}`}
-                    className="bg-white rounded-md border border-[#DEE2E7] p-4 hover:shadow-md transition-shadow group"
-                  >
-                    <div className="flex items-center justify-center h-[180px] mb-3 relative">
-                      <img
-                        src={p.image}
-                        alt={p.name}
-                        className="max-h-full object-contain group-hover:scale-105 transition-transform"
-                      />
-                      <button
-                        onClick={e => e.preventDefault()}
-                        className="absolute top-0 right-0 text-[#8B96A5] hover:text-[#E53935] transition-colors"
-                      >
-                        <span className="material-icons text-[20px]">favorite_border</span>
-                      </button>
-                    </div>
-                    <p className="text-base font-bold text-[#1C1C1C]">
-                      ${p.price.toFixed(2)}
-                      <span className="text-sm text-[#8B96A5] line-through ml-2">${p.originalPrice.toFixed(2)}</span>
-                    </p>
-                    <div className="flex items-center gap-2 my-1">
-                      <StarRating value={p.rating} small />
-                      <span className="text-xs text-[#8B96A5]">{p.rating}</span>
-                    </div>
-                    <p className="text-sm text-[#1C1C1C] line-clamp-2">{p.name}</p>
-                    {p.shipping && (
-                      <p className="text-xs text-[#00B517] mt-1 font-medium">{p.shipping}</p>
-                    )}
-                  </Link>
-                ))}
-              </div>
-            )}
-
-            {/* Product list */}
-            {viewMode === 'list' && (
-              <div className="space-y-3 mb-4">
-                {filteredProducts.map(p => (
-                  <div key={p.id} className="bg-white rounded-md border border-[#DEE2E7] p-4 flex gap-4 hover:shadow-md transition-shadow group">
-                    <div className="w-[180px] h-[150px] shrink-0 flex items-center justify-center bg-[#F7F7F7] rounded-md">
-                      <img
-                        src={p.image}
-                        alt={p.name}
-                        className="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform"
-                      />
-                    </div>
-                   <div className="flex-1 min-w-0">
-  <p className="text-sm font-semibold text-[#1C1C1C] mb-1">{p.name}</p>
-  <div className="flex items-center gap-2 mb-1">
-    <p className="text-base font-bold text-[#1C1C1C]">${p.price.toFixed(2)}</p>
-    {p.originalPrice && (
-      <span className="text-sm text-[#8B96A5] line-through">${p.originalPrice.toFixed(2)}</span>
-    )}
-  </div>
-  <div className="flex items-center gap-2 mb-2">
-    <StarRating value={p.rating} small />
-    <span className="text-xs text-[#8B96A5]">{p.rating}</span>
-    <span className="text-xs text-[#8B96A5]">•</span>
-    <span className="text-xs text-[#8B96A5]">{p.orders} orders</span>
-    <span className="text-xs text-[#8B96A5]">•</span>
-    <span className="text-xs text-[#00B517] font-medium">{p.shipping}</span>
-  </div>
-  <p className="text-xs text-[#8B96A5] line-clamp-2 mb-2">{p.description}</p>
-  <Link
-    to={`/products/${p.id}`}
-    className="text-xs text-[#0D6EFD] hover:underline font-medium"
-  >
-    View details
-  </Link>
-</div>
-                    <button className="shrink-0 self-start text-[#8B96A5] hover:text-[#E53935] transition-colors">
-                      <span className="material-icons text-[22px]">favorite_border</span>
+            <div className={`${viewMode === 'grid' ? 'hidden md:grid grid-cols-2 lg:grid-cols-3 gap-3 mb-4' : 'hidden'}`}>
+              {filteredProducts.map(p => (
+                <Link
+                  key={p.id}
+                  to={`/products/${p.id}`}
+                  className="bg-white rounded-md border border-[#DEE2E7] p-4 hover:shadow-md transition-shadow group"
+                >
+                  <div className="flex items-center justify-center h-[180px] mb-3 relative">
+                    <img src={p.image} alt={p.name} className="max-h-full object-contain group-hover:scale-105 transition-transform" />
+                    <button onClick={e => e.preventDefault()} className="absolute top-0 right-0 text-[#8B96A5] hover:text-[#E53935] transition-colors">
+                      <span className="material-icons text-[20px]">favorite_border</span>
                     </button>
                   </div>
-                ))}
-              </div>
-            )}
+                  <p className="text-sm font-medium text-[#1C1C1C] line-clamp-2 mb-1">{p.name}</p>
+                  <div className="flex items-center gap-2 mb-1">
+                    <p className="text-base font-bold text-[#1C1C1C]">${p.price.toFixed(2)}</p>
+                    <span className="text-sm text-[#8B96A5] line-through">${p.originalPrice.toFixed(2)}</span>
+                    <button onClick={e => e.preventDefault()} className="ml-auto text-[#8B96A5] hover:text-[#E53935]">
+                      <span className="material-icons text-[20px]">favorite_border</span>
+                    </button>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <StarRating value={p.rating} small />
+                    <span className="text-xs text-[#8B96A5]">{p.rating}</span>
+                  </div>
+                  {p.shipping && <p className="text-xs text-[#00B517] mt-1 font-medium">{p.shipping}</p>}
+                </Link>
+              ))}
+            </div>
 
+           <div className={`${viewMode === 'list' ? 'flex flex-col gap-3 mb-4' : 'flex md:hidden flex-col gap-3 mb-4'}`}>
+              {filteredProducts.map(p => (
+                <div key={p.id} className="bg-white rounded-md border border-[#DEE2E7] p-4 flex gap-3 hover:shadow-md transition-shadow group">
+                  <div className="w-[100px] md:w-[180px] shrink-0 flex items-center justify-center bg-[#F7F7F7] rounded-md overflow-hidden self-stretch">
+                    <img src={p.image} alt={p.name} className="w-full h-full object-contain" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-semibold text-[#1C1C1C] mb-1">{p.name}</p>
+                    <div className="flex items-center gap-1.5 mb-1">
+                      <p className="text-base font-bold text-[#1C1C1C]">${p.price.toFixed(2)}</p>
+                      {p.originalPrice && <span className="text-xs text-[#8B96A5] line-through">${p.originalPrice.toFixed(2)}</span>}
+                    </div>
+                    <div className="flex items-center gap-1.5 mb-1 flex-wrap">
+                      <StarRating value={p.rating} small />
+                      <span className="text-xs text-[#8B96A5]">{p.rating}</span>
+                      <span className="text-xs text-[#8B96A5]">•</span>
+                      <span className="text-xs text-[#8B96A5]">{p.orders} orders</span>
+                      <span className="text-xs text-[#8B96A5]">•</span>
+                      <span className="text-xs text-[#00B517] font-medium">{p.shipping}</span>
+                    </div>
+                    <p className="text-xs text-[#8B96A5] line-clamp-2 mb-2 hidden md:block">{p.description}</p>
+                    <Link to={`/products/${p.id}`} className="text-xs text-[#0D6EFD] hover:underline font-medium">
+                      View details
+                    </Link>
+                  </div>
+                  <button className="shrink-0 self-start text-[#8B96A5] hover:text-[#E53935] transition-colors">
+                    <span className="material-icons text-[22px]">favorite_border</span>
+                  </button>
+                </div>
+              ))}
+            </div>
             {/* Pagination */}
             <div className="bg-white rounded-md border border-[#DEE2E7] px-4 py-3 flex items-center justify-end gap-2">
               <div className="flex items-center gap-2 mr-auto">
