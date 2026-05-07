@@ -19,27 +19,27 @@ const sidebarCategories = [
 //   { id: '5', name: 'Canon cameras',  image: '/assets/5.png', price: 599, discount: 25 },
 // ]
 
-const homeOutdoorProducts = [
-  { id: '6',  name: 'Soft chairs',    image: '/assets/soft-chairs.png',    price: 19  },
-  { id: '7',  name: 'Sofa & chair',   image: '/assets/sofa-and-chairs.png',price: 19  },
-  { id: '8',  name: 'Kitchen dishes', image: '/assets/kitchen-dishes.png', price: 19  },
-  { id: '9',  name: 'Smart watches',  image: '/assets/smart-watches.png',  price: 19  },
-  { id: '10', name: 'Kitchen mixer',  image: '/assets/kitchen-mixer.png',  price: 100 },
-  { id: '11', name: 'Blenders',       image: '/assets/blenders.png',       price: 39  },
-  { id: '12', name: 'Home appliance', image: '/assets/home-appliance.jpg', price: 19  },
-  { id: '13', name: 'Coffee maker',   image: '/assets/coffee-maker.png',   price: 10  },
-]
+// const homeOutdoorProducts = [
+//   { id: '6',  name: 'Soft chairs',    image: '/assets/soft-chairs.png',    price: 19  },
+//   { id: '7',  name: 'Sofa & chair',   image: '/assets/sofa-and-chairs.png',price: 19  },
+//   { id: '8',  name: 'Kitchen dishes', image: '/assets/kitchen-dishes.png', price: 19  },
+//   { id: '9',  name: 'Smart watches',  image: '/assets/smart-watches.png',  price: 19  },
+//   { id: '10', name: 'Kitchen mixer',  image: '/assets/kitchen-mixer.png',  price: 100 },
+//   { id: '11', name: 'Blenders',       image: '/assets/blenders.png',       price: 39  },
+//   { id: '12', name: 'Home appliance', image: '/assets/home-appliance.jpg', price: 19  },
+//   { id: '13', name: 'Coffee maker',   image: '/assets/coffee-maker.png',   price: 10  },
+// ]
 
-const electronicsProducts = [
-  { id: '14', name: 'Smart watches',   image: '/assets/smart-watches-2.png',               price: 19  },
-  { id: '15', name: 'Cameras',         image: '/assets/cameras.png',                       price: 89  },
-  { id: '16', name: 'Headphones',      image: '/assets/headphones.png',                    price: 10  },
-  { id: '17', name: 'Smart watches',   image: '/assets/smart-watches.png',                 price: 90  },
-  { id: '18', name: 'Gaming set',      image: '/assets/gaming-set.png',                    price: 35  },
-  { id: '19', name: 'Laptops & PC',    image: '/assets/laptops-and-pc.png',                price: 340 },
-  { id: '20', name: 'Smartphones',     image: '/assets/smartphones.png',                   price: 19  },
-  { id: '21', name: 'Electric kettle', image: '/assets/electric-kettle.png',               price: 240 },
-]
+// const electronicsProducts = [
+//   { id: '14', name: 'Smart watches',   image: '/assets/smart-watches-2.png',               price: 19  },
+//   { id: '15', name: 'Cameras',         image: '/assets/cameras.png',                       price: 89  },
+//   { id: '16', name: 'Headphones',      image: '/assets/headphones.png',                    price: 10  },
+//   { id: '17', name: 'Smart watches',   image: '/assets/smart-watches.png',                 price: 90  },
+//   { id: '18', name: 'Gaming set',      image: '/assets/gaming-set.png',                    price: 35  },
+//   { id: '19', name: 'Laptops & PC',    image: '/assets/laptops-and-pc.png',                price: 340 },
+//   { id: '20', name: 'Smartphones',     image: '/assets/smartphones.png',                   price: 19  },
+//   { id: '21', name: 'Electric kettle', image: '/assets/electric-kettle.png',               price: 240 },
+// ]
 
 // const recommendedItems = [
 //   { id: '22', name: 'T-shirts with multiple colors, for men', image: '/assets/recom-1.png',  price: 10.30 },
@@ -112,6 +112,8 @@ export default function Home() {
 
   const { products: featuredProducts, loading: featuredLoading } = useProducts({ featured: true, limit: 5 })
   const { products: recommendedProducts, loading: recommendedLoading } = useProducts({ limit: 10 })
+  const { products: homeAndOutdoorProducts,} = useProducts({  category: 'Home & Outdoor',  limit: 8,})
+  const { products: electronicsProducts,} = useProducts({  category: 'Electronics',  limit: 8,})
 
   return (
     <div className="bg-[#F7F7F7]">
@@ -264,10 +266,10 @@ export default function Home() {
               <img src="/assets/home-and-outdoor.jpg" alt="Home and outdoor" className="h-[80px] md:w-full md:h-auto object-contain mt-0 md:mt-4" />
             </div>
             <div className="flex-1 grid grid-cols-2 md:grid-cols-4 divide-x divide-y divide-[#DEE2E7]">
-              {homeOutdoorProducts.map(p => (
+              {homeAndOutdoorProducts.map(p => (
                 <Link
-                  key={p.id}
-                  to={`/products/${p.id}`}
+                  key={p._id}
+                  to={`/products/${p._id}`}
                   className="flex items-center justify-between p-3 hover:bg-[#F7F7F7] transition-colors group"
                 >
                   <div>
@@ -309,8 +311,8 @@ export default function Home() {
             <div className="flex-1 grid grid-cols-2 md:grid-cols-4. divide-x divide-y divide-[#DEE2E7]">
               {electronicsProducts.map(p => (
                 <Link
-                  key={p.id}
-                  to={`/products/${p.id}`}
+                  key={p._id}
+                  to={`/products/${p._id}`}
                   className="flex items-center justify-between p-4 hover:bg-[#F7F7F7] transition-colors group"
                 >
                   <div>

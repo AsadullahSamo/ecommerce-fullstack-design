@@ -8,6 +8,8 @@ interface UseProductsParams {
   featured?: boolean
   page?: number
   limit?: number
+  minPrice?: number
+  maxPrice?: number
 }
 
 export function useProducts(params: UseProductsParams = {}) {
@@ -38,7 +40,7 @@ export function useProducts(params: UseProductsParams = {}) {
       })
 
     return () => { cancelled = true }
-  }, [params.q, params.category, params.featured, params.page, params.limit])
+  }, [JSON.stringify(params)])
 
   return { products, total, pages, loading, error }
 }

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link, useSearchParams } from 'react-router-dom'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import Newsletter from './Newsletter'
 import { useProducts } from '../hooks/useProducts'
 import type { Product } from '../types'
@@ -90,12 +90,17 @@ export default function ProductListing() {
   const [sortBy, setSortBy]               = useState('Featured')
   const [selectedBrands, setSelectedBrands]     = useState<string[]>(['Samsung', 'Apple', 'Pocco'])
   const [selectedFeatures, setSelectedFeatures] = useState<string[]>(['Metallic'])
-  const [activeFilters, setActiveFilters]       = useState<string[]>([])
+  const [activeFilters, setActiveFilters] = useState<string[]>([])
   const [condition, setCondition]         = useState('Any')
   const [priceMin, setPriceMin]           = useState('')
   const [priceMax, setPriceMax]           = useState('')
   const [currentPage, setCurrentPage]     = useState(1)
   const [showPerPage, setShowPerPage]     = useState(10)
+  const [selectedRatings, setSelectedRatings] = useState<number[]>([])
+  const [navigate] = [useNavigate()]
+  const [appliedPriceMin, setAppliedPriceMin] = useState<number | undefined>()
+  const [appliedPriceMax, setAppliedPriceMax] = useState<number | undefined>()
+  const [appliedMinRating, setAppliedMinRating] = useState<number | undefined>()
 
   const searchQuery = searchParams.get('q') || ''
   const categoryParam = searchParams.get('category') || ''
@@ -105,12 +110,20 @@ export default function ProductListing() {
     category: categoryParam,
     page: currentPage,
     limit: showPerPage,
+    minPrice: appliedPriceMin,
+    maxPrice: appliedPriceMax,
   })
 
   const filteredProducts = verifiedOnly ? products.filter(p => p.stock > 0) : products
 
-  const toggleBrand = (brand: string) =>
-    setSelectedBrands(prev => prev.includes(brand) ? prev.filter(b => b !== brand) : [...prev, brand])
+  const toggleBrand = (brand: string) => {
+    setSelectedBrands(prev => {
+      const next = prev.includes(brand) ? prev.filter(b => b !== brand) : [...prev, brand]
+      setActiveFilters(next)
+      return next
+    })
+    setCurrentPage(1)
+  }
 
   const toggleFeature = (feature: string) =>
     setSelectedFeatures(prev => prev.includes(feature) ? prev.filter(f => f !== feature) : [...prev, feature])
@@ -206,7 +219,14 @@ export default function ProductListing() {
                     className="w-full border border-[#DEE2E7] rounded px-2 py-1.5 text-xs outline-none focus:border-[#0D6EFD]"
                   />
                 </div>
-                <button className="w-full mt-2 border border-[#0D6EFD] text-[#0D6EFD] text-xs font-medium py-1.5 rounded hover:bg-blue-50 transition-colors">
+                <button 
+                  className="w-full mt-2 border border-[#0D6EFD] text-[#0D6EFD] text-xs font-medium py-1.5 rounded hover:bg-blue-50 transition-colors"
+                  onClick={() => {
+                    setAppliedPriceMin(priceMin ? Number(priceMin) : undefined)
+                    setAppliedPriceMax(priceMax ? Number(priceMax) : undefined)
+                    setCurrentPage(1)
+                  }}
+                >
                   Apply
                 </button>
               </FilterSection>
@@ -229,7 +249,17 @@ export default function ProductListing() {
               <FilterSection title="Ratings" defaultOpen={false}>
                 {RATINGS.map(r => (
                   <label key={r} className="flex items-center gap-2 cursor-pointer">
-                    <input type="checkbox" className="w-4 h-4 accent-[#0D6EFD]" />
+                    <input
+                      type="checkbox"
+                      checked={selectedRatings.includes(r)}
+                      onChange={() => {
+                        setSelectedRatings(prev =>
+                          prev.includes(r) ? prev.filter(x => x !== r) : [...prev, r]
+                        )
+                        setCurrentPage(1)
+                      }}
+                      className="w-4 h-4 accent-[#0D6EFD]"
+                    />
                     <StarRating value={r * 2} small />
                   </label>
                 ))}
@@ -249,8 +279,8 @@ export default function ProductListing() {
             <div className="bg-white rounded-md border border-[#DEE2E7] px-4 py-3 mb-3">
               <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 flex-wrap">
                 <p className="text-sm text-[#1C1C1C]">
-                  <span className="font-semibold">12,911</span> items in{' '}
-                  <span className="font-semibold">{searchQuery || 'Mobile accessory'}</span>
+                  <span className="font-semibold">{total}</span> items in{' '}
+                  <span className="font-semibold">{searchQuery || categoryParam || 'Mobile accessory'}</span>
                 </p>
                 <div className="flex items-center gap-3 sm:ml-auto flex-wrap">
                   <label className="flex items-center gap-1.5 text-sm text-[#1C1C1C] cursor-pointer">
@@ -298,7 +328,16 @@ export default function ProductListing() {
                     </span>
                   ))}
                   <button
-                    onClick={() => setActiveFilters([])}
+                    onClick={() => {
+                      setActiveFilters([])
+                      setSelectedBrands([])
+                      setSelectedFeatures([])
+                      setAppliedPriceMin(undefined)
+                      setAppliedPriceMax(undefined)
+                      setPriceMin('')
+                      setPriceMax('')
+                      setCurrentPage(1)
+                    }}
                     className="text-xs text-[#0D6EFD] hover:underline ml-1"
                   >
                     Clear all filter

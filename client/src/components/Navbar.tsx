@@ -20,7 +20,11 @@ export default function Navbar() {
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault()
-    if (search.trim()) navigate(`/products?q=${encodeURIComponent(search.trim())}`)
+    if (search.trim()) {
+      navigate(`/products?q=${encodeURIComponent(search.trim())}`)
+    } else {
+      navigate('/products')
+    }
   }
 
   return (
