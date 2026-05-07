@@ -8,7 +8,7 @@ const products = [
     name: 'Apple MacBook Pro 16 M3 Max',
     price: 2899,
     originalPrice: 3199,
-    image: '/assets/products/macbook-pro.png',
+    image: '/assets/2.png',
     description:
       'High-end professional laptop designed for developers, designers, and video editors with Apple M3 Max chip.',
     category: 'Computers',
@@ -57,7 +57,7 @@ const products = [
     name: 'Samsung Galaxy S25 Ultra',
     price: 1399,
     originalPrice: 1499,
-    image: '/assets/products/galaxy-s25.png',
+    image: '/assets/5.png',
     description:
       'Premium Android smartphone with AI-powered camera system and titanium frame.',
     category: 'Smartphones',
@@ -106,7 +106,7 @@ const products = [
     name: 'Sony WH-1000XM5 Wireless Headphones',
     price: 349,
     originalPrice: 420,
-    image: '/assets/products/sony-headphones.png',
+    image: '/assets/4.png',
     description:
       'Industry-leading noise cancellation headphones with crystal clear audio.',
     category: 'Audio',
@@ -154,7 +154,7 @@ const products = [
     name: 'DJI Mini 4 Pro Drone',
     price: 899,
     originalPrice: 999,
-    image: '/assets/products/dji-drone.png',
+    image: '/assets/2.png',
     description:
       'Compact cinematic drone with obstacle avoidance and 4K HDR recording.',
     category: 'Drones',
@@ -202,7 +202,7 @@ const products = [
     name: 'Nike Air Zoom Pegasus 41',
     price: 159,
     originalPrice: 210,
-    image: '/assets/products/nike-pegasus.png',
+    image: '/assets/3.png',
     description:
       'Lightweight running shoes with responsive cushioning for daily training.',
     category: 'Footwear',
@@ -250,7 +250,7 @@ const products = [
     name: 'LG OLED evo C4 65-inch TV',
     price: 2199,
     originalPrice: 2499,
-    image: '/assets/products/lg-oled-tv.png',
+    image: '/assets/4.png',
     description:
       'Premium OLED smart television with Dolby Vision and gaming optimization.',
     category: 'Home Entertainment',

@@ -14,6 +14,8 @@ const productSchema = new mongoose.Schema(
     discount:    { type: Number, default: 0 },
     shipping:    { type: String, default: 'Free Shipping' },
     featured:    { type: Boolean, default: false },
+    reviews:     { type: Number, default: 0 },
+    sold:        { type: Number, default: 0 },
     specs:         { type: Map, of: String },
     specTable:     [{ label: String, value: String }],
     pricingTiers:  [{ range: String, price: Number }],
