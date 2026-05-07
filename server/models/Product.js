@@ -14,11 +14,15 @@ const productSchema = new mongoose.Schema(
     discount:    { type: Number, default: 0 },
     shipping:    { type: String, default: 'Free Shipping' },
     featured:    { type: Boolean, default: false },
+    specs:         { type: Map, of: String },
+    specTable:     [{ label: String, value: String }],
+    pricingTiers:  [{ range: String, price: Number }],
+    features:      [String],
     seller: {
       name:     { type: String, default: 'Artel Market' },
       location: { type: String, default: 'Germany, Berlin' },
       verified: { type: Boolean, default: true },
-    },
+    }
   },
   { timestamps: true }
 )

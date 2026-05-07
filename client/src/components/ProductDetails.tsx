@@ -1,73 +1,75 @@
 import { DE } from 'country-flag-icons/react/3x2'
 import { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
+import { useProduct, useProducts } from '../hooks/useProducts'
+import type { Product } from '../types'
 
 type Tab = 'description' | 'reviews' | 'shipping' | 'about'
 
-const PRODUCT = {
-  id: '1',
-  name: 'Mens Long Sleeve T-shirt Cotton Base Layer Slim Muscle',
-  inStock: true,
-  rating: 9.3,
-  reviews: 32,
-  sold: 154,
-  specs: {
-    Price: 'Negotiable',
-    Type: 'Classic shoes',
-    Material: 'Plastic material',
-    Design: 'Modern nice',
-    Customization: 'Customized logo and design custom packages',
-    Protection: 'Refund Policy',
-    Warranty: '2 years full warranty',
-  },
-  pricingTiers: [
-    { range: '50-100 pcs',  price: 98.00  },
-    { range: '100-700 pcs', price: 90.00  },
-    { range: '700+ pcs',    price: 78.00  },
-  ],
-  images: [
-    '/assets/products/product-1.png',
-    '/assets/products/product-2.png',
-    '/assets/products/product-3.png',
-    '/assets/products/product-4.png',
-    '/assets/products/product-5.png',
-    '/assets/products/product-6.png',
-  ],
-  description: `Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+// const PRODUCT = {
+//   id: '1',
+//   name: 'Mens Long Sleeve T-shirt Cotton Base Layer Slim Muscle',
+//   inStock: true,
+//   rating: 9.3,
+//   reviews: 32,
+//   sold: 154,
+//   specs: {
+//     Price: 'Negotiable',
+//     Type: 'Classic shoes',
+//     Material: 'Plastic material',
+//     Design: 'Modern nice',
+//     Customization: 'Customized logo and design custom packages',
+//     Protection: 'Refund Policy',
+//     Warranty: '2 years full warranty',
+//   },
+//   pricingTiers: [
+//     { range: '50-100 pcs',  price: 98.00  },
+//     { range: '100-700 pcs', price: 90.00  },
+//     { range: '700+ pcs',    price: 78.00  },
+//   ],
+//   images: [
+//     '/assets/products/product-1.png',
+//     '/assets/products/product-2.png',
+//     '/assets/products/product-3.png',
+//     '/assets/products/product-4.png',
+//     '/assets/products/product-5.png',
+//     '/assets/products/product-6.png',
+//   ],
+//   description: `Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
 
-Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.`,
-  specTable: [
-    { label: 'Model', value: 'Model 2024' },
-    { label: 'Model',       value: '#8786867'           },
-    { label: 'Style',       value: 'Classic style'       },
-    { label: 'Certificate', value: 'ISO-898921212'       },
-    { label: 'Size',        value: '34mm x 450mm x 19mm' },
-    { label: 'Memory',      value: '36GB RAM'            },
-  ],
-  features: [
-    'Some great feature name here',
-    'Lorem ipsum dolor sit amet, consectetur',
-    'Duis aute irure dolor in reprehenderit',
-    'Some great feature name here',
-  ],
-}
+// Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.`,
+//   specTable: [
+//     { label: 'Model', value: 'Model 2024' },
+//     { label: 'Model',       value: '#8786867'           },
+//     { label: 'Style',       value: 'Classic style'       },
+//     { label: 'Certificate', value: 'ISO-898921212'       },
+//     { label: 'Size',        value: '34mm x 450mm x 19mm' },
+//     { label: 'Memory',      value: '36GB RAM'            },
+//   ],
+//   features: [
+//     'Some great feature name here',
+//     'Lorem ipsum dolor sit amet, consectetur',
+//     'Duis aute irure dolor in reprehenderit',
+//     'Some great feature name here',
+//   ],
+// }
 
-const YOU_MAY_LIKE = [
-  { id: '1', name: 'Men Blazers Sets Elegant Formal',    price: '$7.00 - $99.50', image: '/assets/products/product-1.png' },
-  { id: '2', name: 'Men Shirt Sleeve Polo Contrast',     price: '$7.00 - $99.50', image: '/assets/products/product-2.png' },
-  { id: '3', name: 'Apple Watch Series Space Gray',      price: '$7.00 - $99.50', image: '/assets/products/product-3.png' },
-  { id: '4', name: 'Basketball Crew Socks Long Stuff',   price: '$7.00 - $99.50', image: '/assets/products/product-4.png' },
-  { id: '5', name: "New Summer Men's castrol T-Shirts",  price: '$7.00 - $99.50', image: '/assets/products/product-5.png' },
-]
+// const YOU_MAY_LIKE = [
+//   { id: '1', name: 'Men Blazers Sets Elegant Formal',    price: '$7.00 - $99.50', image: '/assets/products/product-1.png' },
+//   { id: '2', name: 'Men Shirt Sleeve Polo Contrast',     price: '$7.00 - $99.50', image: '/assets/products/product-2.png' },
+//   { id: '3', name: 'Apple Watch Series Space Gray',      price: '$7.00 - $99.50', image: '/assets/products/product-3.png' },
+//   { id: '4', name: 'Basketball Crew Socks Long Stuff',   price: '$7.00 - $99.50', image: '/assets/products/product-4.png' },
+//   { id: '5', name: "New Summer Men's castrol T-Shirts",  price: '$7.00 - $99.50', image: '/assets/products/product-5.png' },
+// ]
 
-const RELATED_PRODUCTS = [
-  { id: '1', name: 'Xiaomi Redmi 8 Original', price: '$32.00-$40.00', image: '/assets/products/product-1.png' },
-  { id: '2', name: 'Xiaomi Redmi 8 Original', price: '$32.00-$40.00', image: '/assets/products/product-2.png' },
-  { id: '3', name: 'Xiaomi Redmi 8 Original', price: '$32.00-$40.00', image: '/assets/products/product-3.png' },
-  { id: '4', name: 'Xiaomi Redmi 8 Original', price: '$32.00-$40.00', image: '/assets/products/product-4.png' },
-  { id: '5', name: 'Xiaomi Redmi 8 Original', price: '$32.00-$40.00', image: '/assets/products/product-5.png' },
-  { id: '6', name: 'Xiaomi Redmi 8 Original', price: '$32.00-$40.00', image: '/assets/products/product-6.png' },
-]
+// const RELATED_PRODUCTS = [
+//   { id: '1', name: 'Xiaomi Redmi 8 Original', price: '$32.00-$40.00', image: '/assets/products/product-1.png' },
+//   { id: '2', name: 'Xiaomi Redmi 8 Original', price: '$32.00-$40.00', image: '/assets/products/product-2.png' },
+//   { id: '3', name: 'Xiaomi Redmi 8 Original', price: '$32.00-$40.00', image: '/assets/products/product-3.png' },
+//   { id: '4', name: 'Xiaomi Redmi 8 Original', price: '$32.00-$40.00', image: '/assets/products/product-4.png' },
+//   { id: '5', name: 'Xiaomi Redmi 8 Original', price: '$32.00-$40.00', image: '/assets/products/product-5.png' },
+//   { id: '6', name: 'Xiaomi Redmi 8 Original', price: '$32.00-$40.00', image: '/assets/products/product-6.png' },
+// ]
 
 function StarRating({ value }: { value: number }) {
   return (
@@ -86,8 +88,16 @@ function StarRating({ value }: { value: number }) {
 
 export default function ProductDetails() {
   const { id } = useParams()
-  const [selectedImage, setSelectedImage] = useState(0)
+  const {product, loading, error} = useProduct(id)
+  // const [selectedImage, setSelectedImage] = useState(0)
   const [activeTab, setActiveTab] = useState<Tab>('description')
+
+  const { products: relatedProducts } = useProducts({
+    category: product?.category,
+    limit: 6,
+  })
+
+
 
   const tabs: { key: Tab; label: string }[] = [
     { key: 'description',  label: 'Description'  },
@@ -95,6 +105,35 @@ export default function ProductDetails() {
     { key: 'shipping',     label: 'Shipping'      },
     { key: 'about',        label: 'About seller'  },
   ]
+
+   if (loading) return (
+    <div className="bg-[#F7F7F7] min-h-screen">
+      <div className="max-w-[1200px] mx-auto px-4 py-4">
+        <div className="bg-white rounded-md border border-[#DEE2E7] p-6 animate-pulse">
+          <div className="flex gap-6">
+            <div className="w-[280px] h-[280px] bg-[#F7F7F7] rounded-md" />
+            <div className="flex-1 space-y-4">
+              <div className="h-4 bg-[#F7F7F7] rounded w-3/4" />
+              <div className="h-4 bg-[#F7F7F7] rounded w-1/2" />
+              <div className="h-8 bg-[#F7F7F7] rounded w-1/3" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+
+  if (error || !product) return (
+    <div className="bg-[#F7F7F7] min-h-screen flex items-center justify-center">
+      <div className="text-center">
+        <span className="material-icons text-[48px] text-[#DEE2E7]">inventory_2</span>
+        <p className="text-[#8B96A5] mt-2">{error || 'Product not found'}</p>
+        <Link to="/products" className="inline-block mt-4 bg-[#0D6EFD] text-white text-sm font-medium px-6 py-2 rounded hover:bg-blue-700 transition-colors">
+          Browse products
+        </Link>
+      </div>
+    </div>
+  )
 
   return (
     <div className="bg-[#F7F7F7] min-h-screen">
@@ -118,20 +157,7 @@ export default function ProductDetails() {
               {/* Image gallery */}
               <div className="w-full md:w-[280px] shrink-0">
                 <div className="border border-[#DEE2E7] rounded-md flex items-center justify-center h-[240px] md:h-[280px] mb-3 overflow-hidden">
-                  <img src={PRODUCT.images[selectedImage]} alt={PRODUCT.name} className="max-h-full max-w-full object-contain" />
-                </div>
-                <div className="grid grid-cols-6 gap-1.5">
-                  {PRODUCT.images.map((img, i) => (
-                    <button
-                      key={i}
-                      onClick={() => setSelectedImage(i)}
-                      className={`border rounded aspect-square flex items-center justify-center overflow-hidden transition-colors ${
-                        selectedImage === i ? 'border-[#0D6EFD]' : 'border-[#DEE2E7] hover:border-[#0D6EFD]'
-                      }`}
-                    >
-                      <img src={img} alt="" className="w-full h-full object-contain p-1" />
-                    </button>
-                  ))}
+                  <img src={product.image} alt={product.name} className="max-h-full max-w-full object-contain" />
                 </div>
               </div>
 
@@ -144,27 +170,27 @@ export default function ProductDetails() {
                     <span className="material-icons text-[#00B517] text-[16px]">check_circle</span>
                     <span className="text-sm text-[#00B517] font-medium">In stock</span>
                   </div>
-                  <h1 className="text-lg md:text-xl font-semibold text-[#1C1C1C] mb-3 leading-snug">{PRODUCT.name}</h1>
+                  <h1 className="text-lg md:text-xl font-semibold text-[#1C1C1C] mb-3 leading-snug">{product.name}</h1>
                   <div className="flex items-center gap-2 md:gap-3 mb-4 flex-wrap">
-                    <StarRating value={PRODUCT.rating} />
-                    <span className="text-sm font-semibold text-[#FF9017]">{PRODUCT.rating}</span>
+                    <StarRating value={product.rating} />
+                    <span className="text-sm font-semibold text-[#FF9017]">{product.rating}</span>
                     <span className="text-[#DEE2E7]">|</span>
                     <span className="material-icons text-[#8B96A5] text-[16px]">chat_bubble_outline</span>
-                    <span className="text-sm text-[#8B96A5]">{PRODUCT.reviews} reviews</span>
+                    <span className="text-sm text-[#8B96A5]">{product.reviews} reviews</span>
                     <span className="text-[#DEE2E7]">|</span>
                     <span className="material-icons text-[#8B96A5] text-[16px]">shopping_basket</span>
-                    <span className="text-sm text-[#8B96A5]">{PRODUCT.sold} sold</span>
+                    <span className="text-sm text-[#8B96A5]">{product.sold} sold</span>
                   </div>
 
                   {/* Pricing tiers */}
                   <div className="flex border border-[#DEE2E7] rounded-md overflow-hidden mb-4 w-full md:w-fit">
-                    {PRODUCT.pricingTiers.map((tier, i) => (
+                    {product.pricingTiers?.map((tier, i) => (
                       <div
                         key={i}
-                        className={`flex-1 md:flex-none px-3 md:px-5 py-3 text-center ${i === 0 ? 'bg-[#FFF3E8]' : ''} ${i < PRODUCT.pricingTiers.length - 1 ? 'border-r border-[#DEE2E7]' : ''}`}
+                        className={`flex-1 md:flex-none px-3 md:px-5 py-3 text-center ${i === 0 ? 'bg-[#FFF3E8]' : ''} ${i < (product.pricingTiers?.length ?? 0) - 1 ? 'border-r border-[#DEE2E7]' : ''}`}
                       >
                         <p className={`text-sm md:text-base font-bold ${i === 0 ? 'text-[#E53935]' : 'text-[#1C1C1C]'}`}>
-                          ${tier.price.toFixed(2)}
+                          ${tier.price?.toFixed(2)}
                         </p>
                         <p className="text-xs text-[#8B96A5]">{tier.range}</p>
                       </div>
@@ -172,16 +198,18 @@ export default function ProductDetails() {
                   </div>
 
                   {/* Specs */}
-                  <table className="w-full text-sm mb-2">
-                    <tbody>
-                      {Object.entries(PRODUCT.specs).map(([key, value]) => (
-                        <tr key={key} className="border-b border-[#F7F7F7] last:border-0">
-                          <td className="py-1.5 text-[#8B96A5] w-[120px] md:w-[140px] align-top shrink-0">{key}:</td>
-                          <td className="py-1.5 text-[#1C1C1C]">{value}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                  {product.specs && Object.keys(product.specs).length > 0 && (
+                    <table className="w-full text-sm mb-2">
+                      <tbody>
+                        {Object.entries(product.specs).map(([key, value]) => (
+                          <tr key={key} className="border-b border-[#F7F7F7] last:border-0">
+                            <td className="py-1.5 text-[#8B96A5] w-[120px] md:w-[140px] align-top shrink-0">{key}:</td>
+                            <td className="py-1.5 text-[#1C1C1C]">{value as string}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  )}
                 </div>
 
                 {/* Supplier card */}
@@ -249,11 +277,11 @@ export default function ProductDetails() {
               <div className="p-4 md:p-6">
                 {activeTab === 'description' && (
                   <div>
-                    <p className="text-sm text-[#505050] leading-relaxed mb-6 whitespace-pre-line">{PRODUCT.description}</p>
+                    <p className="text-sm text-[#505050] leading-relaxed mb-6 whitespace-pre-line">{product.description}</p>
                     <div className="overflow-x-auto mb-6">
                       <table className="border border-[#DEE2E7] text-sm w-full">
                         <tbody>
-                          {PRODUCT.specTable.map(({ label, value }) => (
+                          {product.specTable?.map(({ label, value }) => (
                             <tr key={label} className="border-b border-[#DEE2E7] last:border-0">
                               <td className="px-3 md:px-4 py-2 text-[#8B96A5] bg-[#F7F7F7] w-[120px] md:w-[160px] border-r border-[#DEE2E7] shrink-0">{label}</td>
                               <td className="px-3 md:px-4 py-2 text-[#1C1C1C]">{value}</td>
@@ -263,7 +291,7 @@ export default function ProductDetails() {
                       </table>
                     </div>
                     <ul className="space-y-2">
-                      {PRODUCT.features.map((f, i) => (
+                      {product.features?.map((f, i) => (
                         <li key={i} className="flex items-start gap-2 text-sm text-[#505050]">
                           <span className="material-icons text-[#1C1C1C] text-[16px] mt-0.5">check</span>
                           {f}
@@ -282,8 +310,8 @@ export default function ProductDetails() {
             <div className="w-full md:w-[200px] shrink-0 bg-white rounded-md border border-[#DEE2E7] p-4">
               <h3 className="text-sm font-semibold text-[#1C1C1C] mb-3">You may like</h3>
               <div className="grid grid-cols-2 md:grid-cols-1 gap-3">
-                {YOU_MAY_LIKE.map(item => (
-                  <Link key={item.id} to={`/products/${item.id}`} className="flex items-center gap-3 group">
+                {relatedProducts.slice(0, 5).map(item => (
+                  <Link key={item._id} to={`/products/${item._id}`} className="flex items-center gap-3 group">
                     <div className="w-12 h-12 shrink-0 border border-[#DEE2E7] rounded flex items-center justify-center overflow-hidden">
                       <img src={item.image} alt={item.name} className="w-full h-full object-contain group-hover:scale-105 transition-transform" />
                     </div>
@@ -301,10 +329,10 @@ export default function ProductDetails() {
         <div className="mb-4">
           <h2 className="font-semibold text-base text-[#1C1C1C] mb-3">Related products</h2>
           <div className="grid grid-cols-3 md:grid-cols-6 gap-3">
-            {RELATED_PRODUCTS.map(p => (
+            {relatedProducts.map(p => (
               <Link
-                key={p.id}
-                to={`/products/${p.id}`}
+                key={p._id}
+                to={`/products/${p._id}`}
                 className="bg-white rounded-md border border-[#DEE2E7] p-3 hover:shadow-md transition-shadow group"
               >
                 <div className="flex items-center justify-center h-[100px] mb-2">

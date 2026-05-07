@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import ProductCard from '../components/ProductCard'
 import { AE, AU, CN, DK, FR, GB, IT, RU, US } from 'country-flag-icons/react/3x2'
 import Newsletter from './Newsletter'
+import { useProducts } from '../hooks/useProducts'
+import type { Product } from '../types'
 
 const sidebarCategories = [
   'Automobiles', 'Clothes and wear', 'Home interiors',
@@ -10,13 +11,13 @@ const sidebarCategories = [
   'Animal and pets', 'Machinery tools', 'More category',
 ]
 
-const dealsProducts = [
-  { id: '1', name: 'Smart watches',  image: '/assets/1.png', price: 99,  discount: 25 },
-  { id: '2', name: 'Laptops',        image: '/assets/2.png', price: 899, discount: 15 },
-  { id: '3', name: 'GoPro cameras',  image: '/assets/3.png', price: 399, discount: 40 },
-  { id: '4', name: 'Headphones',     image: '/assets/4.png', price: 149, discount: 25 },
-  { id: '5', name: 'Canon cameras',  image: '/assets/5.png', price: 599, discount: 25 },
-]
+// const dealsProducts = [
+//   { id: '1', name: 'Smart watches',  image: '/assets/1.png', price: 99,  discount: 25 },
+//   { id: '2', name: 'Laptops',        image: '/assets/2.png', price: 899, discount: 15 },
+//   { id: '3', name: 'GoPro cameras',  image: '/assets/3.png', price: 399, discount: 40 },
+//   { id: '4', name: 'Headphones',     image: '/assets/4.png', price: 149, discount: 25 },
+//   { id: '5', name: 'Canon cameras',  image: '/assets/5.png', price: 599, discount: 25 },
+// ]
 
 const homeOutdoorProducts = [
   { id: '6',  name: 'Soft chairs',    image: '/assets/soft-chairs.png',    price: 19  },
@@ -40,18 +41,18 @@ const electronicsProducts = [
   { id: '21', name: 'Electric kettle', image: '/assets/electric-kettle.png',               price: 240 },
 ]
 
-const recommendedItems = [
-  { id: '22', name: 'T-shirts with multiple colors, for men', image: '/assets/recom-1.png',  price: 10.30 },
-  { id: '23', name: 'Jeans shorts for men blue color',        image: '/assets/recom-2.jpg',  price: 10.30 },
-  { id: '24', name: 'Brown winter coat medium size',          image: '/assets/recom-3.png',  price: 12.50 },
-  { id: '25', name: 'Jeans bag for travel for men',           image: '/assets/recom-4.png',  price: 34.00 },
-  { id: '26', name: 'Leather wallet',                         image: '/assets/recom-5.png',  price: 99.00 },
-  { id: '27', name: 'Canon camera black, 100x zoom',          image: '/assets/recom-6.png',  price: 9.99  },
-  { id: '28', name: 'Headset for gaming with mic',            image: '/assets/recom-7.png',  price: 8.99  },
-  { id: '29', name: 'Smartwatch silver color modern',         image: '/assets/recom-8.png',  price: 10.30 },
-  { id: '30', name: 'Blue wallet for men leather metarfial',  image: '/assets/recom-9.png',  price: 10.30 },
-  { id: '31', name: 'Jeans bag for travel for men',           image: '/assets/recom-10.png', price: 80.95 },
-]
+// const recommendedItems = [
+//   { id: '22', name: 'T-shirts with multiple colors, for men', image: '/assets/recom-1.png',  price: 10.30 },
+//   { id: '23', name: 'Jeans shorts for men blue color',        image: '/assets/recom-2.jpg',  price: 10.30 },
+//   { id: '24', name: 'Brown winter coat medium size',          image: '/assets/recom-3.png',  price: 12.50 },
+//   { id: '25', name: 'Jeans bag for travel for men',           image: '/assets/recom-4.png',  price: 34.00 },
+//   { id: '26', name: 'Leather wallet',                         image: '/assets/recom-5.png',  price: 99.00 },
+//   { id: '27', name: 'Canon camera black, 100x zoom',          image: '/assets/recom-6.png',  price: 9.99  },
+//   { id: '28', name: 'Headset for gaming with mic',            image: '/assets/recom-7.png',  price: 8.99  },
+//   { id: '29', name: 'Smartwatch silver color modern',         image: '/assets/recom-8.png',  price: 10.30 },
+//   { id: '30', name: 'Blue wallet for men leather metarfial',  image: '/assets/recom-9.png',  price: 10.30 },
+//   { id: '31', name: 'Jeans bag for travel for men',           image: '/assets/recom-10.png', price: 80.95 },
+// ]
 
 const extraServices = [
   { id: 1, label: 'Source from\nIndustry Hubs',               image: '/assets/extra-1.png', icon: 'search'      },
@@ -108,6 +109,9 @@ export default function Home() {
   const [inquiryItem, setInquiryItem]   = useState('')
   const [inquiryDetails, setInquiryDetails] = useState('')
   const [inquiryQty, setInquiryQty]     = useState('')
+
+  const { products: featuredProducts, loading: featuredLoading } = useProducts({ featured: true, limit: 5 })
+  const { products: recommendedProducts, loading: recommendedLoading } = useProducts({ limit: 10 })
 
   return (
     <div className="bg-[#F7F7F7]">
@@ -214,21 +218,31 @@ export default function Home() {
               <CountdownUnit value={secs} label="Sec" />
             </div>
           </div>
-          <div className="flex gap-3 overflow-x-auto scrollbar-hide pb-1 md:grid md:grid-cols-5 md:overflow-visible">
-            {dealsProducts.map(p => (
-              <div key={p.id} className="shrink-0 w-[140px] md:w-auto border-r border-[#DEE2E7] last:border-r-0 pr-3 last:pr-0">
-                <Link to={`/products/${p.id}`} className="block text-center group">
-                  <div className="flex items-center justify-center h-[100px] md:h-[120px] mb-2 md:mb-3">
-                    <img src={p.image} alt={p.name} className="max-h-full object-contain group-hover:scale-105 transition-transform" />
-                  </div>
-                  <p className="text-xs md:text-sm text-[#1C1C1C] mb-2">{p.name}</p>
-                  <span className="inline-block bg-[#FFE3E3] text-[#E53935] text-xs font-medium px-3 py-1 rounded-full">
-                    -{p.discount}%
-                  </span>
-                </Link>
-              </div>
-            ))}
-          </div>
+          {featuredLoading ? (
+            <div className="grid grid-cols-5 gap-3">
+              {[...Array(5)].map((_, i) => (
+                <div key={i} className="h-[160px] bg-[#F7F7F7] rounded animate-pulse" />
+              ))}
+            </div>
+          ) : (
+            <div className="flex gap-3 overflow-x-auto scrollbar-hide pb-1 md:grid md:grid-cols-5 md:overflow-visible">
+              {featuredProducts.map(p => (
+                <div key={p._id} className="shrink-0 w-[140px] md:w-auto border-r border-[#DEE2E7] last:border-r-0 pr-3 last:pr-0">
+                  <Link to={`/products/${p._id}`} className="block text-center group">
+                    <div className="flex items-center justify-center h-[100px] md:h-[120px] mb-2 md:mb-3">
+                      <img src={p.image} alt={p.name} className="max-h-full object-contain group-hover:scale-105 transition-transform" />
+                    </div>
+                    <p className="text-xs md:text-sm text-[#1C1C1C] mb-2">{p.name}</p>
+                    {p.discount > 0 && (
+                      <span className="inline-block bg-[#FFE3E3] text-[#E53935] text-xs font-medium px-3 py-1 rounded-full">
+                        -{p.discount}%
+                      </span>
+                    )}
+                  </Link>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* ── Home and outdoor ── */}
@@ -372,25 +386,29 @@ export default function Home() {
         {/* ── Recommended items ── */}
         <div>
           <SectionHeading>Recommended items</SectionHeading>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-            {recommendedItems.map(p => (
-              <Link
-                key={p.id}
-                to={`/products/${p.id}`}
-                className="bg-white rounded-xl border border-[#DEE2E7] p-4 hover:shadow-md transition-shadow group"
-              >
-                <div className="flex items-center justify-center h-[160px] mb-3">
-                  <img
-                    src={p.image}
-                    alt={p.name}
-                    className="max-h-full object-contain group-hover:scale-105 transition-transform"
-                  />
-                </div>
-                <p className="text-sm font-semibold text-[#1C1C1C]">${p.price.toFixed(2)}</p>
-                <p className="text-xs text-[#8B96A5] mt-1 line-clamp-2">{p.name}</p>
-              </Link>
-            ))}
-          </div>
+          {recommendedLoading ? (
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+              {[...Array(10)].map((_, i) => (
+                <div key={i} className="h-[220px] bg-white rounded-xl border border-[#DEE2E7] animate-pulse" />
+              ))}
+            </div>
+          ) : (
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+              {recommendedProducts.map(p => (
+                <Link
+                  key={p._id}
+                  to={`/products/${p._id}`}
+                  className="bg-white rounded-xl border border-[#DEE2E7] p-4 hover:shadow-md transition-shadow group"
+                >
+                  <div className="flex items-center justify-center h-[160px] mb-3">
+                    <img src={p.image} alt={p.name} className="max-h-full object-contain group-hover:scale-105 transition-transform" />
+                  </div>
+                  <p className="text-sm font-semibold text-[#1C1C1C]">${p.price.toFixed(2)}</p>
+                  <p className="text-xs text-[#8B96A5] mt-1 line-clamp-2">{p.name}</p>
+                </Link>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* ── Our extra services ── */}

@@ -17,7 +17,13 @@ export interface Product {
     location: string
     verified: boolean
   }
-  createdAt: string
+  createdAt: string,
+  reviews?: number
+  sold?: number
+  specs?: Record<string, string>
+  specTable?: {label?: string, value?: string }[]
+  pricingTiers?: {range?: string, price?: number}[],
+  features? : string[]
 }
 
 export interface ProductsResponse {

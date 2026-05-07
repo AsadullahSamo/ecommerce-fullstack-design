@@ -1,30 +1,32 @@
 import { useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import Newsletter from './Newsletter'
+import { useProducts } from '../hooks/useProducts'
+import type { Product } from '../types'
 
 type ViewMode = 'grid' | 'list'
 
-interface Product {
-  id: string
-  name: string
-  price: number
-  originalPrice: number
-  rating: number
-  orders: number
-  image: string
-  shipping: string
-  description: string
-  verified: boolean
-}
+// interface Product {
+//   id: string
+//   name: string
+//   price: number
+//   originalPrice: number
+//   rating: number
+//   orders: number
+//   image: string
+//   shipping: string
+//   description: string
+//   verified: boolean
+// }
 
-const PRODUCTS: Product[] = [
-  { id: '1', name: 'Canon Cmera EOS 2000, Black 10x zoom',       price: 998.00, originalPrice: 1128.00, rating: 7.5, orders: 154, image: '/assets/products/product-1.png', shipping: 'Free Shipping', description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua', verified: true  },
-  { id: '2', name: 'GoPro HERO6 4K Action Camera - Black',        price: 998.00, originalPrice: 1128.00, rating: 7.5, orders: 154, image: '/assets/products/product-2.png', shipping: 'Free Shipping', description: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit', verified: false },
-  { id: '3', name: 'GoPro HERO6 4K Action Camera - Black',        price: 998.00, originalPrice: 1128.00, rating: 7.5, orders: 154, image: '/assets/products/product-3.png', shipping: 'Free Shipping', description: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit', verified: true  },
-  { id: '4', name: 'GoPro HERO6 4K Action Camera - Black',        price: 998.00, originalPrice: 1128.00, rating: 7.5, orders: 154, image: '/assets/products/product-4.png', shipping: 'Free Shipping', description: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit', verified: false },
-  { id: '5', name: 'GoPro HERO6 4K Action Camera - Black',        price: 998.00, originalPrice: 1128.00, rating: 7.5, orders: 154, image: '/assets/products/product-5.png', shipping: 'Free Shipping', description: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit', verified: true  },
-  { id: '6', name: 'GoPro HERO6 4K Action Camera - Black',        price: 998.00, originalPrice: 1128.00, rating: 7.5, orders: 154, image: '/assets/products/product-6.png', shipping: 'Free Shipping', description: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit', verified: false },
-]
+// const PRODUCTS: Product[] = [
+//   { id: '1', name: 'Canon Cmera EOS 2000, Black 10x zoom',       price: 998.00, originalPrice: 1128.00, rating: 7.5, orders: 154, image: '/assets/products/product-1.png', shipping: 'Free Shipping', description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua', verified: true  },
+//   { id: '2', name: 'GoPro HERO6 4K Action Camera - Black',        price: 998.00, originalPrice: 1128.00, rating: 7.5, orders: 154, image: '/assets/products/product-2.png', shipping: 'Free Shipping', description: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit', verified: false },
+//   { id: '3', name: 'GoPro HERO6 4K Action Camera - Black',        price: 998.00, originalPrice: 1128.00, rating: 7.5, orders: 154, image: '/assets/products/product-3.png', shipping: 'Free Shipping', description: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit', verified: true  },
+//   { id: '4', name: 'GoPro HERO6 4K Action Camera - Black',        price: 998.00, originalPrice: 1128.00, rating: 7.5, orders: 154, image: '/assets/products/product-4.png', shipping: 'Free Shipping', description: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit', verified: false },
+//   { id: '5', name: 'GoPro HERO6 4K Action Camera - Black',        price: 998.00, originalPrice: 1128.00, rating: 7.5, orders: 154, image: '/assets/products/product-5.png', shipping: 'Free Shipping', description: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit', verified: true  },
+//   { id: '6', name: 'GoPro HERO6 4K Action Camera - Black',        price: 998.00, originalPrice: 1128.00, rating: 7.5, orders: 154, image: '/assets/products/product-6.png', shipping: 'Free Shipping', description: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit', verified: false },
+// ]
 
 const CATEGORIES   = ['Mobile accessory', 'Electronics', 'Smartphones', 'Modern tech']
 const BRANDS       = ['Samsung', 'Apple', 'Huawei', 'Pocco', 'Lenovo']
@@ -88,7 +90,7 @@ export default function ProductListing() {
   const [sortBy, setSortBy]               = useState('Featured')
   const [selectedBrands, setSelectedBrands]     = useState<string[]>(['Samsung', 'Apple', 'Pocco'])
   const [selectedFeatures, setSelectedFeatures] = useState<string[]>(['Metallic'])
-  const [activeFilters, setActiveFilters]       = useState(['Samsung', 'Apple', '4 star', '3 star'])
+  const [activeFilters, setActiveFilters]       = useState<string[]>([])
   const [condition, setCondition]         = useState('Any')
   const [priceMin, setPriceMin]           = useState('')
   const [priceMax, setPriceMax]           = useState('')
@@ -96,6 +98,16 @@ export default function ProductListing() {
   const [showPerPage, setShowPerPage]     = useState(10)
 
   const searchQuery = searchParams.get('q') || ''
+  const categoryParam = searchParams.get('category') || ''
+
+  const { products, total, pages, loading, error } = useProducts({
+    q: searchQuery,
+    category: categoryParam,
+    page: currentPage,
+    limit: showPerPage,
+  })
+
+  const filteredProducts = verifiedOnly ? products.filter(p => p.stock > 0) : products
 
   const toggleBrand = (brand: string) =>
     setSelectedBrands(prev => prev.includes(brand) ? prev.filter(b => b !== brand) : [...prev, brand])
@@ -106,7 +118,7 @@ export default function ProductListing() {
   const removeFilter = (filter: string) =>
     setActiveFilters(prev => prev.filter(f => f !== filter))
 
-  const filteredProducts = verifiedOnly ? PRODUCTS.filter(p => p.verified) : PRODUCTS
+  // const filteredProducts = verifiedOnly ? PRODUCTS.filter(p => p.verified) : PRODUCTS
 
   return (
     <div className="bg-[#F7F7F7] min-h-screen">
@@ -296,39 +308,53 @@ export default function ProductListing() {
             </div>
 
             {/* Product grid */}
-            <div className={`${viewMode === 'grid' ? 'hidden md:grid grid-cols-2 lg:grid-cols-3 gap-3 mb-4' : 'hidden'}`}>
-              {filteredProducts.map(p => (
-                <Link
-                  key={p.id}
-                  to={`/products/${p.id}`}
-                  className="bg-white rounded-md border border-[#DEE2E7] p-4 hover:shadow-md transition-shadow group"
-                >
-                  <div className="flex items-center justify-center h-[180px] mb-3 relative">
-                    <img src={p.image} alt={p.name} className="max-h-full object-contain group-hover:scale-105 transition-transform" />
-                    <button onClick={e => e.preventDefault()} className="absolute top-0 right-0 text-[#8B96A5] hover:text-[#E53935] transition-colors">
-                      <span className="material-icons text-[20px]">favorite_border</span>
-                    </button>
+              {loading ? (
+                <div className="flex flex-col gap-3 mb-4">
+                  {[...Array(6)].map((_, i) => (
+                    <div key={i} className="h-[120px] bg-white rounded-md border border-[#DEE2E7] animate-pulse" />
+                  ))}
+                </div>
+              ) : error ? (
+                <div className="bg-white rounded-md border border-[#DEE2E7] p-8 text-center">
+                  <p className="text-[#E53935] text-sm">{error}</p>
+                </div>
+              ) : (
+                <>
+                  <div className={`${viewMode === 'grid' ? 'hidden md:grid grid-cols-2 lg:grid-cols-3 gap-3 mb-4' : 'hidden'}`}>
+                    {filteredProducts.map(p => (
+                      <Link
+                        key={p._id}
+                        to={`/products/${p._id}`}
+                        className="bg-white rounded-md border border-[#DEE2E7] p-4 hover:shadow-md transition-shadow group"
+                      >
+                        <div className="flex items-center justify-center h-[180px] mb-3 relative">
+                          <img src={p.image} alt={p.name} className="max-h-full object-contain group-hover:scale-105 transition-transform" />
+                          <button onClick={e => e.preventDefault()} className="absolute top-0 right-0 text-[#8B96A5] hover:text-[#E53935] transition-colors">
+                            <span className="material-icons text-[20px]">favorite_border</span>
+                          </button>
+                        </div>
+                        <p className="text-sm font-medium text-[#1C1C1C] line-clamp-2 mb-1">{p.name}</p>
+                        <div className="flex items-center gap-2 mb-1">
+                          <p className="text-base font-bold text-[#1C1C1C]">${p.price.toFixed(2)}</p>
+                          <span className="text-sm text-[#8B96A5] line-through">${p.originalPrice?.toFixed(2)}</span>
+                          <button onClick={e => e.preventDefault()} className="ml-auto text-[#8B96A5] hover:text-[#E53935]">
+                            <span className="material-icons text-[20px]">favorite_border</span>
+                          </button>
+                        </div>
+                        <div className="flex items-center gap-1.5">
+                          <StarRating value={p.rating} small />
+                          <span className="text-xs text-[#8B96A5]">{p.rating}</span>
+                        </div>
+                        {p.shipping && <p className="text-xs text-[#00B517] mt-1 font-medium">{p.shipping}</p>}
+                      </Link>
+                    ))}
                   </div>
-                  <p className="text-sm font-medium text-[#1C1C1C] line-clamp-2 mb-1">{p.name}</p>
-                  <div className="flex items-center gap-2 mb-1">
-                    <p className="text-base font-bold text-[#1C1C1C]">${p.price.toFixed(2)}</p>
-                    <span className="text-sm text-[#8B96A5] line-through">${p.originalPrice.toFixed(2)}</span>
-                    <button onClick={e => e.preventDefault()} className="ml-auto text-[#8B96A5] hover:text-[#E53935]">
-                      <span className="material-icons text-[20px]">favorite_border</span>
-                    </button>
-                  </div>
-                  <div className="flex items-center gap-1.5">
-                    <StarRating value={p.rating} small />
-                    <span className="text-xs text-[#8B96A5]">{p.rating}</span>
-                  </div>
-                  {p.shipping && <p className="text-xs text-[#00B517] mt-1 font-medium">{p.shipping}</p>}
-                </Link>
-              ))}
-            </div>
+                </>
+              )}
 
            <div className={`${viewMode === 'list' ? 'flex flex-col gap-3 mb-4' : 'flex md:hidden flex-col gap-3 mb-4'}`}>
               {filteredProducts.map(p => (
-                <div key={p.id} className="bg-white rounded-md border border-[#DEE2E7] p-4 flex gap-3 hover:shadow-md transition-shadow group">
+                <div key={p._id} className="bg-white rounded-md border border-[#DEE2E7] p-4 flex gap-3 hover:shadow-md transition-shadow group">
                   <div className="w-[100px] md:w-[180px] shrink-0 flex items-center justify-center bg-[#F7F7F7] rounded-md overflow-hidden self-stretch">
                     <img src={p.image} alt={p.name} className="w-full h-full object-contain" />
                   </div>
@@ -347,7 +373,7 @@ export default function ProductListing() {
                       <span className="text-xs text-[#00B517] font-medium">{p.shipping}</span>
                     </div>
                     <p className="text-xs text-[#8B96A5] line-clamp-2 mb-2 hidden md:block">{p.description}</p>
-                    <Link to={`/products/${p.id}`} className="text-xs text-[#0D6EFD] hover:underline font-medium">
+                    <Link to={`/products/${p._id}`} className="text-xs text-[#0D6EFD] hover:underline font-medium">
                       View details
                     </Link>
                   </div>
@@ -360,10 +386,10 @@ export default function ProductListing() {
             {/* Pagination */}
             <div className="bg-white rounded-md border border-[#DEE2E7] px-4 py-3 flex items-center justify-end gap-2">
               <div className="flex items-center gap-2 mr-auto">
-                <span className="text-sm text-[#8B96A5]">Show</span>
+                <span className="text-sm text-[#8B96A5]"> {total} items • Show</span>
                 <select
                   value={showPerPage}
-                  onChange={e => setShowPerPage(Number(e.target.value))}
+                  onChange={e => { setShowPerPage(Number(e.target.value)); setCurrentPage(1) }}
                   className="border border-[#DEE2E7] rounded px-2 py-1 text-sm outline-none focus:border-[#0D6EFD] bg-white"
                 >
                   {[10, 20, 30, 50].map(n => <option key={n}>{n}</option>)}
@@ -376,28 +402,27 @@ export default function ProductListing() {
               >
                 <span className="material-icons text-[18px]">chevron_left</span>
               </button>
-              {[1, 2, 3].map(page => (
+              {[...Array(Math.min(pages, 3))].map((_, i) => (
                 <button
-                  key={page}
-                  onClick={() => setCurrentPage(page)}
+                  key={i + 1}
+                  onClick={() => setCurrentPage(i + 1)}
                   className={`w-8 h-8 flex items-center justify-center border rounded text-sm font-medium transition-colors ${
-                    currentPage === page
+                    currentPage === i + 1
                       ? 'bg-[#0D6EFD] border-[#0D6EFD] text-white'
                       : 'border-[#DEE2E7] text-[#1C1C1C] hover:border-[#0D6EFD] hover:text-[#0D6EFD]'
                   }`}
                 >
-                  {page}
+                  {i + 1}
                 </button>
               ))}
               <button
-                onClick={() => setCurrentPage(p => p + 1)}
+                onClick={() => setCurrentPage(p => Math.min(pages, p + 1))}
                 className="w-8 h-8 flex items-center justify-center border border-[#DEE2E7] rounded text-[#8B96A5] hover:border-[#0D6EFD] hover:text-[#0D6EFD] transition-colors"
               >
                 <span className="material-icons text-[18px]">chevron_right</span>
               </button>
             </div>
-
-          </div>
+          </div>          
         </div>
           
         {/* Newsletter subscription */}
