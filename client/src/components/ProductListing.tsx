@@ -164,7 +164,7 @@ export default function ProductListing() {
 
               <FilterSection title="Category">
                 <ul className="space-y-1">
-                  {(showAllCategories ? CATEGORIES : CATEGORIES.slice(0, INITIAL_SHOW)).map((cat, i) => (
+                  {(showAllCategories ? CATEGORIES : CATEGORIES.slice(0, INITIAL_SHOW)).map((cat) => (
                     <li key={cat}>
                       <Link
                         to={`/products?category=${cat}`}

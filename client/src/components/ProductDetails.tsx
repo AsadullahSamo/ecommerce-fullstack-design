@@ -2,7 +2,6 @@ import { DE } from 'country-flag-icons/react/3x2'
 import { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { useProduct, useProducts } from '../hooks/useProducts'
-import type { Product } from '../types'
 
 type Tab = 'description' | 'reviews' | 'shipping' | 'about'
 

@@ -7,12 +7,6 @@ const categories = [
   'All category', 'Hot offers', 'Gift boxes', 'Products', 'Menu item',
 ]
 
-const topCategories = [
-  'Automobiles', 'Clothes and wear', 'Home interiors', 'Computer and tech',
-  'Tools, equipments', 'Sports and outdoor', 'Animal and pets',
-  'Machinery tools', 'More category',
-]
-
 export default function Navbar() {
   const [search, setSearch] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('All category')

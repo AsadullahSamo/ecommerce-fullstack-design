@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom'
 import { AE, AU, CN, DK, FR, GB, IT, RU, US } from 'country-flag-icons/react/3x2'
 import Newsletter from './Newsletter'
 import { useProducts } from '../hooks/useProducts'
-import type { Product } from '../types'
 
 const sidebarCategories = [
   'Automobiles', 'Clothes and wear', 'Home interiors',
@@ -105,7 +104,6 @@ function SectionHeading({ children }: { children: React.ReactNode }) {
 
 export default function Home() {
   const { days, hours, mins, secs } = useCountdown(4 * 86400 + 13 * 3600 + 34 * 60 + 56)
-  const [email, setEmail]               = useState('')
   const [inquiryItem, setInquiryItem]   = useState('')
   const [inquiryDetails, setInquiryDetails] = useState('')
   const [inquiryQty, setInquiryQty]     = useState('')
@@ -235,11 +233,9 @@ export default function Home() {
                       <img src={p.image} alt={p.name} className="max-h-full object-contain group-hover:scale-105 transition-transform" />
                     </div>
                     <p className="text-xs md:text-sm text-[#1C1C1C] mb-2">{p.name}</p>
-                    {p.discount > 0 && (
                       <span className="inline-block bg-[#FFE3E3] text-[#E53935] text-xs font-medium px-3 py-1 rounded-full">
-                        -{p.discount}%
+                        ((p.price * 20) / 100)
                       </span>
-                    )}
                   </Link>
                 </div>
               ))}
