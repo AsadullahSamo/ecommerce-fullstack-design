@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import Newsletter from './Newsletter'
 import { useProducts } from '../hooks/useProducts'
-import type { Product } from '../types'
 
 type ViewMode = 'grid' | 'list'
 
@@ -29,7 +28,7 @@ type ViewMode = 'grid' | 'list'
 // ]
 
 const CATEGORIES   = ['Mobile accessory', 'Electronics', 'Smartphones', 'Modern tech', 'Home & Outdoor']
-const BRANDS       = ['Samsung', 'Apple', 'Huawei', 'Pocco', 'Lenovo']
+const BRANDS       = ['Samsung', 'Apple', 'Huawei', 'Lenovo', 'IKEA', 'KitchenAid', 'Philips']
 const FEATURES     = ['Premium Build',  'Portable Design',  'Wireless Connectivity',  'High Performance',  'Energy Efficient',  'Smart Features',  'Easy Maintenance',  'Warranty Included',  'Modern Design',]
 const CONDITIONS   = ['Any', 'Refurbished', 'Brand new', 'Old items']
 const RATINGS      = [5, 4, 3, 2]
@@ -88,9 +87,8 @@ export default function ProductListing() {
   const [viewMode, setViewMode]           = useState<ViewMode>('grid')
   const [verifiedOnly, setVerifiedOnly]   = useState(false)
   const [sortBy, setSortBy]               = useState('Featured')
-  const [selectedBrands, setSelectedBrands]     = useState<string[]>(['Samsung', 'Apple', 'Pocco'])
+  const [selectedBrands, setSelectedBrands] = useState<string[]>([])
   const [selectedFeatures, setSelectedFeatures] = useState<string[]>(['Metallic'])
-  const [activeFilters, setActiveFilters] = useState<string[]>([])
   const [condition, setCondition]         = useState('Any')
   const [priceMin, setPriceMin]           = useState('')
   const [priceMax, setPriceMax]           = useState('')
@@ -108,6 +106,8 @@ export default function ProductListing() {
   const searchQuery = searchParams.get('q') || ''
   const categoryParam = searchParams.get('category') || ''
 
+  const navigate = useNavigate()
+
   const { products, total, pages, loading, error } = useProducts({
     q: searchQuery,
     category: categoryParam,
@@ -116,24 +116,26 @@ export default function ProductListing() {
     minPrice: appliedPriceMin,
     maxPrice: appliedPriceMax,
     verified: verifiedOnly || undefined,
+    brand: selectedBrands.length > 0 ? selectedBrands.join(',') : undefined,
   })
 
   const filteredProducts = verifiedOnly ? products.filter(p => p.stock > 0) : products
+  const hasFilters =  !!categoryParam ||  selectedBrands.length > 0 ||  selectedFeatures.length > 0 ||  selectedRatings.length > 0 ||  appliedPriceMin !== undefined ||  appliedPriceMax !== undefined
 
   const toggleBrand = (brand: string) => {
-    setSelectedBrands(prev => {
-      const next = prev.includes(brand) ? prev.filter(b => b !== brand) : [...prev, brand]
-      setActiveFilters(next)
-      return next
-    })
-    setCurrentPage(1)
+    setSelectedBrands(prev =>
+      prev.includes(brand)
+        ? prev.filter(b => b !== brand)
+        : [...prev, brand]
+    )
+      setCurrentPage(1)
   }
 
   const toggleFeature = (feature: string) =>
     setSelectedFeatures(prev => prev.includes(feature) ? prev.filter(f => f !== feature) : [...prev, feature])
 
-  const removeFilter = (filter: string) =>
-    setActiveFilters(prev => prev.filter(f => f !== filter))
+  // const removeFilter = (filter: string) =>
+  //   setActiveFilters(prev => prev.filter(f => f !== filter))
 
 
   return (
@@ -163,7 +165,7 @@ export default function ProductListing() {
                     <li key={cat}>
                       <Link
                         to={`/products?category=${cat}`}
-                        className={`block text-sm py-0.5 transition-colors hover:text-[#0D6EFD] ${i === 0 ? 'text-[#0D6EFD] font-medium' : 'text-[#1C1C1C]'}`}
+                        className={`block text-sm py-0.5 transition-colors hover:text-[#0D6EFD] ${categoryParam === cat? 'text-[#0D6EFD] font-medium' : 'text-[#1C1C1C]'} `}
                       >
                         {cat}
                       </Link>
@@ -259,9 +261,10 @@ export default function ProductListing() {
                       type="checkbox"
                       checked={selectedRatings.includes(r)}
                       onChange={() => {
-                        setSelectedRatings(prev =>
-                          prev.includes(r) ? prev.filter(x => x !== r) : [...prev, r]
-                        )
+                        const next = selectedRatings.includes(r)
+                          ? selectedRatings.filter(x => x !== r)
+                          : [...selectedRatings, r]
+                        setSelectedRatings(next)
                         setCurrentPage(1)
                       }}
                       className="w-4 h-4 accent-[#0D6EFD]"
@@ -290,7 +293,7 @@ export default function ProductListing() {
                 </p>
                 <div className="flex items-center gap-3 sm:ml-auto flex-wrap">
                   <label className="flex items-center gap-1.5 text-sm text-[#1C1C1C] cursor-pointer">
-                    <input type="checkbox" checked={verifiedOnly} onChange={e => setVerifiedOnly(e.target.checked)} className="accent-[#0D6EFD]" />
+                    <input type="checkbox" checked={verifiedOnly} onChange={e => setVerifiedOnly(e.target.checked)} className="accent-[#0D6EFD] hover:cursor-pointer" />
                     Verified only
                   </label>
                   <select
@@ -320,34 +323,60 @@ export default function ProductListing() {
               </div>
 
               {/* Active filter tags */}
-              {activeFilters.length > 0 && (
+              {hasFilters && (
                 <div className="flex items-center gap-2 mt-3 flex-wrap">
-                  {activeFilters.map(filter => (
+
+                  {/* Category tag */}
+                  {categoryParam && (
+                    <span className="flex items-center gap-1 border border-[#DEE2E7] rounded-md px-2 py-1 text-xs text-[#1C1C1C]">
+                      {categoryParam}
+                      <button
+                        onClick={() => navigate('/products')}
+                        className="text-[#8B96A5] hover:text-[#E53935]"
+                      >
+                        <span className="material-icons text-[14px]">close</span>
+                      </button>
+                    </span>
+                  )}
+
+                  {/* Brand tags */}
+                  {selectedBrands.map(brand => (
                     <span
-                      key={filter}
+                      key={brand}
                       className="flex items-center gap-1 border border-[#DEE2E7] rounded-md px-2 py-1 text-xs text-[#1C1C1C]"
                     >
-                      {filter}
-                      <button onClick={() => removeFilter(filter)} className="text-[#8B96A5] hover:text-[#E53935]">
+                      {brand}
+                      <button
+                        onClick={() =>
+                          setSelectedBrands(prev =>
+                            prev.filter(b => b !== brand)
+                          )
+                        }
+                        className="text-[#8B96A5] hover:text-[#E53935]"
+                      >
                         <span className="material-icons text-[14px]">close</span>
                       </button>
                     </span>
                   ))}
+
+                  {/* Clear all */}
                   <button
                     onClick={() => {
-                      setActiveFilters([])
                       setSelectedBrands([])
                       setSelectedFeatures([])
+                      setSelectedRatings([])
                       setAppliedPriceMin(undefined)
                       setAppliedPriceMax(undefined)
                       setPriceMin('')
                       setPriceMax('')
                       setCurrentPage(1)
+                      navigate('/products')
                     }}
                     className="text-xs text-[#0D6EFD] hover:underline ml-1"
                   >
                     Clear all filter
                   </button>
+
                 </div>
               )}
             </div>

@@ -9,7 +9,7 @@ export interface Product {
   stock: number
   rating: number
   orders: number
-  discount: number
+  brand: string
   shipping: string
   featured: boolean
   seller: {

@@ -7,6 +7,8 @@ interface UseProductsParams {
   category?: string
   featured?: boolean
   verified?: boolean
+  brand? : string
+  minRating?: number
   page?: number
   limit?: number
   minPrice?: number

@@ -2,7 +2,7 @@ import Product from '../models/Product.js'
 
 export const getProducts = async (req, res) => {
   try {
-    const { q, category, page = 1, limit = 10, featured, minPrice, maxPrice, minRating, verified } = req.query
+    const { q, category, page = 1, limit = 10, featured, minPrice, maxPrice, brand, minRating, verified } = req.query
     const filter = {}
 
     if (q) filter.$text = { $search: q }
@@ -10,6 +10,7 @@ export const getProducts = async (req, res) => {
     if (featured === 'true') filter.featured = true
     if (minPrice) filter.price = { ...filter.price, $gte: Number(req.query.minPrice) }
     if (maxPrice) filter.price = { ...filter.price, $lte: Number(req.query.maxPrice) }
+    if (brand) filter.brand = { $in: brand.split(',') }
     if (minRating) filter.rating = { $gte: Number(req.query.minRating) }
     if (verified === 'true') filter['seller.verified'] = true
 

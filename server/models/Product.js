@@ -11,7 +11,7 @@ const productSchema = new mongoose.Schema(
     rating:      { type: Number, default: 0, min: 0, max: 10 },
     orders:      { type: Number, default: 0 },
     originalPrice: { type: Number },
-    discount:    { type: Number, default: 0 },
+    brand: { type: String, default: '' },
     shipping:    { type: String, default: 'Free Shipping' },
     featured:    { type: Boolean, default: false },
     reviews:     { type: Number, default: 0 },
