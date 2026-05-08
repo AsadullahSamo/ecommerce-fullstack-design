@@ -88,7 +88,7 @@ export default function ProductListing() {
   const [verifiedOnly, setVerifiedOnly]   = useState(false)
   const [sortBy, setSortBy]               = useState('Featured')
   const [selectedBrands, setSelectedBrands] = useState<string[]>([])
-  const [selectedFeatures, setSelectedFeatures] = useState<string[]>(['Metallic'])
+  const [selectedFeatures, setSelectedFeatures] = useState<string[]>([])
   const [condition, setCondition]         = useState('Any')
   const [priceMin, setPriceMin]           = useState('')
   const [priceMax, setPriceMax]           = useState('')
@@ -117,9 +117,12 @@ export default function ProductListing() {
     maxPrice: appliedPriceMax,
     verified: verifiedOnly || undefined,
     brand: selectedBrands.length > 0 ? selectedBrands.join(',') : undefined,
+    features: selectedFeatures.length > 0 ? selectedFeatures.join(',') : undefined,
+    minRating: selectedRatings.length > 0 ? (Math.min(...selectedRatings) * 2 - 1) : undefined,
   })
 
-  const filteredProducts = verifiedOnly ? products.filter(p => p.stock > 0) : products
+  const filteredProducts = products
+
   const hasFilters =  !!categoryParam ||  selectedBrands.length > 0 ||  selectedFeatures.length > 0 ||  selectedRatings.length > 0 ||  appliedPriceMin !== undefined ||  appliedPriceMax !== undefined
 
   const toggleBrand = (brand: string) => {
@@ -288,8 +291,11 @@ export default function ProductListing() {
             <div className="bg-white rounded-md border border-[#DEE2E7] px-4 py-3 mb-3">
               <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 flex-wrap">
                 <p className="text-sm text-[#1C1C1C]">
-                  <span className="font-semibold">{total}</span> items in{' '}
-                  <span className="font-semibold">{searchQuery || categoryParam || 'Mobile accessory'}</span>
+                  <span className="font-semibold">{total}</span> items found
+                </p>
+
+                <p className="text-xs text-[#8B96A5]">
+                  {searchQuery || categoryParam || 'All products'}
                 </p>
                 <div className="flex items-center gap-3 sm:ml-auto flex-wrap">
                   <label className="flex items-center gap-1.5 text-sm text-[#1C1C1C] cursor-pointer">
@@ -351,6 +357,23 @@ export default function ProductListing() {
                           setSelectedBrands(prev =>
                             prev.filter(b => b !== brand)
                           )
+                        }
+                        className="text-[#8B96A5] hover:text-[#E53935]"
+                      >
+                        <span className="material-icons text-[14px]">close</span>
+                      </button>
+                    </span>
+                  ))}
+
+                  {selectedFeatures.map(feature => (
+                    <span
+                      key={feature}
+                      className="flex items-center gap-1 border border-[#DEE2E7] rounded-md px-2 py-1 text-xs text-[#1C1C1C]"
+                    >
+                      {feature}
+                      <button
+                        onClick={() =>
+                          setSelectedFeatures(prev => prev.filter(f => f !== feature))
                         }
                         className="text-[#8B96A5] hover:text-[#E53935]"
                       >

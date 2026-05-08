@@ -4,7 +4,7 @@ import { FaHeart, FaShoppingCart, FaUser } from 'react-icons/fa'
 import { MdMessage } from 'react-icons/md'
 
 const categories = [
-  'All category', 'Hot offers', 'Gift boxes', 'Projects', 'Menu item',
+  'All category', 'Hot offers', 'Gift boxes', 'Products', 'Menu item',
 ]
 
 const topCategories = [
@@ -50,7 +50,7 @@ export default function Navbar() {
           />
           <select
             value={selectedCategory}
-            onChange={e => setSelectedCategory(e.target.value)}
+            onChange={e => { setSelectedCategory(e.target.value); navigate(`/products`) }}
             className="border-l border-[#DEE2E7] px-3 text-sm text-[#1C1C1C] outline-none bg-white"
           >
             {categories.map(c => <option key={c}>{c}</option>)}
@@ -90,7 +90,7 @@ export default function Navbar() {
               </svg>
               All category
             </button>
-            {['Hot offers', 'Gift boxes', 'Projects', 'Menu item'].map(item => (
+            {['Hot offers', 'Gift boxes', 'Products', 'Menu item'].map(item => (
               <Link key={item} to="/products" className="text-sm text-[#1C1C1C] hover:text-[#0D6EFD] transition-colors">
                 {item}
               </Link>

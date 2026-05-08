@@ -8,11 +8,12 @@ interface UseProductsParams {
   featured?: boolean
   verified?: boolean
   brand? : string
-  minRating?: number
   page?: number
   limit?: number
   minPrice?: number
   maxPrice?: number
+  minRating?: number
+  features?: string
 }
 
 export function useProducts(params: UseProductsParams = {}) {
