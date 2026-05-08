@@ -6,6 +6,7 @@ interface UseProductsParams {
   q?: string
   category?: string
   featured?: boolean
+  verified?: boolean
   page?: number
   limit?: number
   minPrice?: number

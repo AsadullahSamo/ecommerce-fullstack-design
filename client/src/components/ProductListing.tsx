@@ -28,9 +28,9 @@ type ViewMode = 'grid' | 'list'
 //   { id: '6', name: 'GoPro HERO6 4K Action Camera - Black',        price: 998.00, originalPrice: 1128.00, rating: 7.5, orders: 154, image: '/assets/products/product-6.png', shipping: 'Free Shipping', description: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit', verified: false },
 // ]
 
-const CATEGORIES   = ['Mobile accessory', 'Electronics', 'Smartphones', 'Modern tech']
+const CATEGORIES   = ['Mobile accessory', 'Electronics', 'Smartphones', 'Modern tech', 'Home & Outdoor']
 const BRANDS       = ['Samsung', 'Apple', 'Huawei', 'Pocco', 'Lenovo']
-const FEATURES     = ['Metallic', 'Plastic cover', '8GB Ram', 'Super power', 'Large Memory']
+const FEATURES     = ['Premium Build',  'Portable Design',  'Wireless Connectivity',  'High Performance',  'Energy Efficient',  'Smart Features',  'Easy Maintenance',  'Warranty Included',  'Modern Design',]
 const CONDITIONS   = ['Any', 'Refurbished', 'Brand new', 'Old items']
 const RATINGS      = [5, 4, 3, 2]
 
@@ -97,10 +97,13 @@ export default function ProductListing() {
   const [currentPage, setCurrentPage]     = useState(1)
   const [showPerPage, setShowPerPage]     = useState(10)
   const [selectedRatings, setSelectedRatings] = useState<number[]>([])
-  const [navigate] = [useNavigate()]
   const [appliedPriceMin, setAppliedPriceMin] = useState<number | undefined>()
   const [appliedPriceMax, setAppliedPriceMax] = useState<number | undefined>()
-  const [appliedMinRating, setAppliedMinRating] = useState<number | undefined>()
+  const [showAllCategories, setShowAllCategories] = useState(false)
+  const [showAllBrands, setShowAllBrands]         = useState(false)
+  const [showAllFeatures, setShowAllFeatures]     = useState(false)
+
+  const INITIAL_SHOW = 4
 
   const searchQuery = searchParams.get('q') || ''
   const categoryParam = searchParams.get('category') || ''
@@ -112,6 +115,7 @@ export default function ProductListing() {
     limit: showPerPage,
     minPrice: appliedPriceMin,
     maxPrice: appliedPriceMax,
+    verified: verifiedOnly || undefined,
   })
 
   const filteredProducts = verifiedOnly ? products.filter(p => p.stock > 0) : products
@@ -131,7 +135,6 @@ export default function ProductListing() {
   const removeFilter = (filter: string) =>
     setActiveFilters(prev => prev.filter(f => f !== filter))
 
-  // const filteredProducts = verifiedOnly ? PRODUCTS.filter(p => p.verified) : PRODUCTS
 
   return (
     <div className="bg-[#F7F7F7] min-h-screen">
@@ -156,7 +159,7 @@ export default function ProductListing() {
 
               <FilterSection title="Category">
                 <ul className="space-y-1">
-                  {CATEGORIES.map((cat, i) => (
+                  {(showAllCategories ? CATEGORIES : CATEGORIES.slice(0, INITIAL_SHOW)).map((cat, i) => (
                     <li key={cat}>
                       <Link
                         to={`/products?category=${cat}`}
@@ -166,34 +169,37 @@ export default function ProductListing() {
                       </Link>
                     </li>
                   ))}
-                  <li>
-                    <button className="text-xs text-[#0D6EFD] hover:underline mt-1">See all</button>
-                  </li>
                 </ul>
+                {CATEGORIES.length > INITIAL_SHOW && (
+                  <button
+                    onClick={() => setShowAllCategories(p => !p)}
+                    className="text-xs text-[#0D6EFD] hover:underline mt-1"
+                  >
+                    {showAllCategories ? 'Show less' : 'See all'}
+                  </button>
+                )}
               </FilterSection>
 
               <FilterSection title="Brands">
-                {BRANDS.map(brand => (
-                  <CheckItem
-                    key={brand}
-                    label={brand}
-                    checked={selectedBrands.includes(brand)}
-                    onChange={() => toggleBrand(brand)}
-                  />
+                {(showAllBrands ? BRANDS : BRANDS.slice(0, INITIAL_SHOW)).map(brand => (
+                  <CheckItem key={brand} label={brand} checked={selectedBrands.includes(brand)} onChange={() => toggleBrand(brand)} />
                 ))}
-                <button className="text-xs text-[#0D6EFD] hover:underline">See all</button>
+                {BRANDS.length > INITIAL_SHOW && (
+                  <button onClick={() => setShowAllBrands(p => !p)} className="text-xs text-[#0D6EFD] hover:underline">
+                    {showAllBrands ? 'Show less' : 'See all'}
+                  </button>
+                )}
               </FilterSection>
 
               <FilterSection title="Features">
-                {FEATURES.map(feature => (
-                  <CheckItem
-                    key={feature}
-                    label={feature}
-                    checked={selectedFeatures.includes(feature)}
-                    onChange={() => toggleFeature(feature)}
-                  />
+                {(showAllFeatures ? FEATURES : FEATURES.slice(0, INITIAL_SHOW)).map(feature => (
+                  <CheckItem key={feature} label={feature} checked={selectedFeatures.includes(feature)} onChange={() => toggleFeature(feature)} />
                 ))}
-                <button className="text-xs text-[#0D6EFD] hover:underline">See all</button>
+                {FEATURES.length > INITIAL_SHOW && (
+                  <button onClick={() => setShowAllFeatures(p => !p)} className="text-xs text-[#0D6EFD] hover:underline">
+                    {showAllFeatures ? 'Show less' : 'See all'}
+                  </button>
+                )}
               </FilterSection>
 
               <FilterSection title="Price range" defaultOpen={false}>
