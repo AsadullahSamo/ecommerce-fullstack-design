@@ -32,15 +32,20 @@ async function seed() {
       { upsert: true }
     )
 
+    const cleanProduct = (p) => {
+      const { createdAt, updatedAt, ...rest } = p
+      return rest
+    }
+
     for (const product of productsArray) {
       await Product.updateOne(
         { name: product.name },
-        { $setOnInsert: product },
+        { $setOnInsert: cleanProduct(product) },
         { upsert: true }
       )
     }
 
-    console.log(`Seed completed safely`)
+    console.log(`Seed completed safely with ${productsArray.length} products and 1 admin user.`)
   } catch (err) {
     console.error('Seed error:', err)
     process.exit(1)

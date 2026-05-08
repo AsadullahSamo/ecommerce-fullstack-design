@@ -15,9 +15,9 @@ app.use('/api/auth', authRoutes)
 
 app.get('/api/health', (_req, res) => res.json({ status: 'ok' }))
 
-const PORT = process.env.PORT
+const PORT = process.env.PORT || 5000
 
-app.listen(PORT, "0.0.0.0", () => {
+app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 
   mongoose.connect(process.env.MONGODB_URI)
