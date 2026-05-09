@@ -13,6 +13,7 @@ const productSchema = new mongoose.Schema(
     originalPrice: { type: Number },
     brand: { type: String, default: '' },
     shipping:    { type: String, default: 'Free Shipping' },
+    condition: { type: String, enum: ['Brand new', 'Refurbished', 'Old items'], default: 'Brand new' },
     featured:    { type: Boolean, default: false },
     reviews:     { type: Number, default: 0 },
     sold:        { type: Number, default: 0 },

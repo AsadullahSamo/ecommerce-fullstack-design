@@ -14,6 +14,7 @@ interface UseProductsParams {
   maxPrice?: number
   minRating?: number
   features?: string
+  condition?: string
 }
 
 export function useProducts(params: UseProductsParams = {}) {

@@ -17,6 +17,7 @@ export interface Product {
     location: string
     verified: boolean
   }
+  condition?: string
   createdAt: string,
   reviews?: number
   sold?: number

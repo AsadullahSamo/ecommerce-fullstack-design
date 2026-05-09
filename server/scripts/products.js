@@ -45,6 +45,7 @@ const products = [
     stock: 12,
     updatedAt: new Date("2026-05-07T16:56:42.172Z"),
     brand: "Lenovo",
+    condition: "Brand new",
   },
 
   {
@@ -74,6 +75,7 @@ const products = [
     stock: 38,
     updatedAt: new Date("2026-05-07T16:56:42.188Z"),
     brand: "Apple",
+    condition: "Brand new",
   },
 
   {
@@ -115,6 +117,7 @@ const products = [
     stock: 85,
     updatedAt: new Date("2026-05-07T16:56:42.191Z"),
     brand: "Lenovo",
+    condition: "Refurbished",
   },
 
   {
@@ -156,6 +159,7 @@ const products = [
     stock: 21,
     updatedAt: new Date("2026-05-07T16:56:42.194Z"),
     brand: "Huawei",
+    condition: "Brand new",
   },
 
   {
@@ -197,6 +201,7 @@ const products = [
     stock: 120,
     updatedAt: new Date("2026-05-07T16:56:42.197Z"),
     brand: "Samsung",
+    condition: "Brand new",
   },
     {
     _id: new mongoose.Types.ObjectId("69fc5ebfbe4b0334ca9c464d"),
@@ -277,6 +282,7 @@ const products = [
     stock: 14,
     updatedAt: new Date("2026-05-07T16:56:42.200Z"),
     brand: "Philips",
+    condition: "Refurbished",
   },
 
   {
@@ -313,6 +319,7 @@ const products = [
     stock: 45,
     updatedAt: new Date("2026-05-07T16:56:42.205Z"),
     brand: "Apple",
+    condition: "Old items",
   },
 
   {
@@ -348,6 +355,7 @@ const products = [
     stock: 30,
     updatedAt: new Date("2026-05-07T16:56:42.209Z"),
     brand: "Philips",
+    condition: "Old items",
   },
 
   {
@@ -383,6 +391,7 @@ const products = [
     stock: 100,
     updatedAt: new Date("2026-05-07T16:56:42.212Z"),
     brand: "Philips",
+    condition: "Old items",
   },
 
   {
@@ -418,6 +427,7 @@ const products = [
     stock: 18,
     updatedAt: new Date("2026-05-07T16:56:42.215Z"),
     brand: "Samsung",
+    condition: "Refurbished",
   },
 
   {
@@ -453,6 +463,7 @@ const products = [
     stock: 40,
     updatedAt: new Date("2026-05-07T16:56:42.216Z"),
     brand: "Samsung",
+    condition: "Refurbished",
   },
 
   {
@@ -488,6 +499,7 @@ const products = [
     stock: 50,
     updatedAt: new Date("2026-05-07T16:56:42.218Z"),
     brand: "KitchenAid",
+    condition: "Refurbished",
   },
 
   {
@@ -523,6 +535,7 @@ const products = [
     stock: 60,
     updatedAt: new Date("2026-05-07T16:56:42.220Z"),
     brand: "Samsung",
+    condition: "Refurbished",
   },
 
   {
@@ -558,7 +571,8 @@ const products = [
     stock: 70,
     updatedAt: new Date("2026-05-07T16:56:42.223Z"),
     brand: "KitchenAid",
-  }
+    condition: "Brand new",
+  },
 ];
 
 export default products

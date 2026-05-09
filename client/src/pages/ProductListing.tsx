@@ -10,7 +10,7 @@ type ViewMode = 'grid' | 'list'
 const CATEGORIES   = ['Mobile accessory', 'Electronics', 'Smartphones', 'Modern tech', 'Home & Outdoor']
 const BRANDS       = ['Samsung', 'Apple', 'Huawei', 'Lenovo', 'IKEA', 'KitchenAid', 'Philips']
 const FEATURES     = ['Premium Build',  'Portable Design',  'Wireless Connectivity',  'High Performance',  'Energy Efficient',  'Smart Features',  'Easy Maintenance',  'Warranty Included',  'Modern Design',]
-const CONDITIONS   = ['Any', 'Refurbished', 'Brand new', 'Old items']
+const CONDITIONS   = ['Refurbished', 'Brand new', 'Old items']
 const RATINGS      = [5, 4, 3, 2]
 
 function StarRating({ value, small = false }: { value: number; small?: boolean }) {
@@ -102,6 +102,7 @@ export default function ProductListing() {
     brand: selectedBrands.length > 0 ? selectedBrands.join(',') : undefined,
     features: selectedFeatures.length > 0 ? selectedFeatures.join(',') : undefined,
     minRating: selectedRatings.length > 0 ? (Math.min(...selectedRatings) * 2 - 1) : undefined,
+    condition: condition !== 'Any' ? condition : undefined,
   })
 
   const filteredProducts = products
@@ -226,18 +227,14 @@ export default function ProductListing() {
               </FilterSection>
 
               <FilterSection title="Condition" defaultOpen={false}>
-                {CONDITIONS.map(cond => (
-                  <label key={cond} className="flex items-center gap-2 cursor-pointer">
-                    <input
-                      type="radio"
-                      name="condition"
-                      checked={condition === cond}
-                      onChange={() => setCondition(cond)}
-                      className="accent-[#0D6EFD]"
-                    />
-                    <span className="text-sm text-[#1C1C1C]">{cond}</span>
+                
+                {CONDITIONS.map(c => (
+                  <label key={c} className="flex items-center gap-2 cursor-pointer">
+                    <input type="radio" name="condition" value={c} checked={condition === c} onChange={() => { setCondition(c); setCurrentPage(1) }} className="w-4 h-4 accent-[#0D6EFD]" />
+                    <span className="text-sm text-[#1C1C1C]">{c}</span>
                   </label>
                 ))}
+                
               </FilterSection>
 
               <FilterSection title="Ratings" defaultOpen={false}>

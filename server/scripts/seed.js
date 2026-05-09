@@ -3,13 +3,9 @@ import mongoose from 'mongoose'
 import Product from '../models/Product.js'
 import User from '../models/User.js'
 import products from './products.js'
-import homeAndOutdoorProducts from './homeOutdoorProducts.js'
-import electronicProducts from './electronicProducts.js'
 
 const productsArray = [
   ...products,
-  ...homeAndOutdoorProducts,
-  ...electronicProducts,
 ]
 
 const adminUser = {
