@@ -16,7 +16,7 @@ export default function Cart() {
   const [couponApplied, setCouponApplied] = useState(false)
 
   const subtotal = items.reduce((sum, i) => sum + i.product.price * i.qty, 0)
-  const discount = couponApplied ? 60 : 0
+  const discount = couponApplied ? subtotal * 0.2 : 0
   const total    = subtotal - discount + TAX
 
   return (
