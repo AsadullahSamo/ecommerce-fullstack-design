@@ -7,7 +7,7 @@ import ProductDetails from './pages/ProductDetails'
 import Cart from './pages/Cart'
 import Login from './pages/Login'
 import Register from './pages/Register'
-// import AdminPanel from './pages/AdminPanel'
+import AdminPanel from './pages/AdminPanel'
 
 export default function App() {
   return (
@@ -21,9 +21,9 @@ export default function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
 
-          {/* <Route element={<ProtectedRoute adminOnly />}>
+          <Route element={<ProtectedRoute adminOnly />}>
             <Route path="/admin" element={<AdminPanel />} />
-          </Route> */}
+          </Route>
         </Route>
       </Routes>
     </BrowserRouter>
