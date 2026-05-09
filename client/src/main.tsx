@@ -4,11 +4,14 @@ import './index.css'
 import 'material-icons/iconfont/material-icons.css'
 import App from './App.tsx'
 import { CartProvider } from './context/CartContext.tsx'
+import { AuthProvider } from './context/AuthContext.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <CartProvider>
-      <App />
-    </CartProvider>
+    <AuthProvider>
+      <CartProvider>
+        <App />
+      </CartProvider>
+    </AuthProvider>
   </StrictMode>,
 )
