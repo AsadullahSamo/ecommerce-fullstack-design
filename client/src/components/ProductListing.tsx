@@ -2,30 +2,10 @@ import { useState } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import Newsletter from './Newsletter'
 import { useProducts } from '../hooks/useProducts'
+import { useCart } from '../context/CartContext'
 
 type ViewMode = 'grid' | 'list'
 
-// interface Product {
-//   id: string
-//   name: string
-//   price: number
-//   originalPrice: number
-//   rating: number
-//   orders: number
-//   image: string
-//   shipping: string
-//   description: string
-//   verified: boolean
-// }
-
-// const PRODUCTS: Product[] = [
-//   { id: '1', name: 'Canon Cmera EOS 2000, Black 10x zoom',       price: 998.00, originalPrice: 1128.00, rating: 7.5, orders: 154, image: '/assets/products/product-1.png', shipping: 'Free Shipping', description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua', verified: true  },
-//   { id: '2', name: 'GoPro HERO6 4K Action Camera - Black',        price: 998.00, originalPrice: 1128.00, rating: 7.5, orders: 154, image: '/assets/products/product-2.png', shipping: 'Free Shipping', description: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit', verified: false },
-//   { id: '3', name: 'GoPro HERO6 4K Action Camera - Black',        price: 998.00, originalPrice: 1128.00, rating: 7.5, orders: 154, image: '/assets/products/product-3.png', shipping: 'Free Shipping', description: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit', verified: true  },
-//   { id: '4', name: 'GoPro HERO6 4K Action Camera - Black',        price: 998.00, originalPrice: 1128.00, rating: 7.5, orders: 154, image: '/assets/products/product-4.png', shipping: 'Free Shipping', description: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit', verified: false },
-//   { id: '5', name: 'GoPro HERO6 4K Action Camera - Black',        price: 998.00, originalPrice: 1128.00, rating: 7.5, orders: 154, image: '/assets/products/product-5.png', shipping: 'Free Shipping', description: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit', verified: true  },
-//   { id: '6', name: 'GoPro HERO6 4K Action Camera - Black',        price: 998.00, originalPrice: 1128.00, rating: 7.5, orders: 154, image: '/assets/products/product-6.png', shipping: 'Free Shipping', description: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit', verified: false },
-// ]
 
 const CATEGORIES   = ['Mobile accessory', 'Electronics', 'Smartphones', 'Modern tech', 'Home & Outdoor']
 const BRANDS       = ['Samsung', 'Apple', 'Huawei', 'Lenovo', 'IKEA', 'KitchenAid', 'Philips']
@@ -100,6 +80,9 @@ export default function ProductListing() {
   const [showAllCategories, setShowAllCategories] = useState(false)
   const [showAllBrands, setShowAllBrands]         = useState(false)
   const [showAllFeatures, setShowAllFeatures]     = useState(false)
+
+  const { addToCart, items } = useCart()
+
 
   const INITIAL_SHOW = 4
 
@@ -443,6 +426,12 @@ export default function ProductListing() {
                           <span className="text-xs text-[#8B96A5]">{p.rating}</span>
                         </div>
                         {p.shipping && <p className="text-xs text-[#00B517] mt-1 font-medium">{p.shipping}</p>}
+                        <button
+                          onClick={e => { e.preventDefault(); addToCart(p) }}
+                          className="mt-2 w-full bg-[#0D6EFD] hover:bg-blue-700 text-white text-xs font-medium py-1.5 rounded transition-colors"
+                        >
+                          {items.some(i => i.product._id === p._id) ? 'Added ✓' : 'Add to cart'}
+                        </button>
                       </Link>
                     ))}
                   </div>
@@ -473,6 +462,12 @@ export default function ProductListing() {
                     <Link to={`/products/${p._id}`} className="text-xs text-[#0D6EFD] hover:underline font-medium">
                       View details
                     </Link>
+                    <button
+                      onClick={() => addToCart(p)}
+                      className="mt-1 ml-5 text-xs bg-[#0D6EFD] hover:bg-blue-700 text-white px-3 py-1.5 rounded transition-colors"
+                    >
+                      {items.some(i => i.product._id === p._id) ? 'Added ✓' : 'Add to cart'}
+                    </button>
                   </div>
                   <button className="shrink-0 self-start text-[#8B96A5] hover:text-[#E53935] transition-colors">
                     <span className="material-icons text-[22px]">favorite_border</span>

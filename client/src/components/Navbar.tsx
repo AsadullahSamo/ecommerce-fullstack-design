@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { FaHeart, FaShoppingCart, FaUser } from 'react-icons/fa'
 import { MdMessage } from 'react-icons/md'
+import { useCart } from '../context/CartContext'
 
 const categories = [
   'All category', 'Hot offers', 'Gift boxes', 'Products', 'Menu item',
@@ -10,6 +11,7 @@ const categories = [
 export default function Navbar() {
   const [search, setSearch] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('All category')
+  const {totalItems} = useCart()
   const navigate = useNavigate()
 
   const handleSearch = (e: React.FormEvent) => {
@@ -62,12 +64,34 @@ export default function Navbar() {
             { icon: <FaUser />, label: 'Profile', to: '/profile' },
             { icon: <MdMessage />, label: 'Message', to: '/messages' },
             { icon: <FaHeart />, label: 'Orders', to: '/orders' },
-            { icon: <FaShoppingCart  />, label: 'My cart', to: '/cart' },
+            { icon: <FaShoppingCart />, label: 'My cart', to: '/cart' },
           ].map(({ icon, label, to }) => (
-            <Link key={label} to={to} className="flex flex-col items-center gap-0.5 text-[#1C1C1C] hover:text-[#0D6EFD] transition-colors">
-              <span className="text-[#8B96A5]">{icon}</span>
-              <span className="text-[11px] text-[#8B96A5]">{label}</span>
-            </Link>
+            label === 'My cart' ? (
+              <Link
+                key={label}
+                to={to}
+                className="flex flex-col items-center gap-0.5 text-[#1C1C1C] hover:text-[#0D6EFD] transition-colors relative"
+              >
+                <span className="text-[#8B96A5]">{icon}</span>
+
+                {totalItems > 0 && (
+                  <span className="absolute -top-1 right-0 w-4 h-4 bg-[#E53935] text-white text-[10px] font-bold rounded-full flex items-center justify-center">
+                    {totalItems > 9 ? '9+' : totalItems}
+                  </span>
+                )}
+
+                <span className="text-[11px] text-[#8B96A5]">{label}</span>
+              </Link>
+            ) : (
+              <Link
+                key={label}
+                to={to}
+                className="flex flex-col items-center gap-0.5 text-[#1C1C1C] hover:text-[#0D6EFD] transition-colors"
+              >
+                <span className="text-[#8B96A5]">{icon}</span>
+                <span className="text-[11px] text-[#8B96A5]">{label}</span>
+              </Link>
+              )
           ))}
         </div>
       </div>

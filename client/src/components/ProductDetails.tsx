@@ -2,73 +2,10 @@ import { DE } from 'country-flag-icons/react/3x2'
 import { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { useProduct, useProducts } from '../hooks/useProducts'
+import { useCart } from '../context/CartContext'
+
 
 type Tab = 'description' | 'reviews' | 'shipping' | 'about'
-
-// const PRODUCT = {
-//   id: '1',
-//   name: 'Mens Long Sleeve T-shirt Cotton Base Layer Slim Muscle',
-//   inStock: true,
-//   rating: 9.3,
-//   reviews: 32,
-//   sold: 154,
-//   specs: {
-//     Price: 'Negotiable',
-//     Type: 'Classic shoes',
-//     Material: 'Plastic material',
-//     Design: 'Modern nice',
-//     Customization: 'Customized logo and design custom packages',
-//     Protection: 'Refund Policy',
-//     Warranty: '2 years full warranty',
-//   },
-//   pricingTiers: [
-//     { range: '50-100 pcs',  price: 98.00  },
-//     { range: '100-700 pcs', price: 90.00  },
-//     { range: '700+ pcs',    price: 78.00  },
-//   ],
-//   images: [
-//     '/assets/products/product-1.png',
-//     '/assets/products/product-2.png',
-//     '/assets/products/product-3.png',
-//     '/assets/products/product-4.png',
-//     '/assets/products/product-5.png',
-//     '/assets/products/product-6.png',
-//   ],
-//   description: `Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-
-// Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.`,
-//   specTable: [
-//     { label: 'Model', value: 'Model 2024' },
-//     { label: 'Model',       value: '#8786867'           },
-//     { label: 'Style',       value: 'Classic style'       },
-//     { label: 'Certificate', value: 'ISO-898921212'       },
-//     { label: 'Size',        value: '34mm x 450mm x 19mm' },
-//     { label: 'Memory',      value: '36GB RAM'            },
-//   ],
-//   features: [
-//     'Some great feature name here',
-//     'Lorem ipsum dolor sit amet, consectetur',
-//     'Duis aute irure dolor in reprehenderit',
-//     'Some great feature name here',
-//   ],
-// }
-
-// const YOU_MAY_LIKE = [
-//   { id: '1', name: 'Men Blazers Sets Elegant Formal',    price: '$7.00 - $99.50', image: '/assets/products/product-1.png' },
-//   { id: '2', name: 'Men Shirt Sleeve Polo Contrast',     price: '$7.00 - $99.50', image: '/assets/products/product-2.png' },
-//   { id: '3', name: 'Apple Watch Series Space Gray',      price: '$7.00 - $99.50', image: '/assets/products/product-3.png' },
-//   { id: '4', name: 'Basketball Crew Socks Long Stuff',   price: '$7.00 - $99.50', image: '/assets/products/product-4.png' },
-//   { id: '5', name: "New Summer Men's castrol T-Shirts",  price: '$7.00 - $99.50', image: '/assets/products/product-5.png' },
-// ]
-
-// const RELATED_PRODUCTS = [
-//   { id: '1', name: 'Xiaomi Redmi 8 Original', price: '$32.00-$40.00', image: '/assets/products/product-1.png' },
-//   { id: '2', name: 'Xiaomi Redmi 8 Original', price: '$32.00-$40.00', image: '/assets/products/product-2.png' },
-//   { id: '3', name: 'Xiaomi Redmi 8 Original', price: '$32.00-$40.00', image: '/assets/products/product-3.png' },
-//   { id: '4', name: 'Xiaomi Redmi 8 Original', price: '$32.00-$40.00', image: '/assets/products/product-4.png' },
-//   { id: '5', name: 'Xiaomi Redmi 8 Original', price: '$32.00-$40.00', image: '/assets/products/product-5.png' },
-//   { id: '6', name: 'Xiaomi Redmi 8 Original', price: '$32.00-$40.00', image: '/assets/products/product-6.png' },
-// ]
 
 function StarRating({ value }: { value: number }) {
   return (
@@ -88,8 +25,10 @@ function StarRating({ value }: { value: number }) {
 export default function ProductDetails() {
   const { id } = useParams()
   const {product, loading, error} = useProduct(id)
-  // const [selectedImage, setSelectedImage] = useState(0)
   const [activeTab, setActiveTab] = useState<Tab>('description')
+
+  const { addToCart, items } = useCart()
+  const inCart = items.some(i => i.product._id === product?._id)
 
   const { products: relatedProducts } = useProducts({
     category: product?.category,
@@ -237,8 +176,15 @@ export default function ProductDetails() {
                         <span className="text-sm text-[#8B96A5]">Worldwide shipping</span>
                       </div>
                     </div>
-                    <button className="w-full bg-[#0D6EFD] hover:bg-blue-700 text-white text-sm font-medium py-2.5 rounded mb-2 transition-colors">
-                      Send inquiry
+                    <button
+                      onClick={() => addToCart(product)}
+                      className={`w-full text-sm font-medium py-2.5 rounded mb-2 transition-colors ${
+                        inCart
+                          ? 'bg-green-500 hover:bg-green-600 text-white'
+                          : 'bg-[#0D6EFD] hover:bg-blue-700 text-white'
+                      }`}
+                    >
+                      {inCart ? 'Added to cart ✓' : 'Add to cart'}
                     </button>
                     <button className="w-full border border-[#DEE2E7] text-[#0D6EFD] text-sm font-medium py-2.5 rounded hover:bg-blue-50 transition-colors">
                       Seller's profile
