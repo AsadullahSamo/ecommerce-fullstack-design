@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { AE, AU, CN, DK, FR, GB, IT, RU, US } from 'country-flag-icons/react/3x2'
-import Newsletter from './Newsletter'
+import Newsletter from '../components/Newsletter'
 import { useProducts } from '../hooks/useProducts'
 
 const sidebarCategories = [
@@ -9,49 +9,6 @@ const sidebarCategories = [
   'Computer and tech', 'Tools, equipments', 'Sports and outdoor',
   'Animal and pets', 'Machinery tools', 'More category',
 ]
-
-// const dealsProducts = [
-//   { id: '1', name: 'Smart watches',  image: '/assets/1.png', price: 99,  discount: 25 },
-//   { id: '2', name: 'Laptops',        image: '/assets/2.png', price: 899, discount: 15 },
-//   { id: '3', name: 'GoPro cameras',  image: '/assets/3.png', price: 399, discount: 40 },
-//   { id: '4', name: 'Headphones',     image: '/assets/4.png', price: 149, discount: 25 },
-//   { id: '5', name: 'Canon cameras',  image: '/assets/5.png', price: 599, discount: 25 },
-// ]
-
-// const homeOutdoorProducts = [
-//   { id: '6',  name: 'Soft chairs',    image: '/assets/soft-chairs.png',    price: 19  },
-//   { id: '7',  name: 'Sofa & chair',   image: '/assets/sofa-and-chairs.png',price: 19  },
-//   { id: '8',  name: 'Kitchen dishes', image: '/assets/kitchen-dishes.png', price: 19  },
-//   { id: '9',  name: 'Smart watches',  image: '/assets/smart-watches.png',  price: 19  },
-//   { id: '10', name: 'Kitchen mixer',  image: '/assets/kitchen-mixer.png',  price: 100 },
-//   { id: '11', name: 'Blenders',       image: '/assets/blenders.png',       price: 39  },
-//   { id: '12', name: 'Home appliance', image: '/assets/home-appliance.jpg', price: 19  },
-//   { id: '13', name: 'Coffee maker',   image: '/assets/coffee-maker.png',   price: 10  },
-// ]
-
-// const electronicsProducts = [
-//   { id: '14', name: 'Smart watches',   image: '/assets/smart-watches-2.png',               price: 19  },
-//   { id: '15', name: 'Cameras',         image: '/assets/cameras.png',                       price: 89  },
-//   { id: '16', name: 'Headphones',      image: '/assets/headphones.png',                    price: 10  },
-//   { id: '17', name: 'Smart watches',   image: '/assets/smart-watches.png',                 price: 90  },
-//   { id: '18', name: 'Gaming set',      image: '/assets/gaming-set.png',                    price: 35  },
-//   { id: '19', name: 'Laptops & PC',    image: '/assets/laptops-and-pc.png',                price: 340 },
-//   { id: '20', name: 'Smartphones',     image: '/assets/smartphones.png',                   price: 19  },
-//   { id: '21', name: 'Electric kettle', image: '/assets/electric-kettle.png',               price: 240 },
-// ]
-
-// const recommendedItems = [
-//   { id: '22', name: 'T-shirts with multiple colors, for men', image: '/assets/recom-1.png',  price: 10.30 },
-//   { id: '23', name: 'Jeans shorts for men blue color',        image: '/assets/recom-2.jpg',  price: 10.30 },
-//   { id: '24', name: 'Brown winter coat medium size',          image: '/assets/recom-3.png',  price: 12.50 },
-//   { id: '25', name: 'Jeans bag for travel for men',           image: '/assets/recom-4.png',  price: 34.00 },
-//   { id: '26', name: 'Leather wallet',                         image: '/assets/recom-5.png',  price: 99.00 },
-//   { id: '27', name: 'Canon camera black, 100x zoom',          image: '/assets/recom-6.png',  price: 9.99  },
-//   { id: '28', name: 'Headset for gaming with mic',            image: '/assets/recom-7.png',  price: 8.99  },
-//   { id: '29', name: 'Smartwatch silver color modern',         image: '/assets/recom-8.png',  price: 10.30 },
-//   { id: '30', name: 'Blue wallet for men leather metarfial',  image: '/assets/recom-9.png',  price: 10.30 },
-//   { id: '31', name: 'Jeans bag for travel for men',           image: '/assets/recom-10.png', price: 80.95 },
-// ]
 
 const extraServices = [
   { id: 1, label: 'Source from\nIndustry Hubs',               image: '/assets/extra-1.png', icon: 'search'      },

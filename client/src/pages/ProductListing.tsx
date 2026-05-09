@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
-import Newsletter from './Newsletter'
+import Newsletter from '../components/Newsletter'
 import { useProducts } from '../hooks/useProducts'
 import { useCart } from '../context/CartContext'
 
