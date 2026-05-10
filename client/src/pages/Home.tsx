@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { AE, AU, CN, DK, FR, GB, IT, RU, US } from 'country-flag-icons/react/3x2'
 import Newsletter from '../components/Newsletter'
+import { useAuth } from '../context/AuthContext'
 import { useProducts } from '../hooks/useProducts'
 
 const sidebarCategories = [
@@ -64,11 +65,27 @@ export default function Home() {
   const [inquiryItem, setInquiryItem]   = useState('')
   const [inquiryDetails, setInquiryDetails] = useState('')
   const [inquiryQty, setInquiryQty]     = useState('')
+  const [sendInquiry, setSendInquiry] = useState(false)
+
+  const { user } = useAuth()
 
   const { products: featuredProducts, loading: featuredLoading } = useProducts({ featured: true, limit: 5 })
   const { products: recommendedProducts, loading: recommendedLoading } = useProducts({ limit: 10 })
   const { products: homeAndOutdoorProducts,} = useProducts({  category: 'Home & Outdoor',  limit: 8,})
   const { products: electronicsProducts,} = useProducts({  category: 'Electronics',  limit: 8,})
+
+
+  const handleSendInquiry = () => {
+    setSendInquiry(true)
+
+    setTimeout(() => {
+      setSendInquiry(false)
+      setInquiryItem('')
+      setInquiryDetails('')
+      setInquiryQty('')
+    }, 2000)
+  }
+
 
   return (
     <div className="bg-[#F7F7F7]">
@@ -131,7 +148,7 @@ export default function Home() {
                   <span className="material-icons text-[#6A8EBF] text-[24px]">person</span>
                 </div>
                 <div>
-                  <p className="text-xs text-[#1C1C1C]">Hi, user</p>
+                  <p className="text-xs text-[#1C1C1C]">Hi, {user?.name.split("/")[0] || "user"}</p>
                   <p className="text-xs text-[#1C1C1C]">let's get stated</p>
                 </div>
               </div>
@@ -191,7 +208,7 @@ export default function Home() {
                     </div>
                     <p className="text-xs md:text-sm text-[#1C1C1C] mb-2">{p.name}</p>
                       <span className="inline-block bg-[#FFE3E3] text-[#E53935] text-xs font-medium px-3 py-1 rounded-full">
-                        ((p.price * 20) / 100)
+                        {(p.price * 20) / 100}% off
                       </span>
                   </Link>
                 </div>
@@ -330,9 +347,19 @@ export default function Home() {
                     <option>Box</option>
                   </select>
                 </div>
-                <button className="w-full bg-[#0D6EFD] hover:bg-blue-700 text-white font-medium py-2.5 rounded transition-colors text-sm">
+                <button 
+                  onClick={() => handleSendInquiry()}
+                  className="w-full bg-[#0D6EFD] hover:bg-blue-700 text-white font-medium py-2.5 rounded transition-colors text-sm">
                   Send inquiry
                 </button>
+
+                {sendInquiry && (!inquiryDetails || !inquiryItem || !inquiryQty) ? (
+                  <p className="text-red-600 text-sm mt-2 text-center">Please fill in all fields to send the inquiry.</p>
+                ) : sendInquiry ? (
+                  <p className="text-green-600 text-sm mt-2 text-center">Inquiry sent successfully! We will get back to you soon.  </p>
+                ) : null}
+                
+
               </div>
             </div>
           </div>
