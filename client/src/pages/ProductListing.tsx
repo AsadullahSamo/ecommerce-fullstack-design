@@ -408,9 +408,6 @@ export default function ProductListing() {
                         <div className="flex items-center gap-2 mb-1">
                           <p className="text-base font-bold text-[#1C1C1C]">${p.price.toFixed(2)}</p>
                           <span className="text-sm text-[#8B96A5] line-through">${p.originalPrice?.toFixed(2)}</span>
-                          <button onClick={e => e.preventDefault()} className="ml-auto text-[#8B96A5] hover:text-[#E53935]">
-                            <span className="material-icons text-[20px]">favorite_border</span>
-                          </button>
                         </div>
                         <div className="flex items-center gap-1.5">
                           <StarRating value={p.rating} small />
