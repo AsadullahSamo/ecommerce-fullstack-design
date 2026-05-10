@@ -106,7 +106,7 @@ export default function ProductDetails() {
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-2">
                     <span className={`material-icons ${product.stock > 0 ? 'text-[#00B517]' : 'text-[#E53935]'} text-[16px]`}>{product.stock > 0 ? 'check_circle' : 'highlight_off'}</span>
-                    <span className={`text-sm ${product.stock > 0 ? 'text-[#00B517]' : 'text-[#E53935]'} font-medium`}>{product.stock > 0 ? product.stock : 'Out of stock'}</span>
+                    <span className={`text-sm ${product.stock > 0 ? 'text-[#00B517]' : 'text-[#E53935]'} font-medium`}>{product.stock > 0 ? 'In stock' : 'Out of stock'}</span>
                   </div>
                   <h1 className="text-lg md:text-xl font-semibold text-[#1C1C1C] mb-3 leading-snug">{product.name}</h1>
                   <div className="flex items-center gap-2 md:gap-3 mb-4 flex-wrap">
