@@ -336,7 +336,7 @@ export default function AdminPanel() {
       {deleteId && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
           <div className="bg-white rounded-xl w-full max-w-[400px] p-6 shadow-xl">
-            <h3 className="font-semibold text-[#1C1C1C] mb-2">Delete product?</h3>
+            <h3 className="font-semibold text-[#1C1C1C] mb-2">Delete {products.find(p => p._id === deleteId)?.name}?</h3>
             <p className="text-sm text-[#8B96A5] mb-6">This action cannot be undone.</p>
             <div className="flex items-center justify-end gap-3">
               <button

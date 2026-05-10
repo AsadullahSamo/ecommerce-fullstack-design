@@ -3,15 +3,18 @@ import mongoose from 'mongoose'
 import Product from '../models/Product.js'
 import User from '../models/User.js'
 import products from './products.js'
+import bcrypt from 'bcryptjs'
 
 const productsArray = [
   ...products,
 ]
 
+const hashedPassword = await bcrypt.hash('admin123456', 12)
+
 const adminUser = {
   name: 'Admin',
   email: 'admin@ecommerce.com',
-  password: 'admin123456',
+  password: hashedPassword,
   role: 'admin',
 }
 

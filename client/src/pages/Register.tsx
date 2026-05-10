@@ -14,6 +14,7 @@ export default function Register() {
   const [error, setError]       = useState('')
   const [loading, setLoading]   = useState(false)
   const [showPassword, setShowPassword] = useState(false)
+  const [showConfirm, setShowConfirm] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -82,7 +83,7 @@ export default function Register() {
 
             <div className="relative">
               <input
-                type="password"
+                type={showPassword ? 'text' : 'password'}
                 value={password}
                 onChange={e => setPassword(e.target.value)}
                 placeholder="Enter your password"
@@ -103,7 +104,7 @@ export default function Register() {
 
             <div className="relative">
               <input
-                type="password"
+                type={showConfirm ? 'text' : 'password'}
                 value={confirm}
                 onChange={e => setConfirm(e.target.value)}
                 placeholder="Confirm your password"
@@ -112,7 +113,7 @@ export default function Register() {
               />
               <button
                 type="button"
-                onClick={() => setShowPassword(prev => !prev)}
+                onClick={() => setShowConfirm(prev => !prev)}
                 className="absolute inset-y-0 right-3 flex items-center text-[#8B96A5] hover:text-[#1C1C1C]"
               >
                 {showPassword ? <FiEyeOff size={18} /> : <FiEye size={18} />}

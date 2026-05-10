@@ -10,9 +10,11 @@ export const register = async (req, res) => {
     const { name, email, password } = req.body
     if (!name || !email || !password)
       return res.status(400).json({ message: 'All fields required' })
+    if (password.length < 6)
+      return res.status(400).json({ message: 'Password must be at least 6 characters' })
 
     const exists = await User.findOne({ email })
-    if (exists) return res.status(409).json({ message: 'Email already registered' })
+    if (exists) return res.status(409).json({ message: 'An account with this email already exists' })
 
     const user = await User.create({ name, email, password })
     res.status(201).json({ token: signToken(user._id), user })
@@ -28,11 +30,8 @@ export const login = async (req, res) => {
       return res.status(400).json({ message: 'Email and password required' })
 
     const user = await User.findOne({ email })
-    if (!user) return res.status(404).json({ message: 'User not found' })
-
-    console.log(user.password)
-    const match = await user.comparePassword(password)
-    if (!match) return res.status(401).json({ message: 'Incorrect password' })
+    if (!user || !(await user.comparePassword(password)))
+      return res.status(401).json({ message: 'Invalid credentials' })
 
     res.json({ token: signToken(user._id), user })
   } catch (err) {

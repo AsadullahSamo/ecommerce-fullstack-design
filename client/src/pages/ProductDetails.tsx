@@ -247,7 +247,7 @@ export default function ProductDetails() {
                 )}
                 {activeTab === 'reviews' && <p className="text-sm text-[#8B96A5]">No reviews yet.</p>}
                 {activeTab === 'shipping' && <p className="text-sm text-[#8B96A5]">Worldwide shipping available. Delivery in 7-14 business days.</p>}
-                {activeTab === 'about' && <p className="text-sm text-[#8B96A5]">Guanjoi Trading LLC — Verified seller based in Germany, Berlin.</p>}
+                {activeTab === 'about' && <p className="text-sm text-[#8B96A5]">{product.seller.name} — {product.seller.verified} seller based in {product.seller.location}.</p>}
               </div>
             </div>
 
