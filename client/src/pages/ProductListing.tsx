@@ -7,8 +7,8 @@ import { useCart } from '../context/CartContext'
 type ViewMode = 'grid' | 'list'
 
 
-const CATEGORIES   = ['Mobile accessory', 'Electronics', 'Smartphones', 'Modern tech', 'Home & Outdoor']
-const BRANDS       = ['Samsung', 'Apple', 'Huawei', 'Lenovo', 'IKEA', 'KitchenAid', 'Philips']
+const CATEGORIES   = ['Headphones', 'Electronics', 'Smartphones', 'Modern tech', 'Home & Outdoor']
+const BRANDS       = ['Samsung', 'Apple', 'Sony', 'Google', 'DJI', 'JLab', 'LG', 'PEL', "Vivo", "Local Brand"]
 const FEATURES     = ['Premium Build',  'Portable Design',  'Wireless Connectivity',  'High Performance',  'Energy Efficient',  'Smart Features',  'Easy Maintenance',  'Warranty Included',  'Modern Design',]
 const CONDITIONS   = ['Refurbished', 'Brand new', 'Old items']
 const RATINGS      = [5, 4, 3, 2]
@@ -107,7 +107,7 @@ export default function ProductListing() {
 
   const filteredProducts = products
 
-  const hasFilters =  !!categoryParam ||  selectedBrands.length > 0 ||  selectedFeatures.length > 0 ||  selectedRatings.length > 0 ||  appliedPriceMin !== undefined ||  appliedPriceMax !== undefined
+  const hasFilters =  !!categoryParam ||  selectedBrands.length > 0 ||  selectedFeatures.length > 0 ||  selectedRatings.length > 0 ||  appliedPriceMin !== undefined ||  appliedPriceMax !== undefined || condition !== 'Any'
 
   const toggleBrand = (brand: string) => {
     setSelectedBrands(prev =>
@@ -187,6 +187,8 @@ export default function ProductListing() {
                   </button>
                 )}
               </FilterSection>
+
+              
 
               <FilterSection title="Price range" defaultOpen={false}>
                 <input
@@ -359,6 +361,18 @@ export default function ProductListing() {
                     </span>
                   ))}
 
+                  {condition !== 'Any' && (
+                    <span className="flex items-center gap-1 border border-[#DEE2E7] rounded-md px-2 py-1 text-xs text-[#1C1C1C]">
+                      {condition}
+                      <button
+                        onClick={() => setCondition('Any')}
+                        className="text-[#8B96A5] hover:text-[#E53935]"
+                      >
+                        <span className="material-icons text-[14px]">close</span>
+                      </button>
+                    </span>
+                  )}
+
                   {/* Clear all */}
                   <button
                     onClick={() => {
@@ -370,6 +384,7 @@ export default function ProductListing() {
                       setPriceMin('')
                       setPriceMax('')
                       setCurrentPage(1)
+                      setCondition('Any')
                       navigate('/products')
                     }}
                     className="text-xs text-[#0D6EFD] hover:underline ml-1"
