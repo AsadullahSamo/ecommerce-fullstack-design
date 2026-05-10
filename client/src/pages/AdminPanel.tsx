@@ -231,7 +231,7 @@ export default function AdminPanel() {
                       <td className="px-4 py-3 font-semibold text-[#1C1C1C]">${p.price.toFixed(2)}</td>
                       <td className="px-4 py-3">
                         <span className={`text-sm font-medium ${p.stock > 0 ? 'text-[#00B517]' : 'text-[#E53935]'}`}>
-                          {p.stock > 0 ? p.stock : 'Out'}
+                          {p.stock > 0 ? p.stock : 'Out of stock'}
                         </span>
                       </td>
                       <td className="px-4 py-3">
