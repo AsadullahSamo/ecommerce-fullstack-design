@@ -41,13 +41,9 @@ export default function Register() {
   }
 
   return (
-    <div className="min-h-[80vh] flex items-center justify-center bg-[#F7F7F7] px-4">
+    <div className="min-h-[80vh] flex items-center justify-center bg-[#F7F7F7] px-4 my-4">
       <div className="bg-white rounded-xl border border-[#DEE2E7] p-8 w-full max-w-[400px]">
-        <h1 className="text-2xl font-bold text-[#1C1C1C] mb-1">Create account</h1>
-        <p className="text-sm text-[#8B96A5] mb-6">
-          Already have an account?{' '}
-          <Link to="/login" className="text-[#0D6EFD] hover:underline">Sign in</Link>
-        </p>
+        <h1 className="text-2xl font-bold text-[#1C1C1C] mb-1 text-center">Create account</h1>
 
         {error && (
           <div className="bg-red-50 border border-red-200 text-red-600 text-sm px-4 py-3 rounded-md mb-4">
@@ -127,6 +123,10 @@ export default function Register() {
           >
             {loading ? 'Creating account...' : 'Create account'}
           </button>
+          <p className="text-sm text-[#8B96A5] mb-6 text-center">
+            Already have an account?{' '}
+            <Link to="/login" className="text-[#0D6EFD] hover:underline">Sign in</Link>
+          </p>
         </form>
       </div>
     </div>

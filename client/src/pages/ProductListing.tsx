@@ -423,6 +423,14 @@ export default function ProductListing() {
                           <span className="text-xs text-[#8B96A5]">{p.rating}</span>
                         </div>
                         {p.shipping && <p className="text-xs text-[#00B517] mt-1 font-medium">{p.shipping}</p>}
+                        <div className="flex items-center gap-2 flex-wrap mt-1">
+                          {p.category && (
+                            <span className="text-xs bg-[#EEF3FD] text-[#0D6EFD] px-2 py-0.5 rounded-full">{p.category}</span>
+                          )}
+                          {p.condition && p.condition !== 'Brand new' && (
+                            <span className="text-xs bg-[#F7F7F7] border border-[#DEE2E7] text-[#8B96A5] px-2 py-0.5 rounded-full">{p.condition}</span>
+                          )}
+                        </div>
                         <button
                           onClick={e => { e.preventDefault(); addToCart(p) }}
                           className="mt-2 w-full bg-[#0D6EFD] hover:bg-blue-700 text-white text-xs font-medium py-1.5 rounded transition-colors"
@@ -456,6 +464,14 @@ export default function ProductListing() {
                       <span className="text-xs text-[#00B517] font-medium">{p.shipping}</span>
                     </div>
                     <p className="text-xs text-[#8B96A5] line-clamp-2 mb-2 hidden md:block">{p.description}</p>
+                    <div className="flex items-center gap-2 flex-wrap mt-1 mb-3">
+                      {p.category && (
+                        <span className="text-xs bg-[#EEF3FD] text-[#0D6EFD] px-2 py-0.5 rounded-full">{p.category}</span>
+                      )}
+                      {p.condition && p.condition !== 'Brand new' && (
+                        <span className="text-xs bg-[#F7F7F7] border border-[#DEE2E7] text-[#8B96A5] px-2 py-0.5 rounded-full">{p.condition}</span>
+                      )}
+                    </div>
                     <Link to={`/products/${p._id}`} className="text-xs text-[#0D6EFD] hover:underline font-medium">
                       View details
                     </Link>

@@ -32,11 +32,8 @@ export default function Login() {
   return (
     <div className="min-h-[80vh] flex items-center justify-center bg-[#F7F7F7] px-4">
       <div className="bg-white rounded-xl border border-[#DEE2E7] p-8 w-full max-w-[400px]">
-        <h1 className="text-2xl font-bold text-[#1C1C1C] mb-1">Sign in</h1>
-        <p className="text-sm text-[#8B96A5] mb-6">
-          Don't have an account?{' '}
-          <Link to="/register" className="text-[#0D6EFD] hover:underline">Register</Link>
-        </p>
+        <h1 className="text-2xl font-bold text-[#1C1C1C] mb-1 text-center">Sign in</h1>
+        
 
         {error && (
           <div className="bg-red-50 border border-red-200 text-red-600 text-sm px-4 py-3 rounded-md mb-4">
@@ -86,11 +83,15 @@ export default function Login() {
           </button>
         </form>
 
-        <div className="mt-4 text-center">
+        {/* <div className="mt-4 text-center">
           <Link to="/products" className="text-xs text-[#8B96A5] hover:text-[#0D6EFD]">
             Continue as guest
           </Link>
-        </div>
+        </div> */}
+        <p className="text-sm text-[#8B96A5] mb-6 text-center mt-4">
+          Don't have an account?{' '}
+          <Link to="/register" className="text-[#0D6EFD] hover:underline">Register</Link>
+        </p>
       </div>
     </div>
   )

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useProducts } from '../hooks/useProducts'
 import api from '../lib/api'
 import type { Product } from '../types'
@@ -20,19 +20,25 @@ const EMPTY_FORM = {
 }
 
 export default function AdminPanel() {
-  const { products, loading, error } = useProducts({ limit: 50 })
   const [modalMode, setModalMode]   = useState<ModalMode>(null)
   const [editProduct, setEditProduct] = useState<Product | null>(null)
   const [form, setForm]             = useState(EMPTY_FORM)
   const [saving, setSaving]         = useState(false)
   const [deleteId, setDeleteId]     = useState<string | null>(null)
-  const [feedback, setFeedback]     = useState<{ type: 'success' | 'error'; msg: string } | null>(null)
+  const [feedback, setFeedback]     = useState<{ type: 'add' | 'update' | 'delete' | 'error'; msg: string } | null>(null)
+  
+  const { products, loading, error } = useProducts({ limit: 50 })
+  const [localProducts, setLocalProducts] = useState<Product[]>(products)
 
-  const showFeedback = (type: 'success' | 'error', msg: string) => {
+  const showFeedback = (type: 'add' | 'update' | 'delete' | 'error', msg: string) => {
     setFeedback({ type, msg })
-    setTimeout(() => setFeedback(null), 3000)
+    setTimeout(() => setFeedback(null), 1500)
   }
-
+  
+  useEffect(() => {
+    setLocalProducts(products)
+  }, [products])
+  
   const openAdd = () => {
     setForm(EMPTY_FORM)
     setEditProduct(null)
@@ -77,14 +83,15 @@ export default function AdminPanel() {
         stock:         Number(form.stock),
       }
       if (modalMode === 'add') {
-        await api.post('/products', payload)
-        showFeedback('success', 'Product added successfully')
+        const newProduct = await api.post('/products', payload)
+        showFeedback('add', 'Product added successfully')
+        setLocalProducts(prev => [newProduct.data, ...prev])
       } else if (editProduct) {
         await api.put(`/products/${editProduct._id}`, payload)
-        showFeedback('success', 'Product updated successfully')
+        showFeedback('update', 'Product updated successfully')
+        setLocalProducts(prev => prev.map(p => p._id === editProduct._id ? { ...p, ...payload } : p))
       }
       closeModal()
-      window.location.reload()
     } catch (err: any) {
       showFeedback('error', err.response?.data?.message || 'Save failed')
     } finally {
@@ -95,9 +102,9 @@ export default function AdminPanel() {
   const handleDelete = async (id: string) => {
     try {
       await api.delete(`/products/${id}`)
-      showFeedback('success', 'Product deleted')
+      showFeedback('delete', 'Product deleted successfully')
       setDeleteId(null)
-      window.location.reload()
+      setLocalProducts(prev => prev.filter(p => p._id !== id))
     } catch (err: any) {
       showFeedback('error', err.response?.data?.message || 'Delete failed')
     }
@@ -125,8 +132,10 @@ export default function AdminPanel() {
         {/* Feedback */}
         {feedback && (
           <div className={`mb-4 px-4 py-3 rounded-lg text-sm font-medium ${
-            feedback.type === 'success'
-              ? 'bg-green-50 border border-green-200 text-green-700'
+            feedback.type === 'add' ?
+               'bg-green-50 border border-green-200 text-green-700'
+              : feedback.type === 'update' ?
+                'bg-blue-50 border border-blue-200 text-blue-700'
               : 'bg-red-50 border border-red-200 text-red-700'
           }`}>
             {feedback.msg}
@@ -136,10 +145,10 @@ export default function AdminPanel() {
         {/* Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
           {[
-            { label: 'Total products', value: products.length, icon: 'inventory_2'       },
-            { label: 'In stock',       value: products.filter(p => p.stock > 0).length, icon: 'check_circle' },
-            { label: 'Featured',       value: products.filter(p => p.featured).length,  icon: 'star'         },
-            { label: 'Out of stock',   value: products.filter(p => p.stock === 0).length, icon: 'cancel'     },
+            { label: 'Total products', value: localProducts.length, icon: 'inventory_2'       },
+            { label: 'In stock',       value: localProducts.filter(p => p.stock > 0).length, icon: 'check_circle' },
+            { label: 'Featured',       value: localProducts.filter(p => p.featured).length,  icon: 'star'         },
+            { label: 'Out of stock',   value: localProducts.filter(p => p.stock === 0).length, icon: 'cancel'     },
           ].map(({ label, value, icon }) => (
             <div key={label} className="bg-white rounded-xl border border-[#DEE2E7] p-4 flex items-center gap-3">
               <div className="w-10 h-10 rounded-full bg-[#EEF3FD] flex items-center justify-center shrink-0">
@@ -179,7 +188,7 @@ export default function AdminPanel() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-[#DEE2E7]">
-                  {products.map(p => (
+                  {localProducts.map(p => (
                     <tr key={p._id} className="hover:bg-[#F7F7F7] transition-colors">
                       <td className="px-4 py-3">
                         <div className="flex items-center gap-3">
@@ -336,7 +345,7 @@ export default function AdminPanel() {
       {deleteId && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
           <div className="bg-white rounded-xl w-full max-w-[400px] p-6 shadow-xl">
-            <h3 className="font-semibold text-[#1C1C1C] mb-2">Delete {products.find(p => p._id === deleteId)?.name}?</h3>
+            <h3 className="font-semibold text-[#1C1C1C] mb-2">Delete {localProducts.find(p => p._id === deleteId)?.name}?</h3>
             <p className="text-sm text-[#8B96A5] mb-6">This action cannot be undone.</p>
             <div className="flex items-center justify-end gap-3">
               <button
