@@ -6,10 +6,6 @@ interface CartItem {
   qty: number
 }
 
-interface CartState {
-  items: CartItem[]
-}
-
 type CartAction =
   | { type: 'ADD'; product: Product; qty?: number }
   | { type: 'REMOVE'; id: string }

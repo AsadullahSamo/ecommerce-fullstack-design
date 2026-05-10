@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useAdminProducts, useCreateProduct, useUpdateProduct, useDeleteProduct } from '../hooks/useAdminProducts'
-import type { Product, PricingTier, SpecTableRow } from '../types'
+import type { Product } from '../types'
 
 type ModalMode = 'add' | 'edit' | null
 
