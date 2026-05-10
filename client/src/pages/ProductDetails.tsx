@@ -186,14 +186,7 @@ export default function ProductDetails() {
                     >
                       {inCart ? 'Added to cart ✓' : 'Add to cart'}
                     </button>
-                    <button className="w-full border border-[#DEE2E7] text-[#0D6EFD] text-sm font-medium py-2.5 rounded hover:bg-blue-50 transition-colors">
-                      Seller's profile
-                    </button>
                   </div>
-                  <button className="flex items-center gap-2 text-sm text-[#0D6EFD] hover:text-blue-700 transition-colors px-1">
-                    <span className="material-icons text-[18px]">favorite_border</span>
-                    Save for later
-                  </button>
                 </div>
 
               </div>

@@ -1,3 +1,13 @@
+export interface PricingTier {
+  range: string
+  price: number
+}
+
+export interface SpecTableRow {
+  label: string
+  value: string
+}
+
 export interface Product {
   _id: string
   name: string
@@ -22,8 +32,8 @@ export interface Product {
   reviews?: number
   sold?: number
   specs?: Record<string, string>
-  specTable?: {label?: string, value?: string }[]
-  pricingTiers?: {range?: string, price?: number}[],
+  specTable?: SpecTableRow[]
+  pricingTiers?: PricingTier[]
   features? : string[]
 }
 

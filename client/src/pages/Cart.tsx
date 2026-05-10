@@ -3,7 +3,7 @@ import { useCart } from '../context/CartContext'
 import { FaCcVisa, FaCcMastercard, FaCcPaypal, FaCcAmex, FaCcApplePay } from 'react-icons/fa'
 import { useState } from 'react'
 
-const TAX = 14
+
 
 export default function Cart() {
   const {
@@ -12,8 +12,12 @@ export default function Cart() {
     saveForLater, moveToCart, clearCart,
   } = useCart()
 
+
   const [coupon, setCoupon]               = useState('')
   const [couponApplied, setCouponApplied] = useState(false)
+
+  const TAX = items.reduce((sum, i) => sum + i.product.price * i.qty, 0) * 0.05
+
 
   const subtotal = items.reduce((sum, i) => sum + i.product.price * i.qty, 0)
   const discount = couponApplied ? subtotal * 0.2 : 0

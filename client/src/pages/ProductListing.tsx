@@ -121,9 +121,6 @@ export default function ProductListing() {
   const toggleFeature = (feature: string) =>
     setSelectedFeatures(prev => prev.includes(feature) ? prev.filter(f => f !== feature) : [...prev, feature])
 
-  // const removeFilter = (filter: string) =>
-  //   setActiveFilters(prev => prev.filter(f => f !== filter))
-
 
   return (
     <div className="bg-[#F7F7F7] min-h-screen">
@@ -406,9 +403,6 @@ export default function ProductListing() {
                       >
                         <div className="flex items-center justify-center h-[180px] mb-3 relative">
                           <img src={p.image} alt={p.name} className="max-h-full object-contain group-hover:scale-105 transition-transform" />
-                          <button onClick={e => e.preventDefault()} className="absolute top-0 right-0 text-[#8B96A5] hover:text-[#E53935] transition-colors">
-                            <span className="material-icons text-[20px]">favorite_border</span>
-                          </button>
                         </div>
                         <p className="text-sm font-medium text-[#1C1C1C] line-clamp-2 mb-1">{p.name}</p>
                         <div className="flex items-center gap-2 mb-1">
@@ -482,9 +476,6 @@ export default function ProductListing() {
                       {items.some(i => i.product._id === p._id) ? 'Added ✓' : 'Add to cart'}
                     </button>
                   </div>
-                  <button className="shrink-0 self-start text-[#8B96A5] hover:text-[#E53935] transition-colors">
-                    <span className="material-icons text-[22px]">favorite_border</span>
-                  </button>
                 </div>
               ))}
             </div>
