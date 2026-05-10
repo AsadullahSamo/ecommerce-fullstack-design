@@ -28,8 +28,11 @@ export const login = async (req, res) => {
       return res.status(400).json({ message: 'Email and password required' })
 
     const user = await User.findOne({ email })
-    if (!user || !(await user.comparePassword(password)))
-      return res.status(401).json({ message: 'Invalid credentials' })
+    if (!user) return res.status(404).json({ message: 'User not found' })
+
+    console.log(user.password)
+    const match = await user.comparePassword(password)
+    if (!match) return res.status(401).json({ message: 'Incorrect password' })
 
     res.json({ token: signToken(user._id), user })
   } catch (err) {
