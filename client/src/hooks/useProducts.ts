@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useQuery } from '@tanstack/react-query'
 import api from '../lib/api'
 import type { Product, ProductsResponse } from '../types'
 
@@ -18,56 +18,39 @@ interface UseProductsParams {
 }
 
 export function useProducts(params: UseProductsParams = {}) {
-  const [products, setProducts] = useState<Product[]>([])
-  const [total, setTotal]       = useState(0)
-  const [pages, setPages]       = useState(1)
-  const [loading, setLoading]   = useState(true)
-  const [error, setError]       = useState<string | null>(null)
+  const {data, isLoading: loading, error: rawError,} = useQuery({
+    queryKey: ['products', params],
+    queryFn: async () => {
+      const { data } = await api.get<ProductsResponse>('/products', { params })
+      return data
+    },
+    placeholderData: (prev) => prev,  
+    staleTime: 1000 * 30,
+  })
 
-  useEffect(() => {
-    let cancelled = false
-    setLoading(true)
-    setError(null)
-
-    api.get<ProductsResponse>('/products', { params })
-      .then(res => {
-        if (cancelled) return
-        setProducts(res.data.products)
-        setTotal(res.data.total)
-        setPages(res.data.pages)
-      })
-      .catch(err => {
-        if (cancelled) return
-        setError(err.response?.data?.message || 'Failed to load products')
-      })
-      .finally(() => {
-        if (!cancelled) setLoading(false)
-      })
-
-    return () => { cancelled = true }
-  }, [JSON.stringify(params)])
-
-  return { products, total, pages, loading, error }
+  return {
+    products: data?.products ?? [],
+    total:    data?.total    ?? 0,
+    pages:    data?.pages    ?? 1,
+    loading,
+    error:    rawError ? (rawError as any).response?.data?.message || 'Failed to load products' : null,
+  }
 }
 
 export function useProduct(id: string | undefined) {
-  const [product, setProduct] = useState<Product | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError]     = useState<string | null>(null)
+  const {data: product, isLoading: loading, error: rawError} = useQuery({
+    queryKey: ['product', id],
+    queryFn: async () => {
+      const { data } = await api.get<Product>(`/products/${id}`)
+      return data
+    },
+    enabled: !!id,
+    staleTime: 1000 * 60,
+  })
 
-  useEffect(() => {
-    if (!id) return
-    let cancelled = false
-    setLoading(true)
-    setError(null)
-
-    api.get<Product>(`/products/${id}`)
-      .then(res => { if (!cancelled) setProduct(res.data) })
-      .catch(err => { if (!cancelled) setError(err.response?.data?.message || 'Product not found') })
-      .finally(() => { if (!cancelled) setLoading(false) })
-
-    return () => { cancelled = true }
-  }, [id])
-
-  return { product, loading, error }
+  return {
+    product:  product ?? null,
+    loading,
+    error: rawError ? (rawError as any).response?.data?.message || 'Product not found' : null,
+  }
 }

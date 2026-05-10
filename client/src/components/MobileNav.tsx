@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 
 interface Props {
@@ -29,6 +29,8 @@ const secondaryItems = [
 
 export default function MobileNav({ open, onClose }: Props) {
   const { user, logout, isAdmin } = useAuth()
+  const navigate = useNavigate()
+
 
   if (!open) return null
 
@@ -123,7 +125,7 @@ export default function MobileNav({ open, onClose }: Props) {
             <>
               <div className="border-t border-[#DEE2E7]" />
               <button
-                onClick={() => { logout(); onClose() }}
+                onClick={() => { logout(); onClose(); navigate("/login") }}
                 className="flex items-center gap-4 px-5 py-4 text-[#E53935] hover:bg-[#F7F7F7] w-full text-sm"
               >
                 <span className="material-icons text-[20px]">logout</span>

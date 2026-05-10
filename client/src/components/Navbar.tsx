@@ -106,7 +106,7 @@ export default function Navbar() {
                     My Orders
                   </Link>
                   <button
-                    onClick={() => { logout(); setProfileOpen(false) }}
+                    onClick={() => { logout(); setProfileOpen(false); navigate("/login") }}
                     className="flex items-center gap-2 w-full px-4 py-2.5 text-sm text-[#E53935] hover:bg-[#F7F7F7] border-t border-[#DEE2E7]"
                   >
                     <span className="material-icons text-[16px]">logout</span>
