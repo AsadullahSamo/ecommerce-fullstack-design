@@ -435,7 +435,7 @@ export default function ProductListing() {
                           {p.category && (
                             <span className="text-xs bg-[#EEF3FD] text-[#0D6EFD] px-2 py-0.5 rounded-full">{p.category}</span>
                           )}
-                          {p.condition && p.condition !== 'Brand new' && (
+                          {p.condition && p.condition !== 'Any' && (
                             <span className="text-xs bg-[#F7F7F7] border border-[#DEE2E7] text-[#8B96A5] px-2 py-0.5 rounded-full">{p.condition}</span>
                           )}
                         </div>
@@ -476,7 +476,7 @@ export default function ProductListing() {
                       {p.category && (
                         <span className="text-xs bg-[#EEF3FD] text-[#0D6EFD] px-2 py-0.5 rounded-full">{p.category}</span>
                       )}
-                      {p.condition && p.condition !== 'Brand new' && (
+                      {p.condition && p.condition !== 'Any' && (
                         <span className="text-xs bg-[#F7F7F7] border border-[#DEE2E7] text-[#8B96A5] px-2 py-0.5 rounded-full">{p.condition}</span>
                       )}
                     </div>
