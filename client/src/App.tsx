@@ -8,6 +8,7 @@ import Cart from './pages/Cart'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import AdminPanel from './pages/AdminPanel'
+  import ComingSoon from './components/ComingSoon'
 
 export default function App() {
   return (
@@ -20,6 +21,9 @@ export default function App() {
           <Route path="/cart" element={<Cart />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+
+          <Route path="/messages" element={<ComingSoon page="Messages" />} />
+          <Route path="/orders" element={<ComingSoon page="Orders" />} />
 
           <Route element={<ProtectedRoute adminOnly />}>
             <Route path="/admin" element={<AdminPanel />} />

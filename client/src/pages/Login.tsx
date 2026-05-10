@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
+import { FiEye, FiEyeOff } from 'react-icons/fi' // add this
 
 export default function Login() {
   const { login } = useAuth()
@@ -10,6 +11,7 @@ export default function Login() {
 
   const [email, setEmail]       = useState('')
   const [password, setPassword] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
   const [error, setError]       = useState('')
   const [loading, setLoading]   = useState(false)
 
@@ -56,14 +58,24 @@ export default function Login() {
           </div>
           <div>
             <label className="block text-sm font-medium text-[#1C1C1C] mb-1.5">Password</label>
-            <input
-              type="password"
-              value={password}
-              onChange={e => setPassword(e.target.value)}
-              placeholder="Enter your password"
-              required
-              className="w-full border border-[#DEE2E7] rounded-lg px-3 py-2.5 text-sm outline-none focus:border-[#0D6EFD] transition-colors"
-            />
+
+            <div className="relative">
+              <input
+                type={showPassword ? 'text' : 'password'} 
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+                placeholder="Enter your password"
+                required
+                className="w-full border border-[#DEE2E7] rounded-lg px-3 py-2.5 text-sm outline-none focus:border-[#0D6EFD] transition-colors"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(prev => !prev)}
+                className="absolute inset-y-0 right-3 flex items-center text-[#8B96A5] hover:text-[#1C1C1C]"
+              >
+                {showPassword ? <FiEyeOff size={18} /> : <FiEye size={18} />}
+              </button>
+            </div>
           </div>
           <button
             type="submit"
