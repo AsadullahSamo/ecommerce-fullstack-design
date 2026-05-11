@@ -80,21 +80,15 @@ export default function Footer() {
           {/* Get app column */}
           <div className="w-full lg:w-[150px]">
             <h4 className="font-semibold text-sm mb-4">Get app</h4>
-            <div className="flex flex-col gap-3">
-              <a
-                href="#"
-                className="text-left flex items-center gap-2 bg-black border border-[#8B96A5] rounded-lg px-4 py-3 hover:border-white transition-colors"
-              >
+            <div className="flex flex-col gap-3 w-fit">
+              <a href="#" className="flex items-center gap-2 bg-black rounded-lg px-3 py-2 hover:opacity-90 transition-opacity w-[160px]">
                 <span className="material-icons text-[28px]">apple</span>
                 <div>
                   <p className="text-[9px] text-[#8B96A5] leading-none">Download on the</p>
                   <p className="text-sm font-semibold leading-tight">App Store</p>
                 </div>
               </a>
-              <a
-                href="#"
-                className="text-left flex items-center gap-2 bg-black border border-[#8B96A5] rounded-lg px-4 py-3 hover:border-white transition-colors"
-              >
+              <a href="#" className="flex items-center gap-2 bg-black rounded-lg px-3 py-2 hover:opacity-90 transition-opacity w-[160px]">
                 <span className="material-icons text-[28px]">android</span>
                 <div>
                   <p className="text-[9px] text-[#8B96A5] leading-none">GET IT ON</p>

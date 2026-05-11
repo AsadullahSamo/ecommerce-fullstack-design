@@ -109,10 +109,11 @@ export default function ProductDetails() {
                     <span className={`text-sm ${product.stock > 0 ? 'text-[#00B517]' : 'text-[#E53935]'} font-medium`}>{product.stock > 0 ? 'In stock' : 'Out of stock'}</span>
                   </div>
                   <h1 className="text-lg md:text-xl font-semibold text-[#1C1C1C] mb-3 leading-snug">{product.name}</h1>
-                  <div className="flex items-center gap-2 md:gap-3 mb-4 flex-wrap">
+                  <div className="flex items-center gap-2 mb-4 flex-wrap">
                     <StarRating value={product.rating} />
                     <span className="text-sm font-semibold text-[#FF9017]">{product.rating}</span>
-                    <span className="text-[#DEE2E7]">|</span>
+                    <span className="hidden sm:inline text-[#DEE2E7]">|</span>
+                    <div className="w-full sm:hidden" />
                     <span className="material-icons text-[#8B96A5] text-[16px]">chat_bubble_outline</span>
                     <span className="text-sm text-[#8B96A5]">{product.reviews} reviews</span>
                     <span className="text-[#DEE2E7]">|</span>
