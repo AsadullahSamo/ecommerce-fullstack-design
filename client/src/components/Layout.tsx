@@ -4,9 +4,12 @@ import { Link } from 'react-router-dom'
 import Navbar from './Navbar'
 import MobileNav from './MobileNav'
 import Footer from './Footer'
+import { FaShoppingCart } from 'react-icons/fa'
+import { useCart } from '../context/CartContext'
 
 export default function Layout() {
   const [mobileNavOpen, setMobileNavOpen] = useState(false)
+  const {totalItems} = useCart()
 
   return (
     <div className="min-h-screen flex flex-col bg-[#F7F7F7]">
@@ -34,21 +37,17 @@ export default function Layout() {
             <span className="font-bold text-[#1C1C1C]">Brand</span>
           </Link>
           <div className="ml-auto flex items-center gap-4">
-            <Link to="/cart" className="text-[#1C1C1C]">
-              <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-                <path d="M2 2h2.5l2.7 11h9.8l2.2-8H5.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                <circle cx="9.5" cy="18.5" r="1.5" fill="currentColor" />
-                <circle cx="16.5" cy="18.5" r="1.5" fill="currentColor" />
-              </svg>
-            </Link>
-            <Link to="/profile" className="text-[#1C1C1C]">
-              <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-                <circle cx="11" cy="8" r="4" stroke="currentColor" strokeWidth="1.5" />
-                <path d="M3 20c0-4 3.6-7 8-7s8 3 8 7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-              </svg>
+            <Link to="/cart" className="text-[#1C1C1C] relative overflow-visible inline-block">
+              <FaShoppingCart className="text-[20px]" />
+              {totalItems > 0 && (
+                <span className="absolute -top-1.5 -right-1.5 min-w-[16px] h-4 px-1 bg-[#E53935] text-white text-[10px] font-bold rounded-full flex items-center justify-center leading-none">
+                  {totalItems > 9 ? '9+' : totalItems}
+                </span>
+              )}
             </Link>
           </div>
         </div>
+
         {/* Mobile search */}
         <div className="px-4 pb-3">
           <div className="flex border border-[#DEE2E7] rounded-md overflow-hidden bg-white">

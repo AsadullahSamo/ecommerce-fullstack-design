@@ -7,7 +7,7 @@ interface Props {
 }
 
 const homeIcon = <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 9.5L10 3l7 6.5V17a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/><path d="M7 18v-6h6v6" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/></svg>
-const categoriesIcon = <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2" y="4" width="16" height="2" rx="1" fill="currentColor"/><rect x="2" y="9" width="16" height="2" rx="1" fill="currentColor"/><rect x="2" y="14" width="16" height="2" rx="1" fill="currentColor"/></svg>
+const productsIcon = <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 6.5L10 3L16 6.5M4 6.5V13.5L10 17M4 6.5L10 10M16 6.5V13.5L10 17M16 6.5L10 10M10 10V17" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
 const favoritesIcon = <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 16s-7-4.5-7-9a4 4 0 018 0 4 4 0 018 0c0 4.5-7 9-7 9z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/></svg>
 const ordersIcon = <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="3" y="2" width="14" height="16" rx="2" stroke="currentColor" strokeWidth="1.5"/><path d="M7 7h6M7 11h6M7 15h4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
 const globeIcon = <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8" stroke="currentColor" strokeWidth="1.5"/><path d="M10 2c0 0-4 3-4 8s4 8 4 8M10 2c0 0 4 3 4 8s-4 8-4 8M2 10h16" stroke="currentColor" strokeWidth="1.5"/></svg>
@@ -16,7 +16,7 @@ const aboutIcon = <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><r
 
 const navItems = [
   { label: 'Home',       to: '/',         icon: homeIcon       },
-  { label: 'Categories', to: '/products', icon: categoriesIcon },
+  { label: 'Products', to: '/products', icon: productsIcon },
   { label: 'Favorites',  to: '/favorites', icon: favoritesIcon },
   { label: 'My orders',  to: '/orders',   icon: ordersIcon     },
 ]

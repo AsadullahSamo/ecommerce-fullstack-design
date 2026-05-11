@@ -1,8 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { FaShoppingCart, FaUser } from 'react-icons/fa'
-import { MdMessage } from 'react-icons/md'
-import { MdListAlt } from 'react-icons/md'
+import { MdHome, MdInventory2 } from 'react-icons/md'
 import { useCart } from '../context/CartContext'
 import { useAuth } from '../context/AuthContext'
 
@@ -118,15 +117,15 @@ export default function Navbar() {
           </div>
 
           {/* Message */}
-          <Link to="/messages" className="flex flex-col items-center gap-0.5 text-[#1C1C1C] hover:text-[#0D6EFD] transition-colors">
-            <MdMessage className="text-[#8B96A5] text-[20px]" />
-            <span className="text-[11px] text-[#8B96A5]">Message</span>
+          {/* Home  */}
+          <Link to="/" className="flex flex-col items-center gap-0.5 text-[#1C1C1C] hover:text-[#0D6EFD] transition-colors">
+            <MdHome className="text-[#8B96A5] text-[20px]" />
+            <span className="text-[11px] text-[#8B96A5]">Home</span>
           </Link>
 
-          {/* Orders */}
-          <Link to="/orders" className="flex flex-col items-center gap-0.5 text-[#1C1C1C] hover:text-[#0D6EFD] transition-colors">
-            <MdListAlt className="text-[#8B96A5] text-[20px]" />
-            <span className="text-[11px] text-[#8B96A5]">Orders</span>
+          <Link to="/products" className="flex flex-col items-center gap-0.5 text-[#1C1C1C] hover:text-[#0D6EFD] transition-colors">
+            <MdInventory2  className="text-[#8B96A5] text-[20px]" />
+            <span className="text-[11px] text-[#8B96A5]">Products</span>
           </Link>
 
           {/* Cart */}

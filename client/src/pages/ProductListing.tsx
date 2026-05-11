@@ -272,7 +272,7 @@ export default function ProductListing() {
             <div className="bg-white rounded-md border border-[#DEE2E7] px-4 py-3 mb-3">
               <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 flex-wrap">
                 <p className="text-sm text-[#1C1C1C]">
-                  <span className="font-semibold">{total}</span> items found
+                  <span className="font-semibold">{total}</span> {total === 1 ? 'item' : 'items'} found
                 </p>
 
                 <p className="text-xs text-[#8B96A5]">
