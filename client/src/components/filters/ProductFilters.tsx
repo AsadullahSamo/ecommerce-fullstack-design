@@ -22,7 +22,6 @@ type Props = {
   CONDITIONS: string[]
 }
 
-/* ✅ stable open state type */
 type OpenState = {
   category: boolean
   brands: boolean
@@ -44,20 +43,12 @@ function useExpandable(list: string[], limit = 4) {
   }
 }
 
-/* ✅ FIXED: moved OUTSIDE component (IMPORTANT) */
-function Section({
-  title,
-  keyName,
-  open,
-  setOpen,
-  children,
-}: {
-  title: string
-  keyName: keyof OpenState
-  open: OpenState
-  setOpen: React.Dispatch<React.SetStateAction<OpenState>>
-  children: React.ReactNode
-}) {
+function Section({title, keyName, open, setOpen, children,}: 
+  {
+    title: string, keyName: keyof OpenState, open: OpenState, 
+    setOpen: React.Dispatch<React.SetStateAction<OpenState>>, children: React.ReactNode
+  }
+) {
   return (
     <div className="border-b border-[#DEE2E7] py-3">
 

@@ -156,7 +156,7 @@ export default function Cart() {
                 {[
                   { icon: 'lock',           label: 'Secure payment',   sub: 'Have you ever finally just' },
                   { icon: 'headset_mic',    label: 'Customer support', sub: 'Have you ever finally just' },
-                  { icon: 'local_shipping', label: 'Free delivery',    sub: 'Have you ever finally just' },
+                  { icon: 'local_shipping', label: 'Fast delivery',    sub: 'Have you ever finally just' },
                 ].map(({ icon, label, sub }) => (
                   <div key={label} className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-full bg-[#EEF3FD] flex items-center justify-center shrink-0">

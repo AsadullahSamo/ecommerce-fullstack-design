@@ -5,6 +5,7 @@ import { useProducts } from '../hooks/useProducts'
 import { useCart } from '../context/CartContext'
 import MobileFilters from '../components/filters/MobileFilters'
 import ProductFilters from '../components/filters/ProductFilters'
+import ProductCard from '../components/products/ProductCard'
 
 type ViewMode = 'grid' | 'list'
 
@@ -348,39 +349,13 @@ export default function ProductListing() {
                 <>
                   <div className={`${viewMode === 'grid' ? 'hidden md:grid grid-cols-2 lg:grid-cols-3 gap-3 mb-4' : 'hidden'}`}>
                     {filteredProducts.map(p => (
-                      <Link
+                      <ProductCard
                         key={p._id}
-                        to={`/products/${p._id}`}
-                        className="bg-white rounded-md border border-[#DEE2E7] p-4 hover:shadow-md transition-shadow group"
-                      >
-                        <div className="flex items-center justify-center h-[180px] mb-3 relative">
-                          <img src={p.image} alt={p.name} className="max-h-full object-contain group-hover:scale-105 transition-transform" />
-                        </div>
-                        <p className="text-sm font-medium text-[#1C1C1C] line-clamp-2 mb-1">{p.name}</p>
-                        <div className="flex items-center gap-2 mb-1">
-                          <p className="text-base font-bold text-[#1C1C1C]">${p.price.toFixed(2)}</p>
-                          <span className="text-sm text-[#8B96A5] line-through">${p.originalPrice?.toFixed(2)}</span>
-                        </div>
-                        <div className="flex items-center gap-1.5">
-                          <StarRating value={p.rating} small />
-                          <span className="text-xs text-[#8B96A5]">{p.rating}</span>
-                        </div>
-                        {p.shipping && <p className="text-xs text-[#00B517] mt-1 font-medium">{p.shipping}</p>}
-                        <div className="flex items-center gap-2 flex-wrap mt-1">
-                          {p.category && (
-                            <span className="text-xs bg-[#EEF3FD] text-[#0D6EFD] px-2 py-0.5 rounded-full">{p.category}</span>
-                          )}
-                          {p.condition && p.condition !== 'Any' && (
-                            <span className="text-xs bg-[#F7F7F7] border border-[#DEE2E7] text-[#8B96A5] px-2 py-0.5 rounded-full">{p.condition}</span>
-                          )}
-                        </div>
-                        <button
-                          onClick={e => { e.preventDefault(); addToCart(p) }}
-                          className="mt-2 w-full bg-[#0D6EFD] hover:bg-blue-700 text-white text-xs font-medium py-1.5 rounded transition-colors"
-                        >
-                          {items.some(i => i.product._id === p._id) ? 'Added ✓' : 'Add to cart'}
-                        </button>
-                      </Link>
+                        product={p}
+                        viewMode="grid"
+                        addToCart={addToCart}
+                        isAdded={items.some(i => i.product._id === p._id)}
+                      />
                     ))}
                   </div>
                 </>
@@ -388,46 +363,16 @@ export default function ProductListing() {
 
            <div className={`${viewMode === 'list' ? 'flex flex-col gap-3 mb-4' : 'flex md:hidden flex-col gap-3 mb-4'}`}>
               {filteredProducts.map(p => (
-                <div key={p._id} className="bg-white rounded-md border border-[#DEE2E7] p-4 flex gap-3 hover:shadow-md transition-shadow group">
-                  <div className="w-[100px] md:w-[180px] shrink-0 flex items-center justify-center bg-[#F7F7F7] rounded-md overflow-hidden self-stretch">
-                    <img src={p.image} alt={p.name} className="w-full h-full object-contain" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-semibold text-[#1C1C1C] mb-1">{p.name}</p>
-                    <div className="flex items-center gap-1.5 mb-1">
-                      <p className="text-base font-bold text-[#1C1C1C]">${p.price.toFixed(2)}</p>
-                      {p.originalPrice && <span className="text-xs text-[#8B96A5] line-through">${p.originalPrice.toFixed(2)}</span>}
-                    </div>
-                    <div className="flex items-center gap-1.5 mb-1 flex-wrap">
-                      <StarRating value={p.rating} small />
-                      <span className="text-xs text-[#8B96A5]">{p.rating}</span>
-                      <span className="text-xs text-[#8B96A5]">•</span>
-                      <span className="text-xs text-[#8B96A5]">{p.orders} orders</span>
-                      <span className="text-xs text-[#8B96A5]">•</span>
-                      <span className="text-xs text-[#00B517] font-medium">{p.shipping}</span>
-                    </div>
-                    <p className="text-xs text-[#8B96A5] line-clamp-2 mb-2 hidden md:block">{p.description}</p>
-                    <div className="flex items-center gap-2 flex-wrap mt-1 mb-3">
-                      {p.category && (
-                        <span className="text-xs bg-[#EEF3FD] text-[#0D6EFD] px-2 py-0.5 rounded-full">{p.category}</span>
-                      )}
-                      {p.condition && p.condition !== 'Any' && (
-                        <span className="text-xs bg-[#F7F7F7] border border-[#DEE2E7] text-[#8B96A5] px-2 py-0.5 rounded-full">{p.condition}</span>
-                      )}
-                    </div>
-                    <Link to={`/products/${p._id}`} className="text-xs text-[#0D6EFD] hover:underline font-medium">
-                      View details
-                    </Link>
-                    <button
-                      onClick={() => addToCart(p)}
-                      className="mt-1 ml-5 text-xs bg-[#0D6EFD] hover:bg-blue-700 text-white px-3 py-1.5 rounded transition-colors"
-                    >
-                      {items.some(i => i.product._id === p._id) ? 'Added ✓' : 'Add to cart'}
-                    </button>
-                  </div>
-                </div>
+                <ProductCard
+                  key={p._id}
+                  product={p}
+                  viewMode="list"
+                  addToCart={addToCart}
+                  isAdded={items.some(i => i.product._id === p._id)}
+                />
               ))}
             </div>
+
             {/* Pagination */}
             <div className="bg-white rounded-md border border-[#DEE2E7] px-4 py-3 flex items-center justify-end gap-2">
               <div className="flex items-center gap-2 mr-auto">
