@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { useProduct, useProducts } from '../hooks/useProducts'
 import { useCart } from '../context/CartContext'
+import Breadcrumb from '../components/Breadcrumb'
 
 
 type Tab = 'description' | 'reviews' | 'shipping' | 'about'
@@ -77,16 +78,7 @@ export default function ProductDetails() {
     <div className="bg-[#F7F7F7] min-h-screen">
       <div className="max-w-[1200px] mx-auto px-4 py-4">
 
-        {/* Breadcrumb */}
-        <nav className="flex items-center gap-1 text-xs text-[#8B96A5] mb-4">
-          <Link to="/" className="hover:text-[#0D6EFD]">Home</Link>
-          <span className="material-icons text-[14px]">chevron_right</span>
-          <Link to="/products" className="hover:text-[#0D6EFD]">Clothings</Link>
-          <span className="material-icons text-[14px]">chevron_right</span>
-          <Link to="/products" className="hover:text-[#0D6EFD]">Men's wear</Link>
-          <span className="material-icons text-[14px]">chevron_right</span>
-          <span className="text-[#1C1C1C]">Summer clothing</span>
-        </nav>
+        <Breadcrumb />
 
         {/* ── Main product section ── */}
           <div className="bg-white rounded-md border border-[#DEE2E7] p-4 md:p-6 mb-4">

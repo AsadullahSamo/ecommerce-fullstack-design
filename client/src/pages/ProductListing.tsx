@@ -6,6 +6,7 @@ import { useCart } from '../context/CartContext'
 import MobileFilters from '../components/filters/MobileFilters'
 import ProductFilters from '../components/filters/ProductFilters'
 import ProductCard from '../components/products/ProductCard'
+import Breadcrumb from '../components/Breadcrumb'
 
 type ViewMode = 'grid' | 'list'
 
@@ -155,17 +156,7 @@ export default function ProductListing() {
       <div className="max-w-[1200px] mx-auto px-4 py-4">
 
         {/* Breadcrumb */}
-        <nav className="flex items-center gap-1 text-xs text-[#8B96A5] mb-4">
-          <Link to="/" className="hover:text-[#0D6EFD]">Home</Link>
-          <span className="material-icons text-[14px]">chevron_right</span>
-          <span className="text-[#1C1C1C]">
-            {window.location.pathname
-              .split('/')
-              .filter(Boolean)
-              .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-              .join(' ')}
-          </span>
-        </nav>
+        <Breadcrumb />
 
         <div className="flex gap-4">
 

@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { useCart } from '../context/CartContext'
 import { FaCcVisa, FaCcMastercard, FaCcPaypal, FaCcAmex, FaCcApplePay } from 'react-icons/fa'
 import { useState } from 'react'
+import Breadcrumb from '../components/Breadcrumb'
 
 
 
@@ -26,6 +27,8 @@ export default function Cart() {
   return (
     <div className="bg-[#F7F7F7] min-h-screen">
       <div className="max-w-[1200px] mx-auto px-4 py-6">
+
+        <Breadcrumb />
 
         <h1 className="text-xl font-semibold text-[#1C1C1C] mb-4">
           My cart ({items.length})
