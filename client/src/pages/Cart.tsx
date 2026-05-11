@@ -34,10 +34,10 @@ export default function Cart() {
           My cart ({items.length})
         </h1>
 
-        <div className="flex flex-col lg:flex-row gap-4 items-start">
+        <div className="flex flex-col lg:flex-row gap-4">
 
           {/* ── Cart items ── */}
-          <div className="flex-1 min-w-0">
+          <div className="w-full lg:flex-1 lg:min-w-0">
             <div className="bg-white rounded-md border border-[#DEE2E7] divide-y divide-[#DEE2E7]">
               {items.length === 0 ? (
                 <div className="p-10 text-center">

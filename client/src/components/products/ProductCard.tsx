@@ -99,7 +99,7 @@ export default function ProductCard({
             e.preventDefault()
             addToCart(p)
           }}
-          className="mt-2 w-full bg-[#0D6EFD] hover:bg-blue-700 text-white text-xs font-medium py-1.5 rounded transition-colors"
+          className={`mt-2 w-full ${isAdded ? 'bg-green-500 hover:bg-green-600 text-white': 'bg-[#0D6EFD] hover:bg-blue-700 text-white'} text-xs font-medium py-1.5 rounded transition-colors`}
         >
           {isAdded ? 'Added ✓' : 'Add to cart'}
         </button>
@@ -182,7 +182,7 @@ export default function ProductCard({
 
           <button
             onClick={() => addToCart(p)}
-            className="text-xs bg-[#0D6EFD] hover:bg-blue-700 text-white px-3 py-1.5 rounded transition-colors"
+            className={`text-xs ${isAdded ? 'bg-green-500 hover:bg-green-600 text-white': 'bg-[#0D6EFD] hover:bg-blue-700 text-white'} px-3 py-1.5 rounded transition-colors`}
           >
             {isAdded ? 'Added ✓' : 'Add to cart'}
           </button>

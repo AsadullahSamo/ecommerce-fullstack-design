@@ -3,10 +3,11 @@
 Full-stack eCommerce application built with React, Node.js, Express, and MongoDB.
 
 ## Tech Stack
-- **Frontend**: React 18, React Router, TailwindCSS, Vite
+- **Frontend**: React 18, Typescript, React Router, TailwindCSS, Vite, TanStack Query
 - **Backend**: Node.js, Express.js
 - **Database**: MongoDB + Mongoose
-- **Auth**: JWT
+- **Auth**: JWT + bcrypt
+- **State**: React Context (Auth, Cart) + TanStack Query (server state)
 - **Deployment**: Render (server) + Vercel (client)
 
 ## Getting Started
