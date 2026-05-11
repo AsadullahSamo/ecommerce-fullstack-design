@@ -181,15 +181,17 @@ export default function Home() {
         {/* ── Deals and offers ── */}
         <div className="bg-white rounded-md border border-[#DEE2E7] p-4">
           <div className="flex items-center gap-6 mb-4">
-            <div>
-              <h2 className="font-semibold text-[#1C1C1C]">Deals and offers</h2>
-              <p className="text-xs text-[#8B96A5]">Hygiene equipments</p>
-            </div>
-            <div className="flex items-center gap-2">
-              <CountdownUnit value={days} label="Days" />
-              <CountdownUnit value={hours} label="Hour" />
-              <CountdownUnit value={mins} label="Min" />
-              <CountdownUnit value={secs} label="Sec" />
+            <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-6 mb-4">
+              <div>
+                <h2 className="font-semibold text-[#1C1C1C]">Deals and offers</h2>
+                <p className="text-xs text-[#8B96A5]">Limited time offers</p>
+              </div>
+              <div className="flex items-center gap-2">
+                <CountdownUnit value={days} label="Days" />
+                <CountdownUnit value={hours} label="Hour" />
+                <CountdownUnit value={mins} label="Min" />
+                <CountdownUnit value={secs} label="Sec" />
+              </div>
             </div>
           </div>
           {featuredLoading ? (

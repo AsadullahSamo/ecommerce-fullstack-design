@@ -3,6 +3,8 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import Newsletter from '../components/Newsletter'
 import { useProducts } from '../hooks/useProducts'
 import { useCart } from '../context/CartContext'
+import MobileFilters from '../components/filters/MobileFilters'
+import ProductFilters from '../components/filters/ProductFilters'
 
 type ViewMode = 'grid' | 'list'
 
@@ -80,6 +82,7 @@ export default function ProductListing() {
   const [showAllCategories, setShowAllCategories] = useState(false)
   const [showAllBrands, setShowAllBrands]         = useState(false)
   const [showAllFeatures, setShowAllFeatures]     = useState(false)
+  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
 
   const { addToCart, items } = useCart()
 
@@ -121,6 +124,30 @@ export default function ProductListing() {
   const toggleFeature = (feature: string) =>
     setSelectedFeatures(prev => prev.includes(feature) ? prev.filter(f => f !== feature) : [...prev, feature])
 
+  const toggleRating = (rating: number) =>
+    setSelectedRatings(prev => prev.includes(rating) ? prev.filter(r => r !== rating) : [...prev, rating])
+
+  const applyPrice = () => {
+    setAppliedPriceMin(priceMin ? Number(priceMin) : undefined)
+    setAppliedPriceMax(priceMax ? Number(priceMax) : undefined)
+    setCurrentPage(1)
+  }
+
+  const clearAllFilters = () => {
+    setSelectedBrands([])
+    setSelectedFeatures([])
+    setSelectedRatings([])
+    setCondition('Any')
+
+    setPriceMax('')
+    setPriceMin('')
+    setAppliedPriceMin(undefined)
+    setAppliedPriceMax(undefined)
+    setCurrentPage(1)
+
+    navigate('/products', { replace: true })
+    
+  }
 
   return (
     <div className="bg-[#F7F7F7] min-h-screen">
@@ -143,125 +170,27 @@ export default function ProductListing() {
 
           {/* ── Filter Sidebar ── */}
           <aside className="hidden md:block w-[220px] shrink-0">
-            <div className="bg-white rounded-md border border-[#DEE2E7] px-4">
-
-              <FilterSection title="Category">
-                <ul className="space-y-1">
-                  {(showAllCategories ? CATEGORIES : CATEGORIES.slice(0, INITIAL_SHOW)).map((cat) => (
-                    <li key={cat}>
-                      <Link
-                        to={`/products?category=${cat}`}
-                        className={`block text-sm py-0.5 transition-colors hover:text-[#0D6EFD] ${categoryParam === cat? 'text-[#0D6EFD] font-medium' : 'text-[#1C1C1C]'} `}
-                      >
-                        {cat}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-                {CATEGORIES.length > INITIAL_SHOW && (
-                  <button
-                    onClick={() => setShowAllCategories(p => !p)}
-                    className="text-xs text-[#0D6EFD] hover:underline mt-1"
-                  >
-                    {showAllCategories ? 'Show less' : 'See all'}
-                  </button>
-                )}
-              </FilterSection>
-
-              <FilterSection title="Brands">
-                {(showAllBrands ? BRANDS : BRANDS.slice(0, INITIAL_SHOW)).map(brand => (
-                  <CheckItem key={brand} label={brand} checked={selectedBrands.includes(brand)} onChange={() => toggleBrand(brand)} />
-                ))}
-                {BRANDS.length > INITIAL_SHOW && (
-                  <button onClick={() => setShowAllBrands(p => !p)} className="text-xs text-[#0D6EFD] hover:underline">
-                    {showAllBrands ? 'Show less' : 'See all'}
-                  </button>
-                )}
-              </FilterSection>
-
-              <FilterSection title="Features">
-                {(showAllFeatures ? FEATURES : FEATURES.slice(0, INITIAL_SHOW)).map(feature => (
-                  <CheckItem key={feature} label={feature} checked={selectedFeatures.includes(feature)} onChange={() => toggleFeature(feature)} />
-                ))}
-                {FEATURES.length > INITIAL_SHOW && (
-                  <button onClick={() => setShowAllFeatures(p => !p)} className="text-xs text-[#0D6EFD] hover:underline">
-                    {showAllFeatures ? 'Show less' : 'See all'}
-                  </button>
-                )}
-              </FilterSection>
-
-              
-
-              <FilterSection title="Price range" defaultOpen={false}>
-                <input
-                  type="range"
-                  min={0}
-                  max={999999}
-                  className="w-full accent-[#0D6EFD]"
-                />
-                <div className="flex gap-2 mt-2">
-                  <input
-                    type="number"
-                    placeholder="Min"
-                    value={priceMin}
-                    onChange={e => setPriceMin(e.target.value)}
-                    className="w-full border border-[#DEE2E7] rounded px-2 py-1.5 text-xs outline-none focus:border-[#0D6EFD]"
-                  />
-                  <input
-                    type="number"
-                    placeholder="Max"
-                    value={priceMax}
-                    onChange={e => setPriceMax(e.target.value)}
-                    className="w-full border border-[#DEE2E7] rounded px-2 py-1.5 text-xs outline-none focus:border-[#0D6EFD]"
-                  />
-                </div>
-                <button 
-                  className="w-full mt-2 border border-[#0D6EFD] text-[#0D6EFD] text-xs font-medium py-1.5 rounded hover:bg-blue-50 transition-colors"
-                  onClick={() => {
-                    setAppliedPriceMin(priceMin ? Number(priceMin) : undefined)
-                    setAppliedPriceMax(priceMax ? Number(priceMax) : undefined)
-                    setCurrentPage(1)
-                  }}
-                >
-                  Apply
-                </button>
-              </FilterSection>
-
-              <FilterSection title="Condition" defaultOpen={false}>
-                
-                {CONDITIONS.map(c => (
-                  <label key={c} className="flex items-center gap-2 cursor-pointer">
-                    <input type="radio" name="condition" value={c} checked={condition === c} onChange={() => { setCondition(c); setCurrentPage(1) }} className="w-4 h-4 accent-[#0D6EFD]" />
-                    <span className="text-sm text-[#1C1C1C]">{c}</span>
-                  </label>
-                ))}
-                
-              </FilterSection>
-
-              <FilterSection title="Ratings" defaultOpen={false}>
-                {RATINGS.map(r => (
-                  <label key={r} className="flex items-center gap-2 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      checked={selectedRatings.includes(r)}
-                      onChange={() => {
-                        const next = selectedRatings.includes(r)
-                          ? selectedRatings.filter(x => x !== r)
-                          : [...selectedRatings, r]
-                        setSelectedRatings(next)
-                        setCurrentPage(1)
-                      }}
-                      className="w-4 h-4 accent-[#0D6EFD]"
-                    />
-                    <StarRating value={r * 2} small />
-                  </label>
-                ))}
-              </FilterSection>
-
-              <FilterSection title="Manufacturer" defaultOpen={false}>
-                <p className="text-xs text-[#8B96A5]">Coming soon</p>
-              </FilterSection>
-
+            <div className="bg-white rounded-md border border-[#DEE2E7] px-4 py-4">
+              <ProductFilters
+                categoryParam={categoryParam}
+                setCondition={setCondition}
+                condition={condition}
+                selectedBrands={selectedBrands}
+                toggleBrand={toggleBrand}
+                selectedFeatures={selectedFeatures}
+                toggleFeature={toggleFeature}
+                selectedRatings={selectedRatings}
+                toggleRating={toggleRating}
+                priceMin={priceMin}
+                priceMax={priceMax}
+                setPriceMin={setPriceMin}
+                setPriceMax={setPriceMax}
+                applyPrice={applyPrice}
+                CATEGORIES={CATEGORIES}
+                BRANDS={BRANDS}
+                FEATURES={FEATURES}
+                CONDITIONS={CONDITIONS}
+              />
             </div>
           </aside>
 
@@ -270,133 +199,139 @@ export default function ProductListing() {
 
             {/* Top bar */}
             <div className="bg-white rounded-md border border-[#DEE2E7] px-4 py-3 mb-3">
-              <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 flex-wrap">
-                <p className="text-sm text-[#1C1C1C]">
-                  <span className="font-semibold">{total}</span> {total === 1 ? 'item' : 'items'} found
+               <div className="flex items-center justify-between gap-2">
+                {/* Item count — hidden on mobile, shown on sm+ */}
+                <p className="hidden sm:block text-sm text-[#1C1C1C]">
+                  <span className="font-semibold">{total}</span> items in{' '}
+                  <span className="font-semibold">{searchQuery || categoryParam || 'All products'}</span>
                 </p>
 
-                <p className="text-xs text-[#8B96A5]">
+                {/* Mobile: just category label on left */}
+                <p className="sm:hidden text-sm font-semibold text-[#1C1C1C] truncate max-w-[140px]">
                   {searchQuery || categoryParam || 'All products'}
                 </p>
-                <div className="flex items-center gap-3 sm:ml-auto flex-wrap">
-                  <label className="flex items-center gap-1.5 text-sm text-[#1C1C1C] cursor-pointer">
-                    <input type="checkbox" checked={verifiedOnly} onChange={e => setVerifiedOnly(e.target.checked)} className="accent-[#0D6EFD] hover:cursor-pointer" />
-                    Verified only
+
+                <div className="flex items-center gap-2 ml-auto">
+                  <label className="flex items-center gap-1.5 text-xs text-[#1C1C1C] cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={verifiedOnly}
+                      onChange={e => setVerifiedOnly(e.target.checked)}
+                      className="accent-[#0D6EFD]"
+                    />
+                    <span className="hidden sm:inline">Verified only</span>
+                    <span className="sm:hidden">Verified</span>
                   </label>
                   <select
                     value={sortBy}
                     onChange={e => setSortBy(e.target.value)}
-                    className="border border-[#DEE2E7] rounded px-2 py-1.5 text-sm outline-none focus:border-[#0D6EFD] bg-white"
+                    className="border border-[#DEE2E7] rounded px-2 py-1.5 text-xs outline-none focus:border-[#0D6EFD] bg-white"
                   >
                     {['Featured', 'Price: Low to High', 'Price: High to Low', 'Newest'].map(o => (
                       <option key={o}>{o}</option>
                     ))}
                   </select>
-                  <div className="flex items-center border border-[#DEE2E7] rounded overflow-hidden">
+                  {/* Grid/List toggle — desktop only */}
+                  <div className="hidden md:flex items-center border border-[#DEE2E7] rounded overflow-hidden">
                     <button
                       onClick={() => setViewMode('grid')}
-                      className={`px-2 py-1.5 transition-colors ${viewMode === 'grid' ? 'bg-[#0D6EFD] text-white' : 'text-[#8B96A5] hover:bg-[#F7F7F7]'}`}
+                      className={`px-2 py-1.5 transition-colors ${viewMode === 'grid' ? 'bg-[#0D6EFD] text-white' : 'text-[#8B96A5]'}`}
                     >
                       <span className="material-icons text-[18px]">grid_view</span>
                     </button>
                     <button
                       onClick={() => setViewMode('list')}
-                      className={`px-2 py-1.5 transition-colors ${viewMode === 'list' ? 'bg-[#0D6EFD] text-white' : 'text-[#8B96A5] hover:bg-[#F7F7F7]'}`}
+                      className={`px-2 py-1.5 transition-colors ${viewMode === 'list' ? 'bg-[#0D6EFD] text-white' : 'text-[#8B96A5]'}`}
                     >
                       <span className="material-icons text-[18px]">list</span>
                     </button>
                   </div>
-                </div>
-              </div>
-
-              {/* Active filter tags */}
-              {hasFilters && (
-                <div className="flex items-center gap-2 mt-3 flex-wrap">
-
-                  {/* Category tag */}
-                  {categoryParam && (
-                    <span className="flex items-center gap-1 border border-[#DEE2E7] rounded-md px-2 py-1 text-xs text-[#1C1C1C]">
-                      {categoryParam}
-                      <button
-                        onClick={() => navigate('/products')}
-                        className="text-[#8B96A5] hover:text-[#E53935]"
-                      >
-                        <span className="material-icons text-[14px]">close</span>
-                      </button>
-                    </span>
-                  )}
-
-                  {/* Brand tags */}
-                  {selectedBrands.map(brand => (
-                    <span
-                      key={brand}
-                      className="flex items-center gap-1 border border-[#DEE2E7] rounded-md px-2 py-1 text-xs text-[#1C1C1C]"
-                    >
-                      {brand}
-                      <button
-                        onClick={() =>
-                          setSelectedBrands(prev =>
-                            prev.filter(b => b !== brand)
-                          )
-                        }
-                        className="text-[#8B96A5] hover:text-[#E53935]"
-                      >
-                        <span className="material-icons text-[14px]">close</span>
-                      </button>
-                    </span>
-                  ))}
-
-                  {selectedFeatures.map(feature => (
-                    <span
-                      key={feature}
-                      className="flex items-center gap-1 border border-[#DEE2E7] rounded-md px-2 py-1 text-xs text-[#1C1C1C]"
-                    >
-                      {feature}
-                      <button
-                        onClick={() =>
-                          setSelectedFeatures(prev => prev.filter(f => f !== feature))
-                        }
-                        className="text-[#8B96A5] hover:text-[#E53935]"
-                      >
-                        <span className="material-icons text-[14px]">close</span>
-                      </button>
-                    </span>
-                  ))}
-
-                  {condition !== 'Any' && (
-                    <span className="flex items-center gap-1 border border-[#DEE2E7] rounded-md px-2 py-1 text-xs text-[#1C1C1C]">
-                      {condition}
-                      <button
-                        onClick={() => setCondition('Any')}
-                        className="text-[#8B96A5] hover:text-[#E53935]"
-                      >
-                        <span className="material-icons text-[14px]">close</span>
-                      </button>
-                    </span>
-                  )}
-
-                  {/* Clear all */}
+                  {/* Mobile filter button */}
                   <button
-                    onClick={() => {
-                      setSelectedBrands([])
-                      setSelectedFeatures([])
-                      setSelectedRatings([])
-                      setAppliedPriceMin(undefined)
-                      setAppliedPriceMax(undefined)
-                      setPriceMin('')
-                      setPriceMax('')
-                      setCurrentPage(1)
-                      setCondition('Any')
-                      navigate('/products')
-                    }}
-                    className="text-xs text-[#0D6EFD] hover:underline ml-1"
+                    onClick={() => setMobileFiltersOpen(true)}
+                    className="md:hidden flex items-center gap-1 border border-[#DEE2E7] rounded px-2 py-1.5 text-xs text-[#1C1C1C]"
                   >
-                    Clear all filter
+                    <span className="material-icons text-[16px]">filter_list</span>
+                    Filter
                   </button>
-
                 </div>
-              )}
-            </div>
+                
+              </div>
+                  {hasFilters && (
+                    <div className="flex items-center gap-2 mt-3 flex-wrap">
+
+                      {/* Category tag */}
+                      {categoryParam && (
+                        <span className="flex items-center gap-1 border border-[#DEE2E7] rounded-md px-2 py-1 text-xs text-[#1C1C1C]">
+                          {categoryParam}
+                          <button
+                            onClick={() => navigate('/products')}
+                            className="text-[#8B96A5] hover:text-[#E53935]"
+                          >
+                            <span className="material-icons text-[14px]">close</span>
+                          </button>
+                        </span>
+                      )}
+
+                      {/* Brand tags */}
+                      {selectedBrands.map(brand => (
+                        <span
+                          key={brand}
+                          className="flex items-center gap-1 border border-[#DEE2E7] rounded-md px-2 py-1 text-xs text-[#1C1C1C]"
+                        >
+                          {brand}
+                          <button
+                            onClick={() =>
+                              setSelectedBrands(prev =>
+                                prev.filter(b => b !== brand)
+                              )
+                            }
+                            className="text-[#8B96A5] hover:text-[#E53935]"
+                          >
+                            <span className="material-icons text-[14px]">close</span>
+                          </button>
+                        </span>
+                      ))}
+
+                      {selectedFeatures.map(feature => (
+                        <span
+                          key={feature}
+                          className="flex items-center gap-1 border border-[#DEE2E7] rounded-md px-2 py-1 text-xs text-[#1C1C1C]"
+                        >
+                          {feature}
+                          <button
+                            onClick={() =>
+                              setSelectedFeatures(prev => prev.filter(f => f !== feature))
+                            }
+                            className="text-[#8B96A5] hover:text-[#E53935]"
+                          >
+                            <span className="material-icons text-[14px]">close</span>
+                          </button>
+                        </span>
+                      ))}
+
+                      {condition !== 'Any' && (
+                        <span className="flex items-center gap-1 border border-[#DEE2E7] rounded-md px-2 py-1 text-xs text-[#1C1C1C]">
+                          {condition}
+                          <button
+                            onClick={() => setCondition('Any')}
+                            className="text-[#8B96A5] hover:text-[#E53935]"
+                          >
+                            <span className="material-icons text-[14px]">close</span>
+                          </button>
+                        </span>
+                      )}
+
+                      {/* Clear all */}
+                      <button
+                        onClick={clearAllFilters}
+                        className="text-xs text-[#0D6EFD] hover:underline ml-1"
+                      >
+                        Clear all
+                      </button>
+                    </div>
+                  )}
+                </div>
 
             {/* Product grid */}
               {loading ? (
@@ -538,6 +473,33 @@ export default function ProductListing() {
         {/* Newsletter subscription */}
         <Newsletter />
 
+        {/* Mobile Filters Drawer */}
+        <MobileFilters
+          open={mobileFiltersOpen}
+          onClose={() => setMobileFiltersOpen(false)}
+        >
+          <ProductFilters
+            categoryParam={categoryParam}
+            setCondition={setCondition}
+            condition={condition}
+            selectedBrands={selectedBrands}
+            toggleBrand={toggleBrand}
+            selectedFeatures={selectedFeatures}
+            toggleFeature={toggleFeature}
+            selectedRatings={selectedRatings}
+            toggleRating={toggleRating}
+            priceMin={priceMin}
+            priceMax={priceMax}
+            setPriceMin={setPriceMin}
+            setPriceMax={setPriceMax}
+            applyPrice={applyPrice}
+            CATEGORIES={CATEGORIES}
+            BRANDS={BRANDS}
+            FEATURES={FEATURES}
+            CONDITIONS={CONDITIONS}
+          />
+        </MobileFilters>
+          
       </div>
     </div>
   )
