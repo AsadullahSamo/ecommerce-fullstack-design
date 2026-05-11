@@ -81,14 +81,14 @@ export default function Footer() {
           <div className="w-full lg:w-[150px]">
             <h4 className="font-semibold text-sm mb-4">Get app</h4>
             <div className="flex flex-col gap-3 w-fit">
-              <a href="#" className="flex items-center gap-2 bg-black rounded-lg px-3 py-2 hover:opacity-90 transition-opacity w-[160px]">
+              <a href="#" className="flex items-center gap-2 bg-black rounded-lg px-3 py-2 hover:opacity-90 transition-opacity w-[145px]">
                 <span className="material-icons text-[28px]">apple</span>
                 <div>
                   <p className="text-[9px] text-[#8B96A5] leading-none">Download on the</p>
                   <p className="text-sm font-semibold leading-tight">App Store</p>
                 </div>
               </a>
-              <a href="#" className="flex items-center gap-2 bg-black rounded-lg px-3 py-2 hover:opacity-90 transition-opacity w-[160px]">
+              <a href="#" className="flex items-center gap-2 bg-black rounded-lg px-3 py-2 hover:opacity-90 transition-opacity w-[145px]">
                 <span className="material-icons text-[28px]">android</span>
                 <div>
                   <p className="text-[9px] text-[#8B96A5] leading-none">GET IT ON</p>
