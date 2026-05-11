@@ -69,7 +69,7 @@ export default function ProductCard({
 
         <div className="flex items-center gap-1.5">
           <StarRating value={p.rating} small />
-          <span className="text-xs text-[#8B96A5]">
+          <span className={`text-xs ${p.rating >= 8 ? 'text-[#FF9017]': 'text-[#DEE2E7]'}`}>
             {p.rating}
           </span>
         </div>
@@ -142,12 +142,6 @@ export default function ProductCard({
 
           <span className="text-xs text-[#8B96A5]">
             {p.rating}
-          </span>
-
-          <span className="text-xs text-[#8B96A5]">•</span>
-
-          <span className="text-xs text-[#8B96A5]">
-            {p.orders} orders
           </span>
 
           <span className="text-xs text-[#8B96A5]">•</span>

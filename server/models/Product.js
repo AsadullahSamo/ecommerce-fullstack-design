@@ -9,7 +9,6 @@ const productSchema = new mongoose.Schema(
     category:    { type: String, required: true },
     stock:       { type: Number, required: true, default: 0 },
     rating:      { type: Number, default: 0, min: 0, max: 10 },
-    orders:      { type: Number, default: 0 },
     originalPrice: { type: Number },
     brand: { type: String, default: '' },
     shipping:    { type: String, default: 'Free Shipping' },

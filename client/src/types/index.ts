@@ -18,7 +18,6 @@ export interface Product {
   category: string
   stock: number
   rating: number
-  orders: number
   brand: string
   shipping: string
   featured: boolean
