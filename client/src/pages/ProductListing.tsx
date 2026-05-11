@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link, useNavigate, useSearchParams } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import Newsletter from '../components/Newsletter'
 import { useProducts } from '../hooks/useProducts'
 import { useCart } from '../context/CartContext'
@@ -15,56 +15,7 @@ const CATEGORIES   = ['Headphones', 'Electronics', 'Smartphones', 'Modern tech',
 const BRANDS       = ['Samsung', 'Apple', 'Sony', 'Google', 'DJI', 'JLab', 'LG', 'PEL', "Vivo", "Local Brand"]
 const FEATURES     = ['Premium Build',  'Portable Design',  'Wireless Connectivity',  'High Performance',  'Energy Efficient',  'Smart Features',  'Easy Maintenance',  'Warranty Included',  'Modern Design',]
 const CONDITIONS   = ['Refurbished', 'Brand new', 'Old items']
-const RATINGS      = [5, 4, 3, 2]
 
-function StarRating({ value, small = false }: { value: number; small?: boolean }) {
-  const size = small ? 'text-[14px]' : 'text-[16px]'
-  return (
-    <div className="flex items-center gap-0.5">
-      {[1, 2, 3, 4, 5].map(i => (
-        <span key={i} className={`material-icons ${size} ${i <= Math.round(value / 2) ? 'text-[#FF9017]' : 'text-[#DEE2E7]'}`}>
-          star
-        </span>
-      ))}
-    </div>
-  )
-}
-
-function FilterSection({ title, children, defaultOpen = true }: {
-  title: string
-  children: React.ReactNode
-  defaultOpen?: boolean
-}) {
-  const [open, setOpen] = useState(defaultOpen)
-  return (
-    <div className="border-b border-[#DEE2E7] py-4">
-      <button
-        onClick={() => setOpen(o => !o)}
-        className="flex items-center justify-between w-full text-sm font-semibold text-[#1C1C1C] mb-2"
-      >
-        {title}
-        <span className="material-icons text-[18px] text-[#8B96A5]">
-          {open ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}
-        </span>
-      </button>
-      {open && <div className="space-y-2">{children}</div>}
-    </div>
-  )
-}
-
-function CheckItem({ label, checked, onChange }: { label: string; checked: boolean; onChange: () => void }) {
-  return (
-    <label className="flex items-center gap-2 cursor-pointer group">
-      <input
-        type="checkbox"
-        checked={checked}
-        onChange={onChange}
-        className="w-4 h-4 rounded border-[#DEE2E7] accent-[#0D6EFD]"
-      />
-      <span className="text-sm text-[#1C1C1C] group-hover:text-[#0D6EFD] transition-colors">{label}</span>
-    </label>
-  )
-}
 
 export default function ProductListing() {
   const [searchParams] = useSearchParams()
@@ -81,15 +32,9 @@ export default function ProductListing() {
   const [selectedRatings, setSelectedRatings] = useState<number[]>([])
   const [appliedPriceMin, setAppliedPriceMin] = useState<number | undefined>()
   const [appliedPriceMax, setAppliedPriceMax] = useState<number | undefined>()
-  const [showAllCategories, setShowAllCategories] = useState(false)
-  const [showAllBrands, setShowAllBrands]         = useState(false)
-  const [showAllFeatures, setShowAllFeatures]     = useState(false)
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
 
   const { addToCart, items } = useCart()
-
-
-  const INITIAL_SHOW = 4
 
   const searchQuery = searchParams.get('q') || ''
   const categoryParam = searchParams.get('category') || ''
