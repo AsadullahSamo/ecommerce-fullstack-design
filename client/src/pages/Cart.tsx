@@ -216,7 +216,7 @@ export default function Cart() {
                 </div>
               </div>
               <button className="w-full bg-[#00B517] hover:bg-green-600 text-white font-medium py-3 rounded transition-colors text-sm mb-3">
-                Checkout ({items.length} items)
+                Checkout 
               </button>
               <div className="flex items-center justify-center gap-3">
                 <FaCcAmex       size={32} />

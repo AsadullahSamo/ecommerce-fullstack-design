@@ -30,9 +30,9 @@ export default function Layout() {
           </button>
           <Link to="/" className="flex items-center gap-1.5">
             <div className="w-7 h-7 bg-[#0D6EFD] rounded flex items-center justify-center">
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                <path d="M2 11L7 3L12 11H2Z" fill="white" />
-              </svg>
+              <div className="w-8 h-8 bg-[#0D6EFD] rounded flex items-center justify-center">
+                <span className="material-icons-outlined text-white text-[18px]">shopping_bag</span>
+              </div>
             </div>
             <span className="font-bold text-[#1C1C1C]">Brand</span>
           </Link>
